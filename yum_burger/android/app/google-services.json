@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "697511557856",
+    "project_id": "yumburger-44e34",
+    "storage_bucket": "yumburger-44e34.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:697511557856:android:7f2f11f0491ff62c9e2e85",
+        "android_client_info": {
+          "package_name": "com.example.yum_burger"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBEjH28dcF1J6iGhrb8H7jpgWVkSG5vpjQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:697511557856:android:7548d52b5541e5219e2e85",
+        "android_client_info": {
+          "package_name": "com.yum_burger.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBEjH28dcF1J6iGhrb8H7jpgWVkSG5vpjQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
