@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-class MenuPage extends StatelessWidget {
+class OffersPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Center(child: Text('Menu Page'));
+    return Center(child: Text('Offers Page'));
   }
 }

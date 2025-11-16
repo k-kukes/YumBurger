@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'main.dart';
+import 'offers.dart';
+import 'menu.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -20,9 +22,9 @@ class _MyNavigationState extends State<MyNavigation> {
 
   final List<Widget> _pages = [
     HomePage(),
-    // MenuPage(),
-    // OffersPage(),
-    // AccountPage(),
+    MenuPage(),
+    OffersPage(),
+    LoginPage(),
   ];
 
   void _onTabTapped(int index) {
