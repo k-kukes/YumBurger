@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'tab_navigation.dart';
+import 'offers.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,7 +22,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(home: MyNavigation());
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: MyNavigation(),
+    );
   }
 }
 
@@ -84,11 +88,12 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
       appBar: AppBar(
         backgroundColor: Color(0xFFEEE8DE),
         leading: TextButton.icon(
-          onPressed: () => Navigator.push(
+          onPressed: () => Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => HomePage()),
+            MaterialPageRoute(builder: (context) => MyNavigation()),
           ),
           label: Icon(Icons.arrow_back),
+          icon: Icon(Icons.arrow_back),
         ),
         title: Text('Go back home'),
       ),
@@ -155,7 +160,6 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                     ),
                   ),
                   SizedBox(height: 15),
-
                   TextField(
                     textAlign: TextAlign.center,
                     style: TextStyle(
@@ -250,6 +254,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
   }
 }
 
+// TODO: Make a separate login file
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
@@ -265,7 +270,9 @@ class _LoginPageState extends State<LoginPage> {
 }
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  const HomePage({
+    super.key,
+  });
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -274,16 +281,136 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: Text('Home'));
+    return Scaffold(
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Welcome to YumBurger!',
+                style: TextStyle(
+                  fontSize: 28,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+              ),
+              SizedBox(height: 24),
+              SizedBox(
+                width: double.infinity,
+                height: 150,
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => OffersPage()),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.deepOrange,
+                    foregroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                  ),
+                  child: Text(
+                    'View All Offers',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(height: 32),
+              Text(
+                "Today's Specials",
+                style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black, 
+                ),
+              ),
+              SizedBox(height: 16),
+              Container(
+                height: 120,
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  children: [
+                    // Generic Item 1
+                    Container(
+                      width: 150,
+                      margin: const EdgeInsets.only(right: 12),
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(color: Colors.grey.shade300),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.fastfood,
+                              color: Colors.amber[800], size: 40),
+                          SizedBox(height: 8),
+                          Text('Item 1',
+                              style: TextStyle(fontWeight: FontWeight.bold)),
+                          Text('\$X.XX'),
+                        ],
+                      ),
+                    ),
+                    // Generic Item 2
+                    Container(
+                      width: 150,
+                      margin: const EdgeInsets.only(right: 12),
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(color: Colors.grey.shade300),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.fastfood,
+                              color: Colors.amber[800], size: 40),
+                          SizedBox(height: 8),
+                          Text('Item 2',
+                              style: TextStyle(fontWeight: FontWeight.bold)),
+                          Text('\$X.XX'),
+                        ],
+                      ),
+                    ),
+                    // Generic Item 3
+                    Container(
+                      width: 150,
+                      margin: const EdgeInsets.only(right: 12),
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(color: Colors.grey.shade300),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.fastfood,
+                              color: Colors.amber[800], size: 40),
+                          SizedBox(height: 8),
+                          Text('Item 3',
+                              style: TextStyle(fontWeight: FontWeight.bold)),
+                          Text('\$X.XX'),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
-
-//
-//           ElevatedButton(
-//             onPressed: () {
-//               addEmployee();
-//               clearForm();
-//             },
-//             child: Text('Add employee to FS'),
-//           ),
-//           SizedBox(height: 10),
