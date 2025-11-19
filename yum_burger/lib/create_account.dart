@@ -23,10 +23,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: MyNavigation(),
-    );
+    return MaterialApp(debugShowCheckedModeBanner: false, home: MyNavigation());
   }
 }
 
@@ -55,24 +52,50 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
         password.isNotEmpty &&
         fullName.isNotEmpty &&
         email.isNotEmpty) {
-      try {
-        await users.add({
-          'username': username,
-          'password': password,
-          'fullName': fullName,
-          'email': email,
-        });
-      } catch (error) {
-        print("{Problem occurred while creating account}");
+      if (await usernameExists(username)) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Username is already in use.')));
+      } else {
+        try {
+          await users.add({
+            'username': username,
+            'password': password,
+            'fullName': fullName,
+            'email': email,
+          });
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('User was created.')));
+        } catch (error) {
+          print("{Problem occurred while creating account}");
+        }
       }
-
       setState(() {
         username = '';
         password = '';
         fullName = '';
         email = '';
       });
+    } else {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Fields can not be empty.')));
     }
+  }
+
+  Future<bool> usernameExists(String checkUsername) async {
+    try {
+      QuerySnapshot querySnapshot = await users
+          .where('username', isEqualTo: checkUsername)
+          .get();
+
+      if (querySnapshot.docs.isNotEmpty) {
+        return true;
+      }
+    } catch (error) {
+      print(error);
+      print('Error with usernameExists check');
+    }
+    return false;
   }
 
   void clearForm() {
