@@ -14,31 +14,86 @@ class ResetPasswordPage extends StatefulWidget {
 }
 
 class _ResetPasswordPageState extends State<ResetPasswordPage> {
+  CollectionReference users = FirebaseFirestore.instance.collection('Users');
+
   String newPassword = '';
   String confirmPassword = '';
+  String username = '';
 
   final confirmPasswordController = TextEditingController();
   final newPasswordController = TextEditingController();
+  final usernameController = TextEditingController();
 
-  // Future<void> resetPassword() async {
-  //   CollectionReference users = FirebaseFirestore.instance.collection('Users');
-  //
-  //   if (newPassword.isNotEmpty && confirmPassword.isNotEmpty) {
-  //     if (newPassword != confirmPassword) {
-  //       ScaffoldMessenger.of(context).showSnackBar(
-  //         SnackBar(content: Text('Confirm Password and Password don\'t match')),
-  //       );
-  //     } else {
-  //       try {
-  //        await users.doc(docId)
-  //       }
-  //     }
-  //   }
-  // }
+  Future<bool> usernameExists(String checkUsername) async {
+    try {
+      QuerySnapshot querySnapshot = await users
+          .where('username', isEqualTo: checkUsername)
+          .get();
+
+      if (querySnapshot.docs.isNotEmpty) {
+        return true;
+      }
+    } catch (error) {
+      print(error);
+      print('Error with usernameExists check');
+    }
+    return false;
+  }
+
+  Future<void> resetPassword() async {
+    CollectionReference users = FirebaseFirestore.instance.collection('Users');
+
+    if (newPassword.isNotEmpty &&
+        confirmPassword.isNotEmpty &&
+        username.isNotEmpty) {
+      if (newPassword != confirmPassword) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Confirm Password and Password don\'t match')),
+        );
+      } else {
+        try {
+          if (await usernameExists(username)) {
+            QuerySnapshot querySnapshot = await users
+                .where('username', isEqualTo: username)
+                .get();
+
+            String docId = querySnapshot.docs.first.id;
+
+            await users.doc(docId).update({'password': newPassword});
+
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('Password reset successfully!')),
+            );
+
+            clearForm();
+            setState(() {
+              newPassword = '';
+              confirmPassword = '';
+              username = '';
+            });
+          } else {
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(SnackBar(content: Text('Username does not exist!')));
+          }
+        } catch (error) {
+          print(error);
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text('Error resetting password.')));
+        }
+      }
+    } else {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Fields can not be empty!')));
+    }
+  }
 
   void clearForm() {
     newPasswordController.clear();
     confirmPasswordController.clear();
+    usernameController.clear();
   }
 
   @override
@@ -78,6 +133,26 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
               margin: EdgeInsets.fromLTRB(30, 0, 30, 0),
               child: Column(
                 children: [
+                  TextField(
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    controller: usernameController,
+                    onChanged: (value) => username = value,
+                    decoration: InputDecoration(
+                      hintText: 'Username',
+                      filled: true,
+                      fillColor: Colors.grey[350],
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
+                        borderSide: BorderSide.none,
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 15),
                   TextField(
                     obscureText: true,
                     textAlign: TextAlign.center,
@@ -121,7 +196,9 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                   ),
                   SizedBox(height: 30),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      resetPassword();
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.green,
                       shape: RoundedRectangleBorder(
