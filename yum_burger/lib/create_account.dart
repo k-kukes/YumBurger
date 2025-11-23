@@ -2,19 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:yum_burger/login.dart';
+import 'package:yum_burger/user_model.dart';
 import 'tab_navigation.dart';
 import 'offers.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: FirebaseOptions(
-      apiKey: "AIzaSyBEjH28dcF1J6iGhrb8H7jpgWVkSG5vpjQ",
-      appId: "1:697511557856:android:7f2f11f0491ff62c9e2e85",
-      messagingSenderId: "697511557856",
-      projectId: "yumburger-44e34",
-    ),
-  );
   runApp(MyApp());
 }
 
@@ -23,7 +15,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(debugShowCheckedModeBanner: false, home: MyNavigation());
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: MyNavigation(),
+    );
   }
 }
 
@@ -35,7 +30,6 @@ class CreateAccountPage extends StatefulWidget {
 }
 
 class _CreateAccountPageState extends State<CreateAccountPage> {
-  CollectionReference users = FirebaseFirestore.instance.collection('Users');
 
   String username = '';
   String password = '';
@@ -47,62 +41,19 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
   final fullNameController = TextEditingController();
   final emailController = TextEditingController();
 
-  Future<void> addUser() async {
-    if (username.isNotEmpty &&
-        password.isNotEmpty &&
-        fullName.isNotEmpty &&
-        email.isNotEmpty) {
-      if (await usernameExists(username)) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text('Username is already in use.')));
-      } else {
-        try {
-          await users.add({
-            'username': username,
-            'password': password,
-            'fullName': fullName,
-            'email': email,
-          });
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('User was created.')));
-        } catch (error) {
-          print("{Problem occurred while creating account}");
-        }
-      }
-      setState(() {
-        username = '';
-        password = '';
-        fullName = '';
-        email = '';
-      });
-    } else {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('Fields can not be empty.')));
-    }
-  }
-
-  Future<bool> usernameExists(String checkUsername) async {
-    try {
-      QuerySnapshot querySnapshot = await users
-          .where('username', isEqualTo: checkUsername)
-          .get();
-
-      if (querySnapshot.docs.isNotEmpty) {
-        return true;
-      }
-    } catch (error) {
-      print(error);
-      print('Error with usernameExists check');
-    }
-    return false;
-  }
 
   void clearForm() {
     usernameController.clear();
     passwordController.clear();
     fullNameController.clear();
     emailController.clear();
+    setState(() {
+      username = '';
+      password = '';
+      fullName = '';
+      email = '';
+    });
+
   }
 
   @override
@@ -231,7 +182,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
               alignment: Alignment.centerRight,
               child: ElevatedButton(
                 onPressed: () {
-                  addUser();
+                  addUser(username, password, fullName, email);
                   clearForm();
                 },
                 style: ElevatedButton.styleFrom(

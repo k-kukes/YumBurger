@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:yum_burger/create_account.dart';
 import 'package:yum_burger/login.dart';
+import 'package:yum_burger/user_model.dart';
 import 'create_account.dart';
 import 'tab_navigation.dart';
 import 'login.dart';
@@ -23,22 +24,6 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
   final confirmPasswordController = TextEditingController();
   final newPasswordController = TextEditingController();
   final usernameController = TextEditingController();
-
-  Future<bool> usernameExists(String checkUsername) async {
-    try {
-      QuerySnapshot querySnapshot = await users
-          .where('username', isEqualTo: checkUsername)
-          .get();
-
-      if (querySnapshot.docs.isNotEmpty) {
-        return true;
-      }
-    } catch (error) {
-      print(error);
-      print('Error with usernameExists check');
-    }
-    return false;
-  }
 
   Future<void> resetPassword() async {
     CollectionReference users = FirebaseFirestore.instance.collection('Users');

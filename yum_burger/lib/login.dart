@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:yum_burger/create_account.dart';
 import 'package:yum_burger/reset_password.dart';
+import 'package:yum_burger/user_model.dart';
 import 'tab_navigation.dart';
 
 class LoginPage extends StatefulWidget {
@@ -19,37 +20,13 @@ class _LoginPageState extends State<LoginPage> {
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
 
-  Future<bool> validateLogin() async {
-    CollectionReference users = FirebaseFirestore.instance.collection('Users');
-    if (username.isNotEmpty && password.isNotEmpty) {
-      try {
-        QuerySnapshot querySnapshot = await users
-            .where('username', isEqualTo: username)
-            .where('password', isEqualTo: password)
-            .get();
-
-        if (querySnapshot.docs.isNotEmpty) {
-          setState(() {
-            username = '';
-            password = '';
-          });
-          return true;
-        }
-      } catch (error) {
-        print(error);
-        print('Problem occurred with login');
-      }
-    }
+  void clearForm() {
+    usernameController.clear();
+    passwordController.clear();
     setState(() {
       username = '';
       password = '';
     });
-    return false;
-  }
-
-  void clearForm() {
-    usernameController.clear();
-    passwordController.clear();
   }
 
   @override
@@ -157,7 +134,7 @@ class _LoginPageState extends State<LoginPage> {
 
                   ElevatedButton(
                     onPressed: () async {
-                      if (await validateLogin()) {
+                      if (await validateLogin(username, password)) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(content: Text('Success Login')),
                         );
