@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class MenuItemCard extends StatelessWidget {
   final String name;
@@ -24,7 +25,7 @@ class MenuItemCard extends StatelessWidget {
         children: [
           Image.asset(
             image,
-            height: 100,
+            height: 200,
             width: double.infinity,
             fit: BoxFit.cover,
           ),
@@ -42,7 +43,11 @@ class MenuItemCard extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8),
             child: ElevatedButton(
-              onPressed: onAddToCart,
+              onPressed: () {
+                ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Product added to cart'))
+                );
+              },
               child: const Text("Add"),
             ),
           ),
@@ -54,38 +59,42 @@ class MenuItemCard extends StatelessWidget {
 
 class MenuPage extends StatelessWidget {
   @override
-    Widget build(BuildContext context) {
+  Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Menu")),
+      backgroundColor: Color(0xFFEEE8DE),
+      appBar: AppBar(
+        title: Text("Hamburgers", style: TextStyle(fontFamily: 'HoltwoodOneSC', color: Colors.brown)),
+        backgroundColor: Color(0xFFEEE8DE),
+      ),
       body: GridView.count(
-        padding: const EdgeInsets.all(16),
-        crossAxisCount: 2, // 👈 two cards per row
+        padding: EdgeInsets.all(16),
+        crossAxisCount: 2,
         crossAxisSpacing: 12,
         mainAxisSpacing: 12,
-        childAspectRatio: 3/4, // 👈 controls card width vs height
+        childAspectRatio: 5/4,
         children: [
           MenuItemCard(
             name: "Cheeseburger",
             price: 8.99,
-            image: "assets/images/cheeseburger.png",
+            image: "assets/images/hamburger2.jpg",
             onAddToCart: () {},
           ),
           MenuItemCard(
             name: "Bacon Burger",
             price: 12.50,
-            image: "assets/images/pizza.png",
+            image: "assets/images/hamburger1.jpg",
             onAddToCart: () {},
           ),
           MenuItemCard(
             name: "Supreme Burger",
             price: 5.75,
-            image: "assets/images/hamburger3.png",
+            image: "assets/images/hamburger4.jpg",
             onAddToCart: () {},
           ),
           MenuItemCard(
             name: "Veggie Burger",
             price: 10.25,
-            image: "assets/images/hamburger4.png",
+            image: "assets/images/hamburger3.jpg",
             onAddToCart: () {},
           ),
         ],
