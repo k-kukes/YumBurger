@@ -12,6 +12,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xFFEEE8DE),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -21,9 +22,10 @@ class _HomePageState extends State<HomePage> {
               Text(
                 'Welcome to YumBurger!',
                 style: TextStyle(
+                  fontFamily: 'HoltwoodOneSC',
+                  color: Colors.brown,
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
-                  color: Colors.black,
                 ),
               ),
               SizedBox(height: 24),
