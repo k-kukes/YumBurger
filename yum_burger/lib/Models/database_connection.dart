@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
-import 'tab_navigation.dart';
+import 'package:yum_burger/Views/home.dart';
+import '../Controllers/tab_navigation.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();

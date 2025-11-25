@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 CollectionReference users = FirebaseFirestore.instance.collection('Users');
+var currentUser = null;
 
 Future<void> addUser(username, password, fullName, email) async {
   if (username.isNotEmpty &&
@@ -23,9 +24,7 @@ Future<void> addUser(username, password, fullName, email) async {
 Future<void> resetPassword(id, newPassword) async {
   if (id.isNotEmpty && newPassword.isNotEmpty) {
     try {
-      await users.doc(id).update({
-        'password': newPassword
-      });
+      await users.doc(id).update({'password': newPassword});
     } catch (error) {
       print("{Problem occurred while resetting password}");
     }
@@ -41,6 +40,7 @@ Future<bool> validateLogin(username, password) async {
           .get();
 
       if (querySnapshot.docs.isNotEmpty) {
+        currentUser = querySnapshot.docs[0];
         return true;
       }
     } catch (error) {
@@ -66,3 +66,8 @@ Future<bool> usernameExists(String checkUsername) async {
   }
   return false;
 }
+
+getCurrentUser() {
+  return currentUser;
+}
+

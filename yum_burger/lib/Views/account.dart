@@ -1,20 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:yum_burger/create_account.dart';
-import 'package:yum_burger/login.dart';
-import 'package:yum_burger/user_model.dart';
-import 'create_account.dart';
-import 'tab_navigation.dart';
-import 'login.dart';
+import 'package:yum_burger/Views/login.dart';
+import 'package:yum_burger/Models/user_model.dart';
+import '../Controllers/tab_navigation.dart';
 
-class ResetPasswordPage extends StatefulWidget {
-  const ResetPasswordPage({super.key});
+class AccountSettingsPage extends StatefulWidget {
+  const AccountSettingsPage({super.key});
 
   @override
-  State<ResetPasswordPage> createState() => _ResetPasswordPageState();
+  State<AccountSettingsPage> createState() => _AccountSettingsPage();
 }
 
-class _ResetPasswordPageState extends State<ResetPasswordPage> {
+class _AccountSettingsPage extends State<AccountSettingsPage> {
   CollectionReference users = FirebaseFirestore.instance.collection('Users');
 
   String newPassword = '';

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:yum_burger/create_account.dart';
-import 'package:yum_burger/reset_password.dart';
-import 'package:yum_burger/user_model.dart';
-import 'tab_navigation.dart';
+import 'package:yum_burger/Views/account.dart';
+import 'package:yum_burger/Views/create_account.dart';
+import 'package:yum_burger/Views/menu.dart';
+import 'package:yum_burger/Views/reset_password.dart';
+import 'package:yum_burger/Models/user_model.dart';
+import '../Controllers/tab_navigation.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -139,6 +141,12 @@ class _LoginPageState extends State<LoginPage> {
                           SnackBar(content: Text('Success Login')),
                         );
                         clearForm();
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => AccountSettingsPage(),
+                          ),
+                        );
                       } else {
                         ScaffoldMessenger.of(
                           context,

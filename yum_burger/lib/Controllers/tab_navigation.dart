@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'create_account.dart';
-import 'login.dart';
-import 'offers.dart';
-import 'menu.dart';
+import 'package:yum_burger/Views/cart.dart';
+import 'package:yum_burger/Views/home.dart';
+import '../Views/create_account.dart';
+import '../Views/login.dart';
+import '../Views/offers.dart';
+import '../Views/menu.dart';
 
 void main() async{
   runApp(MaterialApp(
@@ -26,6 +28,7 @@ class _MyNavigationState extends State<MyNavigation> {
     MenuPage(),
     OffersPage(),
     LoginPage(),
+    MyCartPage(),
   ];
 
   void _onTabTapped(int index) {
@@ -39,6 +42,7 @@ class _MyNavigationState extends State<MyNavigation> {
     BottomNavigationBarItem(icon: Icon(Icons.restaurant_menu), label: 'Menu'),
     BottomNavigationBarItem(icon: Icon(Icons.local_offer), label: 'Offers'),
     BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Account'),
+    BottomNavigationBarItem(icon: Icon(Icons.shopping_cart), label: 'Cart'),
   ];
 
   @override
