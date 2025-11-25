@@ -13,70 +13,7 @@ class AccountSettingsPage extends StatefulWidget {
 
 class _AccountSettingsPage extends State<AccountSettingsPage> {
   CollectionReference users = FirebaseFirestore.instance.collection('Users');
-
-  String newPassword = '';
-  String confirmPassword = '';
-  String username = '';
-
-  final confirmPasswordController = TextEditingController();
-  final newPasswordController = TextEditingController();
-  final usernameController = TextEditingController();
-
-  Future<void> resetPassword() async {
-    CollectionReference users = FirebaseFirestore.instance.collection('Users');
-
-    if (newPassword.isNotEmpty &&
-        confirmPassword.isNotEmpty &&
-        username.isNotEmpty) {
-      if (newPassword != confirmPassword) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Confirm Password and Password don\'t match')),
-        );
-      } else {
-        try {
-          if (await usernameExists(username)) {
-            QuerySnapshot querySnapshot = await users
-                .where('username', isEqualTo: username)
-                .get();
-
-            String docId = querySnapshot.docs.first.id;
-
-            await users.doc(docId).update({'password': newPassword});
-
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('Password reset successfully!')),
-            );
-
-            clearForm();
-            setState(() {
-              newPassword = '';
-              confirmPassword = '';
-              username = '';
-            });
-          } else {
-            ScaffoldMessenger.of(
-              context,
-            ).showSnackBar(SnackBar(content: Text('Username does not exist!')));
-          }
-        } catch (error) {
-          print(error);
-          ScaffoldMessenger.of(
-            context,
-          ).showSnackBar(SnackBar(content: Text('Error resetting password.')));
-        }
-      }
-    } else {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('Fields can not be empty!')));
-    }
-  }
-
-  void clearForm() {
-    newPasswordController.clear();
-    confirmPasswordController.clear();
-    usernameController.clear();
-  }
+  var user = getCurrentUser();
 
   @override
   Widget build(BuildContext context) {
@@ -110,121 +47,73 @@ class _AccountSettingsPage extends State<AccountSettingsPage> {
                 backgroundColor: Colors.white,
               ),
             ),
-            Text('Reset Password', style: TextStyle(fontSize: 30)),
+            Text('Account Info', style: TextStyle(fontSize: 30)),
             Container(
               margin: EdgeInsets.fromLTRB(30, 0, 30, 0),
               child: Column(
                 children: [
-                  TextField(
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.w500,
+                  Text('Username', style: TextStyle(fontSize: 25),),
+                  Container(
+                    width: 250,
+                    height: 50,
+                    decoration: BoxDecoration(
+                      color: Colors.grey,
+                      borderRadius: BorderRadiusGeometry.circular(12),
                     ),
-                    controller: usernameController,
-                    onChanged: (value) => username = value,
-                    decoration: InputDecoration(
-                      hintText: 'Username',
-                      filled: true,
-                      fillColor: Colors.grey[350],
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                        borderSide: BorderSide.none,
-                      ),
-                    ),
+                    alignment: Alignment.center,
+                    child: Text("${user['username']}", style: TextStyle(color: Colors.black, fontSize: 25),),
                   ),
                   SizedBox(height: 15),
-                  TextField(
-                    obscureText: true,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.w500,
+                  Text('Password', style: TextStyle(fontSize: 25),),
+                  Container(
+                    width: 250,
+                    height: 50,
+                    decoration: BoxDecoration(
+                      color: Colors.grey,
+                      borderRadius: BorderRadiusGeometry.circular(12),
                     ),
-                    controller: newPasswordController,
-                    onChanged: (value) => newPassword = value,
-                    decoration: InputDecoration(
-                      hintText: 'Password',
-                      filled: true,
-                      fillColor: Colors.grey[350],
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                        borderSide: BorderSide.none,
-                      ),
-                    ),
+                    alignment: Alignment.center,
+                    child: Text("${user['password']}", style: TextStyle(color: Colors.black, fontSize: 25),),
                   ),
                   SizedBox(height: 15),
-                  TextField(
-                    obscureText: true,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.w500,
+                  Text('Full Name', style: TextStyle(fontSize: 25),),
+                  Container(
+                    width: 250,
+                    height: 50,
+                    decoration: BoxDecoration(
+                      color: Colors.grey,
+                      borderRadius: BorderRadiusGeometry.circular(12),
                     ),
-                    controller: confirmPasswordController,
-                    onChanged: (value) => confirmPassword = value,
-                    decoration: InputDecoration(
-                      hintText: 'Confirm Password',
-                      filled: true,
-                      fillColor: Colors.grey[350],
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                        borderSide: BorderSide.none,
-                      ),
-                    ),
+                    alignment: Alignment.center,
+                    child: Text("${user['fullName']}", style: TextStyle(color: Colors.black, fontSize: 25),),
                   ),
-                  SizedBox(height: 30),
-                  ElevatedButton(
-                    onPressed: () {
-                      resetPassword();
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.green,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
+                  SizedBox(height: 15),
+                  Text('Email', style: TextStyle(fontSize: 25),),
+                  Container(
+                    width: 250,
+                    height: 50,
+                    decoration: BoxDecoration(
+                      color: Colors.grey,
+                      borderRadius: BorderRadiusGeometry.circular(12),
                     ),
-                    child: Text(
-                      'Reset Password',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.white,
-                      ),
-                    ),
+                    alignment: Alignment.center,
+                    child: Text("${user['email']}", style: TextStyle(color: Colors.black, fontSize: 25),),
                   ),
-                ],
-              ),
-            ),
-            Container(
-              child: Column(
-                children: [
-                  Text(
-                    'Remember the password?',
-                    style: TextStyle(fontSize: 20),
-                  ),
-                  ElevatedButton(
-                    onPressed: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => LoginPage()),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blue,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
+                  SizedBox(height: 15),
+                  Text('Settings', style: TextStyle(fontSize: 30)),
+                  SizedBox(height: 15),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      ElevatedButton(
+                        onPressed: () {},
+                        child: Icon(Icons.light_mode, size: 40,),
                       ),
-                    ),
-                    child: Text(
-                      'Go to Login',
-                      style: TextStyle(
-                        fontSize: 25,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.white,
+                      ElevatedButton(
+                        onPressed: () {},
+                        child: Icon(Icons.language, size: 40,),
                       ),
-                    ),
+                    ],
                   ),
                 ],
               ),
