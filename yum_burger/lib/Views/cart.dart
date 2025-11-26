@@ -17,7 +17,7 @@ class _MyCartPageState extends State<MyCartPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 60),
+            SizedBox(height: 25),
             Text("MY CART",
             style: TextStyle(
               color: Colors.brown,
@@ -62,9 +62,10 @@ class _MyCartPageState extends State<MyCartPage> {
                 Text("149.99\$:", style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),),
               ],
             ),
-            SizedBox(height: 25,),
             Center(
               child: Container(
+                alignment: Alignment.centerRight,
+                padding: EdgeInsets.fromLTRB(60, 0, 0, 0),
                 width: 200,
                 height: 50,
                 child: ElevatedButton(

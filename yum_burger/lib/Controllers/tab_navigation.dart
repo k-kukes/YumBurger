@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:yum_burger/Controllers/header.dart';
+import 'package:yum_burger/Models/user_model.dart';
+import 'package:yum_burger/Views/account.dart';
 import 'package:yum_burger/Views/cart.dart';
 import 'package:yum_burger/Views/home.dart';
 import '../Views/create_account.dart';
@@ -34,6 +36,12 @@ class _MyNavigationState extends State<MyNavigation> {
 
   void _onTabTapped(int index) {
     setState(() {
+      if (index == 3) {
+        if (getCurrentUser() != null) {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => AccountSettingsPage()));
+          return;
+        }
+      }
       _selectedIndex = index;
     });
   }
