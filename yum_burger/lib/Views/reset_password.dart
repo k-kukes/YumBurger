@@ -1,32 +1,84 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:yum_burger/create_account.dart';
-import 'package:yum_burger/reset_password.dart';
-import 'package:yum_burger/user_model.dart';
-import 'tab_navigation.dart';
+import 'package:yum_burger/Views/create_account.dart';
+import 'package:yum_burger/Views/login.dart';
+import 'package:yum_burger/Models/user_model.dart';
+import 'create_account.dart';
+import '../Controllers/tab_navigation.dart';
+import 'login.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class ResetPasswordPage extends StatefulWidget {
+  const ResetPasswordPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<ResetPasswordPage> createState() => _ResetPasswordPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
-  String username = '';
-  String password = '';
+class _ResetPasswordPageState extends State<ResetPasswordPage> {
+  CollectionReference users = FirebaseFirestore.instance.collection('Users');
 
+  String newPassword = '';
+  String confirmPassword = '';
+  String username = '';
+
+  final confirmPasswordController = TextEditingController();
+  final newPasswordController = TextEditingController();
   final usernameController = TextEditingController();
-  final passwordController = TextEditingController();
+
+  Future<void> resetPassword() async {
+    CollectionReference users = FirebaseFirestore.instance.collection('Users');
+
+    if (newPassword.isNotEmpty &&
+        confirmPassword.isNotEmpty &&
+        username.isNotEmpty) {
+      if (newPassword != confirmPassword) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Confirm Password and Password don\'t match')),
+        );
+      } else {
+        try {
+          if (await usernameExists(username)) {
+            QuerySnapshot querySnapshot = await users
+                .where('username', isEqualTo: username)
+                .get();
+
+            String docId = querySnapshot.docs.first.id;
+
+            await users.doc(docId).update({'password': newPassword});
+
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('Password reset successfully!')),
+            );
+
+            clearForm();
+            setState(() {
+              newPassword = '';
+              confirmPassword = '';
+              username = '';
+            });
+          } else {
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(SnackBar(content: Text('Username does not exist!')));
+          }
+        } catch (error) {
+          print(error);
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text('Error resetting password.')));
+        }
+      }
+    } else {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Fields can not be empty!')));
+    }
+  }
 
   void clearForm() {
+    newPasswordController.clear();
+    confirmPasswordController.clear();
     usernameController.clear();
-    passwordController.clear();
-    setState(() {
-      username = '';
-      password = '';
-    });
   }
 
   @override
@@ -61,7 +113,7 @@ class _LoginPageState extends State<LoginPage> {
                 backgroundColor: Colors.white,
               ),
             ),
-            Text('Login', style: TextStyle(fontSize: 30)),
+            Text('Reset Password', style: TextStyle(fontSize: 30)),
             Container(
               margin: EdgeInsets.fromLTRB(30, 0, 30, 0),
               child: Column(
@@ -94,8 +146,8 @@ class _LoginPageState extends State<LoginPage> {
                       fontSize: 20,
                       fontWeight: FontWeight.w500,
                     ),
-                    controller: passwordController,
-                    onChanged: (value) => password = value,
+                    controller: newPasswordController,
+                    onChanged: (value) => newPassword = value,
                     decoration: InputDecoration(
                       hintText: 'Password',
                       filled: true,
@@ -106,45 +158,31 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                   ),
-                ],
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.fromLTRB(0, 0, 25, 0),
-              alignment: Alignment.centerRight,
-              child: Column(
-                children: [
-                  TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ResetPasswordPage(),
-                        ),
-                      );
-                    },
-                    child: Text(
-                      'Reset password',
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w500,
+                  SizedBox(height: 15),
+                  TextField(
+                    obscureText: true,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    controller: confirmPasswordController,
+                    onChanged: (value) => confirmPassword = value,
+                    decoration: InputDecoration(
+                      hintText: 'Confirm Password',
+                      filled: true,
+                      fillColor: Colors.grey[350],
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
+                        borderSide: BorderSide.none,
                       ),
                     ),
                   ),
-
+                  SizedBox(height: 30),
                   ElevatedButton(
-                    onPressed: () async {
-                      if (await validateLogin(username, password)) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('Success Login')),
-                        );
-                        clearForm();
-                      } else {
-                        ScaffoldMessenger.of(
-                          context,
-                        ).showSnackBar(SnackBar(content: Text('Failed Login')));
-                        clearForm();
-                      }
+                    onPressed: () {
+                      resetPassword();
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.green,
@@ -153,7 +191,7 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                     child: Text(
-                      'Login',
+                      'Reset Password',
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.w500,
@@ -167,13 +205,14 @@ class _LoginPageState extends State<LoginPage> {
             Container(
               child: Column(
                 children: [
-                  Text('Not a member?', style: TextStyle(fontSize: 20)),
+                  Text(
+                    'Remember the password?',
+                    style: TextStyle(fontSize: 20),
+                  ),
                   ElevatedButton(
                     onPressed: () => Navigator.push(
                       context,
-                      MaterialPageRoute(
-                        builder: (context) => CreateAccountPage(),
-                      ),
+                      MaterialPageRoute(builder: (context) => LoginPage()),
                     ),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.blue,
@@ -182,7 +221,7 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                     child: Text(
-                      'Create Account',
+                      'Go to Login',
                       style: TextStyle(
                         fontSize: 25,
                         fontWeight: FontWeight.w500,

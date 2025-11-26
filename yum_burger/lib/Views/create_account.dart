@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:yum_burger/login.dart';
-import 'package:yum_burger/user_model.dart';
-import 'tab_navigation.dart';
+import 'package:yum_burger/Views/login.dart';
+import 'package:yum_burger/Models/user_model.dart';
+import '../Controllers/tab_navigation.dart';
 import 'offers.dart';
 
 void main() async {
@@ -65,7 +65,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
         leading: TextButton.icon(
           onPressed: () => Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => HomePage()),
+            MaterialPageRoute(builder: (context) => MyNavigation()),
           ),
           label: Icon(Icons.arrow_back),
         ),
@@ -226,19 +226,5 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
         ),
       ),
     );
-  }
-}
-
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
-
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(body: Text('Home'));
   }
 }

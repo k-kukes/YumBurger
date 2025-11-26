@@ -33,6 +33,8 @@ dependencies:
   firebase_core: any
   cloud_firestore: any
   rxdart: any
+  google_fonts: any
+  
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -54,6 +56,15 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
+  assets:
+    - assets/images/hamburger1.jpg
+    - assets/images/hamburger2.jpg
+    - assets/images/hamburger3.jpg
+    - assets/images/hamburger4.jpg
+  fonts:
+    - family: HoltwoodOneSC
+      fonts:
+        - asset: assets/fonts/HoltwoodOneSC-Regular.ttf
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

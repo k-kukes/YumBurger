@@ -1,84 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:yum_burger/create_account.dart';
-import 'package:yum_burger/login.dart';
-import 'package:yum_burger/user_model.dart';
-import 'create_account.dart';
-import 'tab_navigation.dart';
-import 'login.dart';
+import 'package:yum_burger/Views/account.dart';
+import 'package:yum_burger/Views/create_account.dart';
+import 'package:yum_burger/Views/menu.dart';
+import 'package:yum_burger/Views/reset_password.dart';
+import 'package:yum_burger/Models/user_model.dart';
+import '../Controllers/tab_navigation.dart';
 
-class ResetPasswordPage extends StatefulWidget {
-  const ResetPasswordPage({super.key});
+class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
 
   @override
-  State<ResetPasswordPage> createState() => _ResetPasswordPageState();
+  State<LoginPage> createState() => _LoginPageState();
 }
 
-class _ResetPasswordPageState extends State<ResetPasswordPage> {
-  CollectionReference users = FirebaseFirestore.instance.collection('Users');
-
-  String newPassword = '';
-  String confirmPassword = '';
+class _LoginPageState extends State<LoginPage> {
   String username = '';
+  String password = '';
 
-  final confirmPasswordController = TextEditingController();
-  final newPasswordController = TextEditingController();
   final usernameController = TextEditingController();
-
-  Future<void> resetPassword() async {
-    CollectionReference users = FirebaseFirestore.instance.collection('Users');
-
-    if (newPassword.isNotEmpty &&
-        confirmPassword.isNotEmpty &&
-        username.isNotEmpty) {
-      if (newPassword != confirmPassword) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Confirm Password and Password don\'t match')),
-        );
-      } else {
-        try {
-          if (await usernameExists(username)) {
-            QuerySnapshot querySnapshot = await users
-                .where('username', isEqualTo: username)
-                .get();
-
-            String docId = querySnapshot.docs.first.id;
-
-            await users.doc(docId).update({'password': newPassword});
-
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('Password reset successfully!')),
-            );
-
-            clearForm();
-            setState(() {
-              newPassword = '';
-              confirmPassword = '';
-              username = '';
-            });
-          } else {
-            ScaffoldMessenger.of(
-              context,
-            ).showSnackBar(SnackBar(content: Text('Username does not exist!')));
-          }
-        } catch (error) {
-          print(error);
-          ScaffoldMessenger.of(
-            context,
-          ).showSnackBar(SnackBar(content: Text('Error resetting password.')));
-        }
-      }
-    } else {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('Fields can not be empty!')));
-    }
-  }
+  final passwordController = TextEditingController();
 
   void clearForm() {
-    newPasswordController.clear();
-    confirmPasswordController.clear();
     usernameController.clear();
+    passwordController.clear();
+    setState(() {
+      username = '';
+      password = '';
+    });
   }
 
   @override
@@ -113,7 +63,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                 backgroundColor: Colors.white,
               ),
             ),
-            Text('Reset Password', style: TextStyle(fontSize: 30)),
+            Text('Login', style: TextStyle(fontSize: 30)),
             Container(
               margin: EdgeInsets.fromLTRB(30, 0, 30, 0),
               child: Column(
@@ -146,8 +96,8 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                       fontSize: 20,
                       fontWeight: FontWeight.w500,
                     ),
-                    controller: newPasswordController,
-                    onChanged: (value) => newPassword = value,
+                    controller: passwordController,
+                    onChanged: (value) => password = value,
                     decoration: InputDecoration(
                       hintText: 'Password',
                       filled: true,
@@ -158,31 +108,51 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 15),
-                  TextField(
-                    obscureText: true,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.w500,
-                    ),
-                    controller: confirmPasswordController,
-                    onChanged: (value) => confirmPassword = value,
-                    decoration: InputDecoration(
-                      hintText: 'Confirm Password',
-                      filled: true,
-                      fillColor: Colors.grey[350],
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                        borderSide: BorderSide.none,
+                ],
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.fromLTRB(0, 0, 25, 0),
+              alignment: Alignment.centerRight,
+              child: Column(
+                children: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ResetPasswordPage(),
+                        ),
+                      );
+                    },
+                    child: Text(
+                      'Reset password',
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
                   ),
-                  SizedBox(height: 30),
+
                   ElevatedButton(
-                    onPressed: () {
-                      resetPassword();
+                    onPressed: () async {
+                      if (await validateLogin(username, password)) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('Success Login')),
+                        );
+                        clearForm();
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => AccountSettingsPage(),
+                          ),
+                        );
+                      } else {
+                        ScaffoldMessenger.of(
+                          context,
+                        ).showSnackBar(SnackBar(content: Text('Failed Login')));
+                        clearForm();
+                      }
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.green,
@@ -191,7 +161,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                       ),
                     ),
                     child: Text(
-                      'Reset Password',
+                      'Login',
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.w500,
@@ -205,14 +175,13 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
             Container(
               child: Column(
                 children: [
-                  Text(
-                    'Remember the password?',
-                    style: TextStyle(fontSize: 20),
-                  ),
+                  Text('Not a member?', style: TextStyle(fontSize: 20)),
                   ElevatedButton(
                     onPressed: () => Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => LoginPage()),
+                      MaterialPageRoute(
+                        builder: (context) => CreateAccountPage(),
+                      ),
                     ),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.blue,
@@ -221,7 +190,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                       ),
                     ),
                     child: Text(
-                      'Go to Login',
+                      'Create Account',
                       style: TextStyle(
                         fontSize: 25,
                         fontWeight: FontWeight.w500,
