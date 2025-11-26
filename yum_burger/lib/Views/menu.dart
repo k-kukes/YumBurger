@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:yum_burger/Controllers/cart_controller.dart';
+import 'package:yum_burger/Models/cart_model.dart';
 
 class MenuItemCard extends StatelessWidget {
   final String name;
@@ -31,9 +33,10 @@ class MenuItemCard extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Text(name,
-                style: const TextStyle(
-                    fontSize: 16, fontWeight: FontWeight.bold)),
+            child: Text(
+              name,
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -44,8 +47,9 @@ class MenuItemCard extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 8),
             child: ElevatedButton(
               onPressed: () {
+                onAddToCart();
                 ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Product added to cart'))
+                  SnackBar(content: Text('Product added to cart')),
                 );
               },
               child: const Text("Add"),
@@ -57,13 +61,21 @@ class MenuItemCard extends StatelessWidget {
   }
 }
 
-class MenuPage extends StatelessWidget {
+class MenuPage extends StatefulWidget {
   @override
-    Widget build(BuildContext context) {
+  State<MenuPage> createState() => _MenuPageState();
+}
+
+class _MenuPageState extends State<MenuPage> {
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xFFEEE8DE),
       appBar: AppBar(
-        title: Text("Hamburgers", style: TextStyle(fontFamily: 'HoltwoodOneSC', color: Colors.brown)),
+        title: Text(
+          "Hamburgers",
+          style: TextStyle(fontFamily: 'HoltwoodOneSC', color: Colors.brown),
+        ),
         backgroundColor: Color(0xFFEEE8DE),
       ),
       body: GridView.count(
@@ -71,31 +83,73 @@ class MenuPage extends StatelessWidget {
         crossAxisCount: 2,
         crossAxisSpacing: 12,
         mainAxisSpacing: 12,
-        childAspectRatio: 5/4,
+        childAspectRatio: 0.55,
         children: [
           MenuItemCard(
             name: "Cheeseburger",
             price: 8.99,
             image: "assets/images/hamburger2.jpg",
-            onAddToCart: () {},
+            onAddToCart: () {
+              setState(() {
+                CartController.addCartItem(
+                  CartItem(
+                    name: "Cheeseburger",
+                    quantity: 1,
+                    base_price: 8.99,
+                    image: "assets/images/hamburger2.jpg",
+                  ),
+                );
+              });
+            },
           ),
           MenuItemCard(
             name: "Bacon Burger",
             price: 12.50,
             image: "assets/images/hamburger1.jpg",
-            onAddToCart: () {},
+            onAddToCart: () {
+              setState(() {
+                CartController.addCartItem(
+                  CartItem(
+                    name: "Bacon Burger",
+                    quantity: 1,
+                    base_price: 12.50,
+                    image: "assets/images/hamburger1.jpg",
+                  ),
+                );
+              });
+            },
           ),
           MenuItemCard(
             name: "Supreme Burger",
             price: 5.75,
             image: "assets/images/hamburger4.jpg",
-            onAddToCart: () {},
+            onAddToCart: () {
+              setState(() {
+                CartController.addCartItem(
+                  CartItem(
+                    name: "Supreme Burger",
+                    quantity: 1,
+                    base_price: 5.75,
+                    image: "assets/images/hamburger4.jpg",
+                  ),
+                );
+              });
+            },
           ),
           MenuItemCard(
             name: "Veggie Burger",
             price: 10.25,
             image: "assets/images/hamburger3.jpg",
-            onAddToCart: () {},
+            onAddToCart: () {
+              CartController.addCartItem(
+                CartItem(
+                  name: "Veggie Burger",
+                  quantity: 1,
+                  base_price: 10.25,
+                  image: "assets/images/hamburger3.jpg",
+                ),
+              );
+            },
           ),
         ],
       ),

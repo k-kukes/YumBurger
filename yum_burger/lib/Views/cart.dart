@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../Controllers//cart_controller.dart';
+import '../Models/cart_model.dart';
 
 class MyCartPage extends StatefulWidget {
   const MyCartPage({super.key});
@@ -8,26 +10,6 @@ class MyCartPage extends StatefulWidget {
 }
 
 class _MyCartPageState extends State<MyCartPage> {
-  List<Map<String, dynamic>> cartItems = [
-    {
-      "name": "Hamburger 1",
-      "quantity": 2,
-      "base_price": 12.99,
-      "image": null,
-    },
-    {
-      "name": "Hamburger 2",
-      "quantity": 1,
-      "base_price": 45.99,
-      "image": null,
-    },
-    {
-      "name": "Hamburger 3",
-      "quantity": 12,
-      "base_price": 1.99,
-      "image": null,
-    }
-  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,55 +19,63 @@ class _MyCartPageState extends State<MyCartPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text("MY CART",
-            style: TextStyle(
-              color: Colors.brown,
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-              letterSpacing: 1
-            ),
+            Text(
+              "MY CART (${CartController.getCartLength()})",
+              style: TextStyle(
+                color: Colors.brown,
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                letterSpacing: 1,
+              ),
             ),
             SizedBox(height: 20),
             SizedBox(
               height: 400,
               child: ListView.builder(
-                itemCount: cartItems.length,
-                  itemBuilder: (context, index) {
+                itemCount: CartController.getCartLength(),
+                itemBuilder: (context, index) {
+                  CartItem currentCart = CartController.getCartItems()[index];
                   return Padding(
-                      padding: EdgeInsets.only(bottom:15),
-                    child: _buildCartItems(cartItems[index]),
+                    padding: EdgeInsets.only(bottom: 15),
+                    child: _buildCartItems(currentCart, index),
                   );
-                  }
+                },
               ),
             ),
-            SizedBox(height: 20,),
+            SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text("Subtotal:", style: TextStyle(fontSize: 18),),
-                Text("19.99\$:", style: TextStyle(fontSize: 18),),
+                Text("Subtotal:", style: TextStyle(fontSize: 18)),
+                Text("${(CartController.getSubtotal()).toStringAsFixed(2)}\$:", style: TextStyle(fontSize: 18)),
               ],
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text("Delivery fee:", style: TextStyle(fontSize: 18),),
-                Text("3.99\$:", style: TextStyle(fontSize: 18),),
+                Text("Delivery fee:", style: TextStyle(fontSize: 18)),
+                Text("0.00\$:", style: TextStyle(fontSize: 18)),
               ],
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text("Tax:", style: TextStyle(fontSize: 18),),
-                Text("2.99\$:", style: TextStyle(fontSize: 18),),
+                Text("Tax:", style: TextStyle(fontSize: 18)),
+                Text("${(CartController.getTax()).toStringAsFixed(2)}\$:", style: TextStyle(fontSize: 18)),
               ],
             ),
-            SizedBox(height: 10,),
+            SizedBox(height: 10),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text("Total:", style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),),
-                Text("149.99\$:", style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),),
+                Text(
+                  "Total:",
+                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  "${(CartController.getTotal()).toStringAsFixed(2)}\$:",
+                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                ),
               ],
             ),
             Center(
@@ -101,16 +91,18 @@ class _MyCartPageState extends State<MyCartPage> {
                       borderRadius: BorderRadius.circular(8),
                     ),
                   ),
-                    onPressed: () {},
-                    child: Text("ORDER",
+                  onPressed: () {},
+                  child: Text(
+                    "ORDER",
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 22,
-                      fontWeight: FontWeight.bold
-                    ),)
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),
@@ -118,7 +110,7 @@ class _MyCartPageState extends State<MyCartPage> {
   }
 }
 
-Widget _buildCartItems(Map<String, dynamic> cartItem) {
+Widget _buildCartItems(CartItem cartItem, int index) {
   return Container(
     width: 500,
     height: 125,
@@ -137,52 +129,79 @@ Widget _buildCartItems(Map<String, dynamic> cartItem) {
             borderRadius: BorderRadius.circular(5),
             border: Border.all(color: Colors.black12),
           ),
-          child: cartItem['image'] == null ? Icon(Icons.image) : Image.network(cartItem['image']),
+          child: Image.asset(cartItem.image),
         ),
-        SizedBox(width: 15,),
+        SizedBox(width: 15),
         Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text("${cartItem['name']}",
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                cartItem.name,
                 style: TextStyle(
                   color: Colors.brown,
                   fontWeight: FontWeight.bold,
-                  fontSize: 14
+                  fontSize: 14,
                 ),
-                ),
-                Row(
-                  children: [
-                    Text("+", style:TextStyle(
+              ),
+              Row(
+                children: [
+                  TextButton(
+                    onPressed: () {
+                      CartController.increaseQuantity(index);
+                    },
+                    child: Text(
+                      "+",
+                      style: TextStyle(
                         color: Colors.brown,
                         fontWeight: FontWeight.bold,
-                        fontSize: 16
-                    ),),
-                    SizedBox(width: 15,),
-                    Text("${cartItem['quantity']}", style:TextStyle(
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 15),
+                  Text(
+                    "${cartItem.quantity}",
+                    style: TextStyle(
                       color: Colors.brown,
                       fontWeight: FontWeight.bold,
-                      fontSize: 16
-                    ),),
-                    SizedBox(width: 15,),
-                    Text("-", style:TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
+                  SizedBox(width: 15),
+                  TextButton(
+                    onPressed: () {
+                      CartController.decreaseQuantity(index);
+                    },
+                    child: Text(
+                      "-",
+                      style: TextStyle(
                         color: Colors.brown,
                         fontWeight: FontWeight.bold,
-                        fontSize: 16
-                    ),)
-                  ],
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Text(
+                "${(cartItem.base_price * cartItem.quantity).toStringAsFixed(2)}\$",
+                style: TextStyle(
+                  color: Colors.brown,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
                 ),
-                Text("${cartItem['base_price'] * cartItem['quantity']}\$",style:TextStyle(
-                    color: Colors.brown,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16
-                ),
-                )
-              ],
-            ),
+              ),
+            ],
+          ),
         ),
-        IconButton(onPressed: () {}, icon: Icon(Icons.delete, color: Colors.grey[800],))
+        IconButton(
+          onPressed: () {
+            CartController.removeCartItem(cartItem);
+          },
+          icon: Icon(Icons.delete, color: Colors.grey[800]),
+        ),
       ],
     ),
   );
