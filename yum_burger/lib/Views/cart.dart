@@ -8,6 +8,26 @@ class MyCartPage extends StatefulWidget {
 }
 
 class _MyCartPageState extends State<MyCartPage> {
+  List<Map<String, dynamic>> cartItems = [
+    {
+      "name": "Hamburger 1",
+      "quantity": 2,
+      "base_price": 12.99,
+      "image": null,
+    },
+    {
+      "name": "Hamburger 2",
+      "quantity": 1,
+      "base_price": 45.99,
+      "image": null,
+    },
+    {
+      "name": "Hamburger 3",
+      "quantity": 12,
+      "base_price": 1.99,
+      "image": null,
+    }
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,7 +37,6 @@ class _MyCartPageState extends State<MyCartPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 25),
             Text("MY CART",
             style: TextStyle(
               color: Colors.brown,
@@ -27,12 +46,19 @@ class _MyCartPageState extends State<MyCartPage> {
             ),
             ),
             SizedBox(height: 20),
-            _buildCartItems(),
-            SizedBox(height: 15,),
-            _buildCartItems(),
-            SizedBox(height: 15,),
-            _buildCartItems(),
-            SizedBox(height: 30,),
+            SizedBox(
+              height: 400,
+              child: ListView.builder(
+                itemCount: cartItems.length,
+                  itemBuilder: (context, index) {
+                  return Padding(
+                      padding: EdgeInsets.only(bottom:15),
+                    child: _buildCartItems(cartItems[index]),
+                  );
+                  }
+              ),
+            ),
+            SizedBox(height: 20,),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -92,14 +118,14 @@ class _MyCartPageState extends State<MyCartPage> {
   }
 }
 
-Widget _buildCartItems() {
+Widget _buildCartItems(Map<String, dynamic> cartItem) {
   return Container(
     width: 500,
     height: 125,
     padding: EdgeInsets.all(15),
     decoration: BoxDecoration(
       color: Colors.grey[300],
-      borderRadius: BorderRadiusGeometry.circular(8),
+      borderRadius: BorderRadius.circular(8),
     ),
     child: Row(
       children: [
@@ -108,10 +134,10 @@ Widget _buildCartItems() {
           height: 65,
           decoration: BoxDecoration(
             color: Colors.grey[200],
-            borderRadius: BorderRadiusGeometry.circular(5),
+            borderRadius: BorderRadius.circular(5),
             border: Border.all(color: Colors.black12),
           ),
-          child: Icon(Icons.image, color: Colors.black38,),
+          child: cartItem['image'] == null ? Icon(Icons.image) : Image.network(cartItem['image']),
         ),
         SizedBox(width: 15,),
         Expanded(
@@ -119,7 +145,7 @@ Widget _buildCartItems() {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text("HAMBURGER 1",
+                Text("${cartItem['name']}",
                 style: TextStyle(
                   color: Colors.brown,
                   fontWeight: FontWeight.bold,
@@ -134,7 +160,7 @@ Widget _buildCartItems() {
                         fontSize: 16
                     ),),
                     SizedBox(width: 15,),
-                    Text("2", style:TextStyle(
+                    Text("${cartItem['quantity']}", style:TextStyle(
                       color: Colors.brown,
                       fontWeight: FontWeight.bold,
                       fontSize: 16
@@ -147,7 +173,7 @@ Widget _buildCartItems() {
                     ),)
                   ],
                 ),
-                Text("90.99\$",style:TextStyle(
+                Text("${cartItem['base_price'] * cartItem['quantity']}\$",style:TextStyle(
                     color: Colors.brown,
                     fontWeight: FontWeight.bold,
                     fontSize: 16
