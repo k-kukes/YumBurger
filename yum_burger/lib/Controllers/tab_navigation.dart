@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yum_burger/Controllers/header.dart';
 import 'package:yum_burger/Views/cart.dart';
 import 'package:yum_burger/Views/home.dart';
 import '../Views/create_account.dart';
@@ -47,8 +48,7 @@ class _MyNavigationState extends State<MyNavigation> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: _pages[_selectedIndex],
+    return NavBar(body: _pages[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         items: _navItems,
         currentIndex: _selectedIndex,
