@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:yum_burger/Controllers/burger_controller.dart';
 import 'package:yum_burger/Controllers/cart_controller.dart';
+import 'package:yum_burger/Models/burger_model.dart';
 import 'package:yum_burger/Models/cart_model.dart';
 
 class MenuItemCard extends StatelessWidget {
@@ -67,6 +69,22 @@ class MenuPage extends StatefulWidget {
 }
 
 class _MenuPageState extends State<MenuPage> {
+  List<Map<String, dynamic>> burgerList = [];
+  BurgerController burgerController = new BurgerController();
+
+  @override
+  void initState() {
+    super.initState();
+    loadBurgers();
+  }
+
+  Future<void> loadBurgers() async {
+    final burgers = await burgerController.getBurgers();
+    setState(() {
+      burgerList = burgers;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -84,74 +102,23 @@ class _MenuPageState extends State<MenuPage> {
         crossAxisSpacing: 12,
         mainAxisSpacing: 12,
         childAspectRatio: 0.55,
-        children: [
-          MenuItemCard(
-            name: "Cheeseburger",
-            price: 8.99,
-            image: "assets/images/hamburger2.jpg",
-            onAddToCart: () {
-              setState(() {
-                CartController.addCartItem(
-                  CartItem(
-                    name: "Cheeseburger",
-                    quantity: 1,
-                    base_price: 8.99,
-                    image: "assets/images/hamburger2.jpg",
-                  ),
-                );
-              });
-            },
-          ),
-          MenuItemCard(
-            name: "Bacon Burger",
-            price: 12.50,
-            image: "assets/images/hamburger1.jpg",
-            onAddToCart: () {
-              setState(() {
-                CartController.addCartItem(
-                  CartItem(
-                    name: "Bacon Burger",
-                    quantity: 1,
-                    base_price: 12.50,
-                    image: "assets/images/hamburger1.jpg",
-                  ),
-                );
-              });
-            },
-          ),
-          MenuItemCard(
-            name: "Supreme Burger",
-            price: 5.75,
-            image: "assets/images/hamburger4.jpg",
-            onAddToCart: () {
-              setState(() {
-                CartController.addCartItem(
-                  CartItem(
-                    name: "Supreme Burger",
-                    quantity: 1,
-                    base_price: 5.75,
-                    image: "assets/images/hamburger4.jpg",
-                  ),
-                );
-              });
-            },
-          ),
-          MenuItemCard(
-            name: "Veggie Burger",
-            price: 10.25,
-            image: "assets/images/hamburger3.jpg",
+        children: burgerList.map((burger) {
+          return MenuItemCard(
+            name: burger['name'],
+            price: burger['price'],
+            image: burger['image'],
             onAddToCart: () {
               CartController.addCartItem(
                 CartItem(
-                  name: "Veggie Burger",
+                  name: burger['name'],
                   quantity: 1,
-                  base_price: 10.25,
-                  image: "assets/images/hamburger3.jpg",
+                  base_price: burger['price'],
+                  image: burger['image'],
                 ),
               );
             },
-          ),
-        ],
+          );
+        }).toList(),
       ),
     );
   }
