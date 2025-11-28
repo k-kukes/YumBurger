@@ -71,3 +71,10 @@ getCurrentUser() {
   return currentUser;
 }
 
+String getUsername() {
+  if (currentUser != null) {
+    return currentUser['username'];
+  }
+  return '';
+}
+

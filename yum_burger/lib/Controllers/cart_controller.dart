@@ -1,54 +1,79 @@
 import 'package:flutter/material.dart';
 
 import 'package:yum_burger/Models/cart_model.dart';
+import 'package:yum_burger/Models/user_model.dart';
 
 class CartController {
-  static List<CartItem> cartItems = [
-    CartItem(name: 'Hamburger 1', quantity: 2, base_price: 12.99, image: "https://via.placeholder.com/150"),
-    CartItem(name: 'Hamburger 2', quantity: 5, base_price: 2.99, image: "https://via.placeholder.com/150"),
-  ];
 
-  static List<CartItem> getCartItems() => cartItems;
-  static int getCartLength() => cartItems.length;
+   Future<bool> addCartItem(String burgerId, int quantity) async {
+    if (getUsername() == '') {
+      print('No user');
+      return false;
+    }
 
-  static void addCartItem(CartItem item) {
-    int currentIndex = cartItems.indexWhere((cartItem) => cartItem.name == item.name);
-    if (currentIndex != -1) {
-      cartItems[currentIndex].quantity += item.quantity;
+    try {
+      await addCartItemToDB(getUsername(), burgerId, quantity);
+      return true;
+    } catch (error) {
+      print(error);
+      return false;
+    }
+  }
+
+   Future<List<Map<String, dynamic>>> getUserCart() async {
+    if (getUsername() == '') {
+      print('No user');
+      return [];
     } else {
-      cartItems.add(item);
+      return await getUserCartFromDB(getUsername());
     }
   }
 
-  static void removeCartItem(CartItem item) {
-    cartItems.remove(item);
-  }
-
-  static void increaseQuantity(int index) {
-    cartItems[index].quantity++;
-  }
-
-  static void decreaseQuantity(int index) {
-    if (cartItems[index].quantity > 1) {
-      cartItems[index].quantity--;
+   Future<void> updateQuantity(String burgerId, int newQuantity) async {
+    if (getUsername() == '') {
+      return;
     } else {
-      cartItems.removeAt(index);
+      await updateCartItemQuantity(getUsername(), burgerId, newQuantity);
     }
   }
 
-  static double getSubtotal() {
-    double total = 0;
-    for (int i = 0; i < cartItems.length; i++) {
-      total += cartItems[i].base_price * cartItems[i].quantity;
+   Future<void> removeItem(String burgerId) async {
+    if (getUsername() == '') {
+      return;
+    } else {
+      await removeCartItemFromDB(getUsername(), burgerId);
     }
-    return total;
   }
 
-  static double getTax() {
-    return getSubtotal() * 0.15;
+   Future<int> getCartLength() async {
+    if (getUsername() == '') {
+      return 0;
+    } else {
+      return await getCartLengthFromDB(getUsername());
+    }
   }
 
-  static double getTotal() {
-    return getSubtotal() + getTax();
+   Future<double> getSubtotal() async {
+    if (getUsername() == '') {
+      return 0;
+    } else {
+      return await getSubtotalFromDB(getUsername());
+    }
+  }
+
+   Future<double> getTax() async {
+    if (getUsername() == '') {
+      return 0;
+    } else {
+      return await getTaxFromDB(getUsername());
+    }
+  }
+
+   Future<double> getTotal() async {
+    if (getUsername() == '') {
+      return 0;
+    } else {
+      return await getTotalFromDB(getUsername());
+    }
   }
 }

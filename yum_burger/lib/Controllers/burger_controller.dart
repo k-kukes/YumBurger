@@ -2,7 +2,7 @@ import 'package:yum_burger/Models/burger_model.dart';
 class BurgerController {
   Future<bool> addBurger(String name, String description, double price, String image) async {
     if (image.isEmpty) {
-      image = "https://via.placeholder.com/150";
+      image = "assets/images/hamburger2.jpg";
     }
 
     if (name.isNotEmpty && description.isNotEmpty && price > 0 && image.isNotEmpty) {
@@ -19,6 +19,10 @@ class BurgerController {
 
   Future<List<Map<String, dynamic>>> getBurgers() async {
     return getBurgersFromDB();
+  }
+
+  Future<Map<String, dynamic>?> getBurgerById(String burgerId) async {
+    return await getBurgerByIdFromDB(burgerId);
   }
 
 }

@@ -50,9 +50,6 @@ class MenuItemCard extends StatelessWidget {
             child: ElevatedButton(
               onPressed: () {
                 onAddToCart();
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Product added to cart')),
-                );
               },
               child: const Text("Add"),
             ),
@@ -71,6 +68,7 @@ class MenuPage extends StatefulWidget {
 class _MenuPageState extends State<MenuPage> {
   List<Map<String, dynamic>> burgerList = [];
   BurgerController burgerController = new BurgerController();
+  CartController cartController = new CartController();
 
   @override
   void initState() {
@@ -107,15 +105,17 @@ class _MenuPageState extends State<MenuPage> {
             name: burger['name'],
             price: burger['price'],
             image: burger['image'],
-            onAddToCart: () {
-              CartController.addCartItem(
-                CartItem(
-                  name: burger['name'],
-                  quantity: 1,
-                  base_price: burger['price'],
-                  image: burger['image'],
-                ),
-              );
+            onAddToCart: () async {
+              final result = await cartController.addCartItem(burger['id'], 1);
+              if (!result) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Please log in to add items'))
+                );
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Product added to cart.'))
+                );
+              }
             },
           );
         }).toList(),

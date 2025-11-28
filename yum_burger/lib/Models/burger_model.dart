@@ -77,3 +77,21 @@ Future<List<Map<String, dynamic>>> getBurgersFromDB() async {
     return [];
   }
 }
+
+Future<Map<String,dynamic>?> getBurgerByIdFromDB(String burgerId) async {
+  try {
+    var burger = await burgers.doc(burgerId).get();
+    if (burger.exists) {
+      return {
+        'id': burger.id,
+        'name': burger['name'],
+        'description': burger['description'],
+        'price': burger['price'],
+        'image': burger['image'],
+      };
+    }
+  } catch(error) {
+    print('Error retrieving burger by id');
+  }
+  return null;
+}
