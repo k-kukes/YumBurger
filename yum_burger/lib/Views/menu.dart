@@ -110,8 +110,8 @@ class _MenuPageState extends State<MenuPage> {
                 name: doc['name'],
                 price: doc['price'],
                 image: doc['image'],
-                onAddToCart: () {
-                  String result = cartController.addToCart(doc);
+                onAddToCart: () async {
+                  String result = await cartController.addToCart(doc);
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(result)));
                 },
               );
