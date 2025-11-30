@@ -1,6 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
+import 'package:yum_burger/Controllers/burger_controller.dart';
 
 class MenuItemCard extends StatelessWidget {
   final String name;
@@ -63,14 +64,21 @@ class MenuPage extends StatefulWidget {
 }
 
 class _MenuPageState extends State<MenuPage> {
-  List<Map<String, dynamic>> burgerList = [];
+  BurgerController burgerController = new BurgerController();
+  CollectionReference<Object?>? burgerList = null;
 
   @override
   void initState() {
     super.initState();
+    loadBurgers();
   }
 
-
+  Future<void> loadBurgers() async {
+    var burgers = await burgerController.getBurgersCollection();
+    setState(() {
+      burgerList = burgers;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -83,22 +91,46 @@ class _MenuPageState extends State<MenuPage> {
         ),
         backgroundColor: Color(0xFFEEE8DE),
       ),
-      body: GridView.count(
-        padding: const EdgeInsets.all(16),
-        crossAxisCount: 2,
-        crossAxisSpacing: 12,
-        mainAxisSpacing: 12,
-        childAspectRatio: 0.55,
-        children: burgerList.map((burger) {
-          return MenuItemCard(
-            name: burger['name'],
-            price: burger['price'],
-            image: burger['image'],
-            onAddToCart: () async {
-            },
+      body: StreamBuilder<QuerySnapshot>(
+        stream: burgerList?.snapshots(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) return Center(
+            child: CircularProgressIndicator(),
           );
-        }).toList(),
+          return GridView.count(
+            padding: const EdgeInsets.all(16),
+            crossAxisCount: 2,
+            crossAxisSpacing: 12,
+            mainAxisSpacing: 12,
+            childAspectRatio: 0.55,
+            children: snapshot.data!.docs.map((doc) {
+              return MenuItemCard(
+                name: doc['name'],
+                price: doc['price'],
+                image: doc['image'],
+                onAddToCart: () {},
+              );
+            }).toList(),
+          );
+        },
       ),
     );
   }
 }
+
+// burgerList.map((burger) {
+// return MenuItemCard(
+// name: burger['name'],
+// price: burger['price'],
+// image: burger['image'],
+// onAddToCart: () async {
+// },
+// );
+// }) GridView.count(
+//         padding: const EdgeInsets.all(16),
+//         crossAxisCount: 2,
+//         crossAxisSpacing: 12,
+//         mainAxisSpacing: 12,
+//         childAspectRatio: 0.55,
+//         children:
+//       ),
