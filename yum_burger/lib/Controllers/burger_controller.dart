@@ -13,4 +13,10 @@ class BurgerController {
       return null;
     }
   }
+
+  Future<DocumentSnapshot<Object?>> getBurgerDocumentById(burgerId) async {
+    return await burgerModel.getBurgerDocument(burgerId);
+  }
+
+
 }

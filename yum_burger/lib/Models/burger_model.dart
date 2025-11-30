@@ -7,4 +7,9 @@ class BurgerModel {
   CollectionReference<Object?> getBurgersFromDB() {
     return burgers;
   }
+
+ Future<DocumentSnapshot<Object?>> getBurgerDocument(burgerId) async {
+    DocumentReference<Object?> burger = await burgers.doc(burgerId);
+    return burger.get();
+  }
 }
