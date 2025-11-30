@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:yum_burger/Controllers/user_controller.dart';
 import 'package:yum_burger/Views/account.dart';
 import 'package:yum_burger/Views/create_account.dart';
 import 'package:yum_burger/Views/menu.dart';
@@ -16,6 +17,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  UserController userController = new UserController();
   String username = '';
   String password = '';
 
@@ -136,7 +138,7 @@ class _LoginPageState extends State<LoginPage> {
 
                   ElevatedButton(
                     onPressed: () async {
-                      if (await validateLogin(username, password)) {
+                      if (await userController.validateLogin(username, password)) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(content: Text('Success Login')),
                         );

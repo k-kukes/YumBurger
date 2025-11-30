@@ -1,9 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:yum_burger/Controllers/burger_controller.dart';
 import 'package:yum_burger/Controllers/cart_controller.dart';
-import 'package:yum_burger/Models/burger_model.dart';
-import 'package:yum_burger/Models/cart_model.dart';
 
 class MenuItemCard extends StatelessWidget {
   final String name;
@@ -66,9 +65,9 @@ class MenuPage extends StatefulWidget {
 }
 
 class _MenuPageState extends State<MenuPage> {
-  List<Map<String, dynamic>> burgerList = [];
   BurgerController burgerController = new BurgerController();
   CartController cartController = new CartController();
+  CollectionReference<Object?>? burgerList = null;
 
   @override
   void initState() {
@@ -77,7 +76,7 @@ class _MenuPageState extends State<MenuPage> {
   }
 
   Future<void> loadBurgers() async {
-    final burgers = await burgerController.getBurgers();
+    var burgers = await burgerController.getBurgersCollection();
     setState(() {
       burgerList = burgers;
     });
@@ -94,31 +93,31 @@ class _MenuPageState extends State<MenuPage> {
         ),
         backgroundColor: Color(0xFFEEE8DE),
       ),
-      body: GridView.count(
-        padding: const EdgeInsets.all(16),
-        crossAxisCount: 2,
-        crossAxisSpacing: 12,
-        mainAxisSpacing: 12,
-        childAspectRatio: 0.55,
-        children: burgerList.map((burger) {
-          return MenuItemCard(
-            name: burger['name'],
-            price: burger['price'],
-            image: burger['image'],
-            onAddToCart: () async {
-              final result = await cartController.addCartItem(burger['id'], 1);
-              if (!result) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Please log in to add items'))
-                );
-              } else {
-                ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Product added to cart.'))
-                );
-              }
-            },
+      body: StreamBuilder<QuerySnapshot>(
+        stream: burgerList?.snapshots(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) return Center(
+            child: CircularProgressIndicator(),
           );
-        }).toList(),
+          return GridView.count(
+            padding: const EdgeInsets.all(16),
+            crossAxisCount: 2,
+            crossAxisSpacing: 12,
+            mainAxisSpacing: 12,
+            childAspectRatio: 0.55,
+            children: snapshot.data!.docs.map((doc) {
+              return MenuItemCard(
+                name: doc['name'],
+                price: doc['price'],
+                image: doc['image'],
+                onAddToCart: () {
+                  String result = cartController.addToCart(doc);
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(result)));
+                },
+              );
+            }).toList(),
+          );
+        },
       ),
     );
   }

@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import '../Controllers//cart_controller.dart';
-import '../Models/cart_model.dart';
 
 class MyCartPage extends StatefulWidget {
   const MyCartPage({super.key});
@@ -10,7 +8,6 @@ class MyCartPage extends StatefulWidget {
 }
 
 class _MyCartPageState extends State<MyCartPage> {
-  CartController cartController = new CartController();
   List<Map<String, dynamic>> cartItems = [];
   int cartLength = 0;
   double subtotal = 0;
@@ -19,25 +16,9 @@ class _MyCartPageState extends State<MyCartPage> {
 
   @override
   void initState() {
-    loadCart();
     super.initState();
   }
 
-  Future<void> loadCart() async {
-    var newCartItems = await cartController.getUserCart();
-    var newCartLength = await cartController.getCartLength();
-    var newSubtotal = await cartController.getSubtotal();
-    var newTax = await cartController.getTax();
-    var newTotal = await cartController.getTotal();
-
-    setState(() {
-      cartItems = newCartItems;
-      cartLength = newCartLength;
-      subtotal = newSubtotal;
-      tax = newTax;
-      total = newTotal;
-    });
-  }
 
   Widget _buildCartItems(Map<String, dynamic> cartItem) {
     return Container(
@@ -78,11 +59,7 @@ class _MyCartPageState extends State<MyCartPage> {
                   children: [
                     TextButton(
                       onPressed: () {
-                        cartController.updateQuantity(
-                          cartItem['burgerId'],
-                          cartItem['quantity'] + 1,
-                        );
-                        loadCart();
+
                       },
                       child: Text(
                         "+",
@@ -105,11 +82,7 @@ class _MyCartPageState extends State<MyCartPage> {
                     SizedBox(width: 15),
                     TextButton(
                       onPressed: () {
-                        cartController.updateQuantity(
-                          cartItem['burgerId'],
-                          cartItem['quantity'] - 1,
-                        );
-                        loadCart();
+
                       },
                       child: Text(
                         "-",
@@ -135,8 +108,7 @@ class _MyCartPageState extends State<MyCartPage> {
           ),
           IconButton(
             onPressed: () {
-              cartController.removeItem(cartItem['burgerId']);
-              loadCart();
+
             },
             icon: Icon(Icons.delete, color: Colors.grey[800]),
           ),
