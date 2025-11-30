@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:yum_burger/Controllers/burger_controller.dart';
-import 'package:yum_burger/Controllers/cart_controller.dart';
-import 'package:yum_burger/Models/burger_model.dart';
-import 'package:yum_burger/Models/cart_model.dart';
+
 
 class MenuItemCard extends StatelessWidget {
   final String name;
@@ -67,21 +64,13 @@ class MenuPage extends StatefulWidget {
 
 class _MenuPageState extends State<MenuPage> {
   List<Map<String, dynamic>> burgerList = [];
-  BurgerController burgerController = new BurgerController();
-  CartController cartController = new CartController();
 
   @override
   void initState() {
     super.initState();
-    loadBurgers();
   }
 
-  Future<void> loadBurgers() async {
-    final burgers = await burgerController.getBurgers();
-    setState(() {
-      burgerList = burgers;
-    });
-  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -106,16 +95,6 @@ class _MenuPageState extends State<MenuPage> {
             price: burger['price'],
             image: burger['image'],
             onAddToCart: () async {
-              final result = await cartController.addCartItem(burger['id'], 1);
-              if (!result) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Please log in to add items'))
-                );
-              } else {
-                ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Product added to cart.'))
-                );
-              }
             },
           );
         }).toList(),
