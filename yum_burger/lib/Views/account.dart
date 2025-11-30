@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:yum_burger/Views/login.dart';
-import 'package:yum_burger/Models/user_model.dart';
+import 'package:yum_burger/Controllers/user_controller.dart';
 import '../Controllers/tab_navigation.dart';
 
 class AccountSettingsPage extends StatefulWidget {
@@ -12,8 +10,23 @@ class AccountSettingsPage extends StatefulWidget {
 }
 
 class _AccountSettingsPage extends State<AccountSettingsPage> {
-  CollectionReference users = FirebaseFirestore.instance.collection('Users');
-  var user = getCurrentUser();
+  UserController userController = UserController();
+  var user;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getCurrentUser();
+  }
+
+  Future<void> getCurrentUser() async {
+    var currentUser = await userController.getCurrentUser();
+    setState(() {
+      user = currentUser;
+      print(user);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

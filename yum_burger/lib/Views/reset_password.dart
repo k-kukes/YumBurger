@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:yum_burger/Controllers/user_controller.dart';
 import 'package:yum_burger/Views/create_account.dart';
 import 'package:yum_burger/Views/login.dart';
 import 'package:yum_burger/Models/user_model.dart';
@@ -15,8 +16,7 @@ class ResetPasswordPage extends StatefulWidget {
 }
 
 class _ResetPasswordPageState extends State<ResetPasswordPage> {
-  CollectionReference users = FirebaseFirestore.instance.collection('Users');
-
+  UserController userController = new UserController();
   String newPassword = '';
   String confirmPassword = '';
   String username = '';
@@ -26,7 +26,6 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
   final usernameController = TextEditingController();
 
   Future<void> resetPassword() async {
-    CollectionReference users = FirebaseFirestore.instance.collection('Users');
 
     if (newPassword.isNotEmpty &&
         confirmPassword.isNotEmpty &&
@@ -37,7 +36,8 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
         );
       } else {
         try {
-          if (await usernameExists(username)) {
+          if (await userController.checkUsername(username)) {
+            CollectionReference<Object?>? users = await userController.getUsersCollection();
             QuerySnapshot querySnapshot = await users
                 .where('username', isEqualTo: username)
                 .get();

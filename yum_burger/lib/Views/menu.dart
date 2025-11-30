@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:yum_burger/Controllers/burger_controller.dart';
+import 'package:yum_burger/Controllers/cart_controller.dart';
 
 class MenuItemCard extends StatelessWidget {
   final String name;
@@ -65,6 +66,7 @@ class MenuPage extends StatefulWidget {
 
 class _MenuPageState extends State<MenuPage> {
   BurgerController burgerController = new BurgerController();
+  CartController cartController = new CartController();
   CollectionReference<Object?>? burgerList = null;
 
   @override
@@ -108,7 +110,10 @@ class _MenuPageState extends State<MenuPage> {
                 name: doc['name'],
                 price: doc['price'],
                 image: doc['image'],
-                onAddToCart: () {},
+                onAddToCart: () {
+                  String result = cartController.addToCart(doc);
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(result)));
+                },
               );
             }).toList(),
           );
@@ -117,20 +122,3 @@ class _MenuPageState extends State<MenuPage> {
     );
   }
 }
-
-// burgerList.map((burger) {
-// return MenuItemCard(
-// name: burger['name'],
-// price: burger['price'],
-// image: burger['image'],
-// onAddToCart: () async {
-// },
-// );
-// }) GridView.count(
-//         padding: const EdgeInsets.all(16),
-//         crossAxisCount: 2,
-//         crossAxisSpacing: 12,
-//         mainAxisSpacing: 12,
-//         childAspectRatio: 0.55,
-//         children:
-//       ),
