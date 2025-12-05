@@ -1,73 +1,86 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-CollectionReference users = FirebaseFirestore.instance.collection('Users');
-var currentUser = null;
+class UserModel {
+  CollectionReference users = FirebaseFirestore.instance.collection('Users');
+  static final UserModel _singleton = UserModel._instance();
+  var currentUser = null;
 
-Future<void> addUser(username, password, fullName, email) async {
-  if (username.isNotEmpty &&
-      password.isNotEmpty &&
-      fullName.isNotEmpty &&
-      email.isNotEmpty) {
-    try {
-      await users.add({
-        'username': username,
-        'password': password,
-        'fullName': fullName,
-        'email': email,
-      });
-    } catch (error) {
-      print("{Problem occurred while creating account}");
+  factory UserModel() {
+    return _singleton;
+  }
+
+  UserModel._instance();
+
+  Future<void> addUser(username, password, fullName, email) async {
+    if (username.isNotEmpty &&
+        password.isNotEmpty &&
+        fullName.isNotEmpty &&
+        email.isNotEmpty) {
+      if (await usernameExists(username) == false) {
+        print('This was called');
+        DocumentReference userDoc = await users.add({
+          'username': username,
+          'password': password,
+          'fullName': fullName,
+          'email': email,
+        });
+        userDoc.collection('Cart');
+      }
     }
   }
-}
 
-Future<void> resetPassword(id, newPassword) async {
-  if (id.isNotEmpty && newPassword.isNotEmpty) {
-    try {
-      await users.doc(id).update({'password': newPassword});
-    } catch (error) {
-      print("{Problem occurred while resetting password}");
+  Future<void> resetPassword(id, newPassword) async {
+    if (id.isNotEmpty && newPassword.isNotEmpty) {
+      try {
+        await users.doc(id).update({'password': newPassword});
+      } catch (error) {
+        print("{Problem occurred while resetting password}");
+      }
     }
   }
-}
 
-Future<bool> validateLogin(username, password) async {
-  if (username.isNotEmpty && password.isNotEmpty) {
+  Future<bool> validateLogin(username, password) async {
+    QuerySnapshot querySnapshot = await users
+        .where('username', isEqualTo: username)
+        .where('password', isEqualTo: password)
+        .get();
+
+    if (querySnapshot.docs.isNotEmpty) {
+      currentUser = querySnapshot.docs[0];
+      return true;
+    }
+
+    return false;
+  }
+
+  Future<bool> usernameExists(String checkUsername) async {
     try {
       QuerySnapshot querySnapshot = await users
-          .where('username', isEqualTo: username)
-          .where('password', isEqualTo: password)
+          .where('username', isEqualTo: checkUsername)
           .get();
 
       if (querySnapshot.docs.isNotEmpty) {
-        currentUser = querySnapshot.docs[0];
         return true;
       }
     } catch (error) {
       print(error);
-      print('Problem occurred with login');
+      print('Error with usernameExists check');
     }
+    return false;
   }
-  return false;
-}
 
-Future<bool> usernameExists(String checkUsername) async {
-  try {
-    QuerySnapshot querySnapshot = await users
-        .where('username', isEqualTo: checkUsername)
-        .get();
+  getCurrentUser() {
+    return currentUser;
+  }
 
-    if (querySnapshot.docs.isNotEmpty) {
-      return true;
+  getUsers() {
+    return users;
+  }
+
+  String getUsername() {
+    if (currentUser != null) {
+      return currentUser['username'];
     }
-  } catch (error) {
-    print(error);
-    print('Error with usernameExists check');
+    return '';
   }
-  return false;
 }
-
-getCurrentUser() {
-  return currentUser;
-}
-

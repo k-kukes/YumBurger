@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:yum_burger/Controllers/tab_navigation.dart';
+import 'package:yum_burger/Controllers/user_controller.dart';
 import 'package:yum_burger/Models/user_model.dart';
 import '../Views/home.dart';
 
@@ -16,7 +17,8 @@ class NavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var currentUser = getCurrentUser();
+    UserController userController = new UserController();
+    var currentUser = userController.getCurrentUser();
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -36,7 +38,7 @@ class NavBar extends StatelessWidget {
           child: ListView(
             padding: EdgeInsets.zero,
             children: [
-              if (getCurrentUser() == null)
+              if (currentUser == null)
                 UserAccountsDrawerHeader(
                   accountName: Text('user'),
                   accountEmail: Text('placeholder@gmail.com'),

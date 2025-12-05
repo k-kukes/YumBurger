@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:yum_burger/Controllers/user_controller.dart';
 import 'package:yum_burger/Views/login.dart';
 import 'package:yum_burger/Models/user_model.dart';
 import '../Controllers/tab_navigation.dart';
@@ -30,6 +31,7 @@ class CreateAccountPage extends StatefulWidget {
 }
 
 class _CreateAccountPageState extends State<CreateAccountPage> {
+  UserController userController = new UserController();
 
   String username = '';
   String password = '';
@@ -182,7 +184,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
               alignment: Alignment.centerRight,
               child: ElevatedButton(
                 onPressed: () {
-                  addUser(username, password, fullName, email);
+                  userController.addUser(username, password, fullName, email);
                   clearForm();
                 },
                 style: ElevatedButton.styleFrom(

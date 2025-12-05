@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:yum_burger/Controllers/header.dart';
+import 'package:yum_burger/Controllers/user_controller.dart';
 import 'package:yum_burger/Models/user_model.dart';
 import 'package:yum_burger/Views/account.dart';
 import 'package:yum_burger/Views/cart.dart';
@@ -24,6 +25,7 @@ class MyNavigation extends StatefulWidget {
 }
 
 class _MyNavigationState extends State<MyNavigation> {
+  UserController userController = UserController();
   int _selectedIndex = 0;
 
   final List<Widget> _pages = [
@@ -37,7 +39,9 @@ class _MyNavigationState extends State<MyNavigation> {
   void _onTabTapped(int index) {
     setState(() {
       if (index == 3) {
-        if (getCurrentUser() != null) {
+        if (userController.getCurrentUser() != null) {
+          print('got this user');
+          print(userController.getCurrentUser());
           Navigator.push(context, MaterialPageRoute(builder: (context) => AccountSettingsPage()));
           return;
         }

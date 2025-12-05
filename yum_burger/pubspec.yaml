@@ -61,6 +61,7 @@ flutter:
     - assets/images/hamburger2.jpg
     - assets/images/hamburger3.jpg
     - assets/images/hamburger4.jpg
+    - assets/images/drink1.jpg
   fonts:
     - family: HoltwoodOneSC
       fonts:

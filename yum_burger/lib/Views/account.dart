@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:yum_burger/Views/login.dart';
-import 'package:yum_burger/Models/user_model.dart';
+import 'package:yum_burger/Controllers/user_controller.dart';
 import '../Controllers/tab_navigation.dart';
 
 class AccountSettingsPage extends StatefulWidget {
@@ -12,8 +10,23 @@ class AccountSettingsPage extends StatefulWidget {
 }
 
 class _AccountSettingsPage extends State<AccountSettingsPage> {
-  CollectionReference users = FirebaseFirestore.instance.collection('Users');
-  var user = getCurrentUser();
+  UserController userController = UserController();
+  var user;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getCurrentUser();
+  }
+
+  Future<void> getCurrentUser() async {
+    var currentUser = await userController.getCurrentUser();
+    setState(() {
+      user = currentUser;
+      print(user);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +74,7 @@ class _AccountSettingsPage extends State<AccountSettingsPage> {
                       borderRadius: BorderRadiusGeometry.circular(12),
                     ),
                     alignment: Alignment.center,
-                    child: Text("${user['username']}", style: TextStyle(color: Colors.black, fontSize: 25),),
+                    child: user == null ? Text('username') : Text("${user['username']}", style: TextStyle(color: Colors.black, fontSize: 25),),
                   ),
                   SizedBox(height: 15),
                   Text('Password', style: TextStyle(fontSize: 25),),
@@ -73,7 +86,7 @@ class _AccountSettingsPage extends State<AccountSettingsPage> {
                       borderRadius: BorderRadiusGeometry.circular(12),
                     ),
                     alignment: Alignment.center,
-                    child: Text("${user['password']}", style: TextStyle(color: Colors.black, fontSize: 25),),
+                    child: user == null ? Text('password') : Text("${user['password']}", style: TextStyle(color: Colors.black, fontSize: 25),),
                   ),
                   SizedBox(height: 15),
                   Text('Full Name', style: TextStyle(fontSize: 25),),
@@ -85,7 +98,7 @@ class _AccountSettingsPage extends State<AccountSettingsPage> {
                       borderRadius: BorderRadiusGeometry.circular(12),
                     ),
                     alignment: Alignment.center,
-                    child: Text("${user['fullName']}", style: TextStyle(color: Colors.black, fontSize: 25),),
+                    child: user == null ? Text('full name') : Text("${user['fullName']}", style: TextStyle(color: Colors.black, fontSize: 25),),
                   ),
                   SizedBox(height: 15),
                   Text('Email', style: TextStyle(fontSize: 25),),
@@ -97,7 +110,7 @@ class _AccountSettingsPage extends State<AccountSettingsPage> {
                       borderRadius: BorderRadiusGeometry.circular(12),
                     ),
                     alignment: Alignment.center,
-                    child: Text("${user['email']}", style: TextStyle(color: Colors.black, fontSize: 25),),
+                    child: user == null ? Text('email') : Text("${user['email']}", style: TextStyle(color: Colors.black, fontSize: 25),),
                   ),
                   SizedBox(height: 15),
                   Text('Settings', style: TextStyle(fontSize: 30)),
