@@ -35,7 +35,7 @@ class _MenuPageState extends State<MenuPage> {
   }
 
 
-  Widget buildGrid(CollectionReference<Object?>? collection) {
+  Widget buildGrid(CollectionReference<Object?>? collection, String type) {
     if (collection == null) {
       return const Center(child: CircularProgressIndicator());
     }
@@ -57,7 +57,7 @@ class _MenuPageState extends State<MenuPage> {
               price: doc['price'],
               image: doc['image'],
               onAddToCart: () async {
-                String result = await cartController.addToCart(doc);
+                String result = await cartController.addToCart(doc, type);
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(content: Text(result)),
                 );
@@ -95,8 +95,8 @@ class _MenuPageState extends State<MenuPage> {
         ),
         body: TabBarView(
           children: [
-            buildGrid(burgerList),
-            buildGrid(drinksList),
+            buildGrid(burgerList, 'Burger'),
+            buildGrid(drinksList, 'Drink'),
           ],
         ),
       ),

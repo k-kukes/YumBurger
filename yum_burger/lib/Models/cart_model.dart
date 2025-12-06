@@ -6,37 +6,37 @@ class CartModel {
   UserModel userModel = UserModel();
   BurgerModel burgerModel = BurgerModel();
 
-  Future<void> addBurgerToCartDB(userId, burgerId) async {
+  Future<void> addItemToCartDB(userId, itemId, itemType) async {
     CollectionReference users = userModel.getUsers();
     CollectionReference cart = users.doc(userId).collection('Cart');
 
     await cart.add({
-      'item': burgerId,
+      'item': itemId,
       'quantity': 1,
-      'type': "Burger"
+      'type': itemType
     });
   }
 
-  Future<bool> burgerExistsInCart(userId, burgerId) async {
+  Future<bool> itemExistsInCart(userId, itemId) async {
     CollectionReference users = userModel.getUsers();
     CollectionReference cart = users.doc(userId).collection('Cart');
 
-    Query query = await cart.where('item', isEqualTo: burgerId);
+    Query query = await cart.where('item', isEqualTo: itemId);
     var resultQuery = await query.count().get();
 
     return resultQuery.count! > 0 ? true : false;
   }
 
-  Future<String> getBurgerFromCart(userId, burgerId) async {
+  Future<String> getItemFromCart(userId, itemId) async {
     CollectionReference users = userModel.getUsers();
     CollectionReference cart = users.doc(userId).collection('Cart');
 
-    QuerySnapshot querySnapshot = await cart.where('item', isEqualTo: burgerId).limit(1).get();
+    QuerySnapshot querySnapshot = await cart.where('item', isEqualTo: itemId).limit(1).get();
 
     return querySnapshot.docs.first.id;
   }
 
-  Future<void> addExitingBurgerToCart(userId, cartId) async {
+  Future<void> addExitingItemToCart(userId, cartId) async {
     CollectionReference users = userModel.getUsers();
     CollectionReference cart = users.doc(userId).collection('Cart');
 
@@ -87,8 +87,13 @@ class CartModel {
   }
 
   Future<int> getCartLength(CollectionReference<Object?> cart) async {
-    AggregateQuerySnapshot query =  await cart.count().get();
-    return query.count ?? 0;
+    int count = 0;
+    QuerySnapshot snapshot = await cart.get();
+    for (var doc in snapshot.docs) {
+      int quantity = doc['quantity'];
+      count = count + quantity;
+    }
+    return count;
   }
 
   Future<void> deleteCartItem(userId, cartId) async{

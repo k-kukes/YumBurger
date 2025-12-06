@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:yum_burger/Controllers/burger_controller.dart';
 import 'package:yum_burger/Controllers/cart_controller.dart';
+import 'package:yum_burger/Controllers/drink_controller.dart';
 import 'package:yum_burger/Controllers/user_controller.dart';
 
 class MyCartPage extends StatefulWidget {
@@ -15,6 +16,7 @@ class _MyCartPageState extends State<MyCartPage> {
   UserController userController = UserController();
   CartController cartController = CartController();
   BurgerController burgerController = BurgerController();
+  DrinkController drinkController = DrinkController();
   CollectionReference<Object?>? cartItems;
   bool userExist = false;
   bool isCartEmpty = true;
@@ -239,7 +241,7 @@ class _MyCartPageState extends State<MyCartPage> {
                             String itemId = cart['item'];
 
                             return FutureBuilder<DocumentSnapshot>(
-                                future: burgerController.getBurgerDocumentById(itemId),
+                                future: cart['type'] == 'Burger' ? burgerController.getBurgerDocumentById(itemId) : drinkController.getDrinkDocumentById(itemId),
                                 builder: (context, snapshot) {
                                   if (snapshot.data != null) {
                                     return _buildCartItems(cart, snapshot.data!);
