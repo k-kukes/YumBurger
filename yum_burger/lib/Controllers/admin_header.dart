@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:yum_burger/Controllers/tab_navigation.dart';
 import 'package:yum_burger/Controllers/user_controller.dart';
-import 'package:yum_burger/Models/user_model.dart';
-import '../Views/home.dart';
+import 'package:yum_burger/Views/admin_home.dart';
 
-class NavBar extends StatelessWidget {
+import 'admin_tab_navigation.dart';
+
+class AdminNavBar extends StatelessWidget {
   final Widget body;
   final Widget? bottomNavigationBar;
 
-  const NavBar({
+  const AdminNavBar({
     super.key,
     required this.body,
     required this.bottomNavigationBar,
@@ -62,10 +63,11 @@ class NavBar extends StatelessWidget {
                 leading: Icon(Icons.home),
                 title: Text('Home'),
                 onTap: () {
-                  Navigator.of(context).pop(); //close the drawer
-                  Navigator.push(
+                  Navigator.of(context).pop();
+                  Navigator.pushAndRemoveUntil(
                     context,
-                    MaterialPageRoute(builder: (context) => MyNavigation()),
+                    MaterialPageRoute(builder: (context) => AdminTabNavigation()),
+                        (route) => false,
                   );
                 },
               ),
@@ -76,6 +78,9 @@ class NavBar extends StatelessWidget {
                   bool validLogout = userController.logout();
                   if (validLogout) {
                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Successfully logout')));
+                    Navigator.pushAndRemoveUntil(context,
+                        MaterialPageRoute(builder: (context) => MyNavigation()),
+                        (route) => false);
                   }
                 },
               ),

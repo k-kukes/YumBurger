@@ -29,10 +29,10 @@ class UserController {
     }
   }
 
-  bool validateLogin(String username, String password) {
+  Future<bool> validateLogin(String username, String password) async {
     if (username.isNotEmpty && password.isNotEmpty) {
       try {
-        userModel.validateLogin(username, password);
+       await userModel.validateLogin(username, password);
         return true;
       } catch (error) {
         return false;
@@ -53,6 +53,14 @@ class UserController {
         return;
       }
     }
+  }
+
+  bool logout() {
+    if (getCurrentUser() != null) {
+      userModel.logout();
+      return true;
+    }
+    return false;
   }
 
 }

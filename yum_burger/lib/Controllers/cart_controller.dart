@@ -8,22 +8,27 @@ class CartController {
   UserModel userModel = new UserModel();
   BurgerModel burgerModel = new BurgerModel();
 
-  Future<String> addToCart(burger) async {
+  Future<String> addToCart(item, itemType) async {
     var currentUser = userModel.getCurrentUser();
-    if (currentUser != null && burger != null) {
+    if (currentUser != null && item != null) {
       try {
-        bool itemExists = await cartModel.burgerExistsInCart(currentUser.id, burger.id);
+        bool itemExists = await cartModel.itemExistsInCart(
+          currentUser.id,
+          item.id,
+        );
         if (itemExists) {
-          await cartModel.addExitingBurgerToCart(currentUser.id, await cartModel.getBurgerFromCart(currentUser.id, burger.id));
+          await cartModel.addExitingItemToCart(
+            currentUser.id,
+            await cartModel.getItemFromCart(currentUser.id, item.id),
+          );
         } else {
-         await cartModel.addBurgerToCartDB(currentUser.id, burger.id);
+          await cartModel.addItemToCartDB(currentUser.id, item.id, itemType);
         }
       } catch (error) {
         return 'Error while adding to cart!';
       }
       return 'Successfully added item to cart!';
     }
-
     if (currentUser == null) {
       return 'You must log in to add to cart';
     }
@@ -56,15 +61,15 @@ class CartController {
     return cartModel.getTotal(cart, userId);
   }
 
-  Future<void> addQuantityToCartItem(userId, cartId) async{
+  Future<void> addQuantityToCartItem(userId, cartId) async {
     await cartModel.addQuantityToItem(userId, cartId);
   }
 
-  Future<void> decreaseQuantityToCartItem(userId, cartId) async{
+  Future<void> decreaseQuantityToCartItem(userId, cartId) async {
     await cartModel.decreaseQuantity(userId, cartId);
   }
 
-  Future<void> deleteCartItem(userId, cartId) async{
+  Future<void> deleteCartItem(userId, cartId) async {
     await cartModel.deleteCartItem(userId, cartId);
   }
 }
