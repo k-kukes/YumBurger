@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 
 class MenuItemCard extends StatelessWidget {
@@ -22,8 +24,15 @@ class MenuItemCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Image.asset(
+          image.startsWith('assets/')
+              ? Image.asset(
             image,
+            height: 200,
+            width: double.infinity,
+            fit: BoxFit.cover,
+          )
+              : Image.memory(
+            base64Decode(image),
             height: 200,
             width: double.infinity,
             fit: BoxFit.cover,

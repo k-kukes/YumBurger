@@ -8,7 +8,13 @@ class CartModel {
 
   Future<void> addItemToCartDB(userId, itemId, itemType) async {
     CollectionReference users = userModel.getUsers();
+    CollectionReference burgers = burgerModel.getBurgersFromDB();
     CollectionReference cart = users.doc(userId).collection('Cart');
+    bool itemExists = false;
+
+    if (itemType == 'Burger') {
+
+    }
 
     await cart.add({
       'item': itemId,
@@ -112,7 +118,9 @@ class CartModel {
         Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
         if (data['type'] == 'Burger') {
           DocumentSnapshot burger = await burgerModel.getBurgerDocument(data['item']);
-          subtotal = subtotal + burger['price'] * data['quantity'];
+          if (burger.data() != null) {
+            subtotal = subtotal + burger['price'] * data['quantity'];
+          }
         }
       }
     }
@@ -129,5 +137,26 @@ class CartModel {
     double total = 0;
     total = await getSubtotal(cart, userId) + await getTax(cart, userId);
     return total;
+  }
+
+  Future<void> removeDeletedItemFromCarts(String itemId) async {
+    try {
+      CollectionReference users = userModel.getUsers();
+      QuerySnapshot usersSnapshot = await users.get();
+
+      for (var userDoc in usersSnapshot.docs) {
+        String userId = userDoc.id;
+        CollectionReference cartRef = getUserCartFromDB(userId);
+        QuerySnapshot cartSnapshot = await cartRef.get();
+
+        for (var cartDoc in cartSnapshot.docs) {
+          if (cartDoc['item'] == itemId) {
+            await cartRef.doc(cartDoc.id).delete();
+          }
+        }
+      }
+    } catch (error) {
+      print(error);
+    }
   }
 }

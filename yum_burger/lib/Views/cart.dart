@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:yum_burger/Controllers/burger_controller.dart';
@@ -52,12 +54,11 @@ class _MyCartPageState extends State<MyCartPage> {
     double _total = 0;
 
     if (cart != null) {
-       empty = await cartController.isCartEmpty(cart!);
-       length = await cartController.getCartLength(cart);
-       _subtotal = await cartController.getSubtotal(cart, user.id);
-       _tax = await cartController.getTax(cart, user.id);
-       _total = await cartController.getTotal(cart, user.id);
-
+      empty = await cartController.isCartEmpty(cart!);
+      length = await cartController.getCartLength(cart);
+      _subtotal = await cartController.getSubtotal(cart, user.id);
+      _tax = await cartController.getTax(cart, user.id);
+      _total = await cartController.getTotal(cart, user.id);
     }
 
     setState(() {
@@ -71,7 +72,8 @@ class _MyCartPageState extends State<MyCartPage> {
   }
 
   Future<void> updateCart(userId) async {
-    CollectionReference<Object?>? cart = await cartController.getUserCartCollection(userId);
+    CollectionReference<Object?>? cart = await cartController
+        .getUserCartCollection(userId);
     double newSubtotal = 0;
     int newLength = 0;
     double newTax = 0;
@@ -112,7 +114,19 @@ class _MyCartPageState extends State<MyCartPage> {
               borderRadius: BorderRadius.circular(5),
               border: Border.all(color: Colors.black12),
             ),
-            child: Image.asset(itemInCart['image']),
+            child: itemInCart['image'].startsWith('assets/')
+                ? Image.asset(
+              itemInCart['image'],
+              height: 50,
+              width: 50,
+              fit: BoxFit.cover,
+            )
+                : Image.memory(
+              base64Decode(itemInCart['image']),
+              height: 50,
+              width: 50,
+              fit: BoxFit.cover,
+            ),
           ),
           SizedBox(width: 15),
           Expanded(
@@ -132,7 +146,10 @@ class _MyCartPageState extends State<MyCartPage> {
                   children: [
                     TextButton(
                       onPressed: () async {
-                        await cartController.addQuantityToCartItem(userController.getCurrentUser().id, cart.id);
+                        await cartController.addQuantityToCartItem(
+                          userController.getCurrentUser().id,
+                          cart.id,
+                        );
                         await updateCart(userController.getCurrentUser().id);
                       },
                       child: Text(
@@ -156,7 +173,10 @@ class _MyCartPageState extends State<MyCartPage> {
                     SizedBox(width: 15),
                     TextButton(
                       onPressed: () async {
-                        await cartController.decreaseQuantityToCartItem(userController.getCurrentUser().id, cart.id);
+                        await cartController.decreaseQuantityToCartItem(
+                          userController.getCurrentUser().id,
+                          cart.id,
+                        );
                         await updateCart(userController.getCurrentUser().id);
                       },
                       child: Text(
@@ -183,7 +203,10 @@ class _MyCartPageState extends State<MyCartPage> {
           ),
           IconButton(
             onPressed: () async {
-              await cartController.deleteCartItem(userController.getCurrentUser().id, cart.id);
+              await cartController.deleteCartItem(
+                userController.getCurrentUser().id,
+                cart.id,
+              );
               await updateCart(userController.getCurrentUser().id);
             },
             icon: Icon(Icons.delete, color: Colors.grey[800]),
@@ -241,13 +264,19 @@ class _MyCartPageState extends State<MyCartPage> {
                             String itemId = cart['item'];
 
                             return FutureBuilder<DocumentSnapshot>(
-                                future: cart['type'] == 'Burger' ? burgerController.getBurgerDocumentById(itemId) : drinkController.getDrinkDocumentById(itemId),
-                                builder: (context, snapshot) {
-                                  if (snapshot.data != null) {
-                                    return _buildCartItems(cart, snapshot.data!);
-                                  }
-                                  return Text('error');
+                              future: cart['type'] == 'Burger'
+                                  ? burgerController.getBurgerDocumentById(
+                                      itemId,
+                                    )
+                                  : drinkController.getDrinkDocumentById(
+                                      itemId,
+                                    ),
+                              builder: (context, snapshot) {
+                                if (snapshot.hasData && snapshot.data != null) {
+                                  return _buildCartItems(cart, snapshot.data!);
                                 }
+                                return Text('error');
+                              },
                             );
                           },
                         );

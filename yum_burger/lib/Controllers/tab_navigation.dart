@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:yum_burger/Controllers/admin_tab_navigation.dart';
 import 'package:yum_burger/Controllers/header.dart';
 import 'package:yum_burger/Controllers/user_controller.dart';
 import 'package:yum_burger/Models/user_model.dart';
 import 'package:yum_burger/Views/account.dart';
+import 'package:yum_burger/Views/admin_home.dart';
 import 'package:yum_burger/Views/cart.dart';
 import 'package:yum_burger/Views/home.dart';
 import '../Views/create_account.dart';
@@ -10,11 +12,8 @@ import '../Views/login.dart';
 import '../Views/offers.dart';
 import '../Views/menu.dart';
 
-void main() async{
-  runApp(MaterialApp(
-    debugShowCheckedModeBanner: false,
-    home: MyNavigation(),
-  ));
+void main() async {
+  runApp(MaterialApp(debugShowCheckedModeBanner: false, home: MyNavigation()));
 }
 
 class MyNavigation extends StatefulWidget {
@@ -39,11 +38,22 @@ class _MyNavigationState extends State<MyNavigation> {
   void _onTabTapped(int index) {
     setState(() {
       if (index == 3) {
-        if (userController.getCurrentUser() != null) {
-          print('got this user');
-          print(userController.getCurrentUser());
-          Navigator.push(context, MaterialPageRoute(builder: (context) => AccountSettingsPage()));
-          return;
+        var user = userController.getCurrentUser();
+        if (user != null) {
+          if (user['type'] == 'customer') {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => AccountSettingsPage()),
+            );
+            return;
+          } else {
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => AdminTabNavigation()),
+              (route) => false,
+            );
+            return;
+          }
         }
       }
       _selectedIndex = index;
@@ -60,7 +70,8 @@ class _MyNavigationState extends State<MyNavigation> {
 
   @override
   Widget build(BuildContext context) {
-    return NavBar(body: _pages[_selectedIndex],
+    return NavBar(
+      body: _pages[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         items: _navItems,
         currentIndex: _selectedIndex,
