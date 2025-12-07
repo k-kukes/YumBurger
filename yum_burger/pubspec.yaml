@@ -34,6 +34,9 @@ dependencies:
   cloud_firestore: any
   rxdart: any
   google_fonts: any
+  adaptive_theme: ^3.6.0
+  image_picker: any
+  firebase_storage: any
   
 
   # The following adds the Cupertino Icons font to your application.
