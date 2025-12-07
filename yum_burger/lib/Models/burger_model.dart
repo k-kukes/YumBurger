@@ -36,6 +36,16 @@ class BurgerModel {
     }
   }
 
+  Future<String> getBurgerName(String burgerId) async{
+    try {
+      DocumentSnapshot doc = await burgers.doc(burgerId).get();
+      Map<String,dynamic> data = doc.data() as Map<String, dynamic>;
+      return data['name'];
+    } catch (error) {
+      return '';
+    }
+  }
+
   Future<void> addBurger(String name, String description, String image, double price) async{
     await burgers.add({
       'name': name,

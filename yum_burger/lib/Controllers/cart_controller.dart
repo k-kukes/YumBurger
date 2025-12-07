@@ -72,4 +72,10 @@ class CartController {
   Future<void> deleteCartItem(userId, cartId) async {
     await cartModel.deleteCartItem(userId, cartId);
   }
+
+  Future<void> deleteEntireCart(String userId) async {
+    if (userModel.getCurrentUser() != null || userId.isNotEmpty) {
+      cartModel.deleteEntireCart(userId);
+    }
+  }
 }

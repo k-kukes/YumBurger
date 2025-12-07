@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:yum_burger/Controllers/cart_controller.dart';
+import 'package:yum_burger/Controllers/order_controller.dart';
 import 'package:yum_burger/Controllers/payment_controller.dart';
 
 class PaymentView extends StatefulWidget {
   final double totalAmount;
+  final String userId;
 
-  const PaymentView({Key? key, required this.totalAmount}) : super(key: key);
+  const PaymentView({super.key, required this.totalAmount, required this.userId});
 
   @override
   State<PaymentView> createState() => _PaymentViewState();
@@ -13,6 +16,8 @@ class PaymentView extends StatefulWidget {
 class _PaymentViewState extends State<PaymentView> {
   // Initialize the Controller
   final PaymentController _controller = PaymentController();
+  CartController cartController = CartController();
+  OrderController orderController = OrderController();
   bool _isLoading = false;
 
   @override
@@ -29,11 +34,13 @@ class _PaymentViewState extends State<PaymentView> {
     setState(() => _isLoading = false);
 
     if (success && mounted) {
+      orderController.saveOrder(widget.userId, widget.totalAmount);
+      cartController.deleteEntireCart(widget.userId);
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
           title: const Text("Payment Successful!"),
-          content: Text("You paid \$${widget.totalAmount} and earned points!"),
+          content: Text("You paid \$${widget.totalAmount.toStringAsFixed(2)} and earned points!"),
           actions: [
             TextButton(
               onPressed: () {

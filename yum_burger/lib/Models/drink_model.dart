@@ -29,6 +29,16 @@ class DrinkModel {
     }
   }
 
+  Future<String> getDrinkName(String burgerId) async{
+    try {
+      DocumentSnapshot doc = await drinks.doc(burgerId).get();
+      Map<String,dynamic> data = doc.data() as Map<String, dynamic>;
+      return data['name'];
+    } catch (error) {
+      return '';
+    }
+  }
+
   Future<bool> deleteDrink(id) async {
     try {
       await drinks.doc(id).delete();
