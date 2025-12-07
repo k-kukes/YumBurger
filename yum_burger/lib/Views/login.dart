@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:yum_burger/Controllers/admin_tab_navigation.dart';
 import 'package:yum_burger/Controllers/user_controller.dart';
 import 'package:yum_burger/Views/account.dart';
+import 'package:yum_burger/Views/admin_home.dart';
 import 'package:yum_burger/Views/create_account.dart';
 import 'package:yum_burger/Views/menu.dart';
 import 'package:yum_burger/Views/reset_password.dart';
@@ -37,17 +39,6 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xFFEEE8DE),
-      appBar: AppBar(
-        backgroundColor: Color(0xFFEEE8DE),
-        leading: TextButton.icon(
-          onPressed: () => Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => MyNavigation()),
-          ),
-          label: Icon(Icons.arrow_back),
-        ),
-        title: Text('Go back home'),
-      ),
       body: Padding(
         padding: EdgeInsets.all(20),
         child: Column(
@@ -138,17 +129,31 @@ class _LoginPageState extends State<LoginPage> {
 
                   ElevatedButton(
                     onPressed: () async {
-                      if (await userController.validateLogin(username, password)) {
+                      if (await userController.validateLogin(
+                        username,
+                        password,
+                      )) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(content: Text('Success Login')),
                         );
                         clearForm();
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => AccountSettingsPage(),
-                          ),
-                        );
+                        var user = userController.getCurrentUser();
+                        if (user['type'] == 'customer') {
+                          print('should of switched pages');
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => AccountSettingsPage(),
+                            ),
+                          );
+                        } else {
+                          Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(builder: (context) => AdminTabNavigation()),
+                              (route) => false
+                          );
+                          return;
+                        }
                       } else {
                         ScaffoldMessenger.of(
                           context,

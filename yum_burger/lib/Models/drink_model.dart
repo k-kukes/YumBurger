@@ -3,18 +3,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class DrinkModel {
   CollectionReference drinks = FirebaseFirestore.instance.collection('drinks');
 
-  Future<void> addDrink(name, description, price) async {
-    if (name.isNotEmpty && description.isNotEmpty && price.isNotEmpty) {
-      try {
-        await drinks.add({
-          'name': name,
-          'description': description,
-          'price': price,
-        });
-      } catch (error) {
-        print("{Problem occurred while creating drink: $error}");
-      }
-    }
+  Future<void> addDrink(String name, String description, String image, double price) async{
+    await drinks.add({
+      'name': name,
+      'description': description,
+      'price': price,
+      'image': image
+    });
   }
 
   Future<void> editDrink(id, name, description, price) async {
@@ -23,23 +18,34 @@ class DrinkModel {
         description.isNotEmpty &&
         price.isNotEmpty) {
       try {
-        await drinks
-            .doc(id)
-            .update({'name': name, 'description': description, 'price': price});
+        await drinks.doc(id).update({
+          'name': name,
+          'description': description,
+          'price': price,
+        });
       } catch (error) {
         print("{Problem occurred while editing drink: $error}");
       }
     }
   }
 
-  Future<void> deleteDrink(id) async {
-    if (id.isNotEmpty) {
-      try {
-        await drinks.doc(id).delete();
-      } catch (error) {
-        print("{Problem occurred while deleting drink: $error}");
-      }
+  Future<bool> deleteDrink(id) async {
+    try {
+      await drinks.doc(id).delete();
+      return true;
+    } catch (error) {
+      print("{Problem occurred while deleting drink: $error}");
+      return false;
     }
+  }
+
+  Future<void> updateDrink(String id, String name, String description, String image, double price) async{
+    await drinks.doc(id).update({
+      'name': name,
+      'description': description,
+      'price': price,
+      'image': image
+    });
   }
 
   CollectionReference getDrinksFromDB() {

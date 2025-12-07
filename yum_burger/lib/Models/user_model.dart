@@ -23,6 +23,7 @@ class UserModel {
           'password': password,
           'fullName': fullName,
           'email': email,
+          'type': 'customer'
         });
         userDoc.collection('Cart');
       }
@@ -47,10 +48,15 @@ class UserModel {
 
     if (querySnapshot.docs.isNotEmpty) {
       currentUser = querySnapshot.docs[0];
+      print(currentUser['type']);
       return true;
     }
 
     return false;
+  }
+
+  void logout() {
+    currentUser = null;
   }
 
   Future<bool> usernameExists(String checkUsername) async {
