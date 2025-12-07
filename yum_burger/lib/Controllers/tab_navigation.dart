@@ -10,6 +10,7 @@ import '../Views/login.dart';
 import '../Views/offers.dart';
 import '../Views/menu.dart';
 import '../Views/reward.dart';
+import '../Views/reviews.dart';
 
 void main() async{
   runApp(MaterialApp(
@@ -36,6 +37,7 @@ class _MyNavigationState extends State<MyNavigation> {
     LoginPage(),
     MyCartPage(),
     RewardsView(),
+    ReviewsPage(),
   ];
 
   void _onTabTapped(int index) {
@@ -59,6 +61,7 @@ class _MyNavigationState extends State<MyNavigation> {
     BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Account'),
     BottomNavigationBarItem(icon: Icon(Icons.shopping_cart), label: 'Cart'),
     BottomNavigationBarItem(icon: Icon(Icons.card_giftcard), label: 'Rewards'),
+    BottomNavigationBarItem(icon: Icon(Icons.rate_review), label: 'Reviews'),
   ];
 
   @override

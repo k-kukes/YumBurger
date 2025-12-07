@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:yum_burger/Controllers/burger_controller.dart';
 import 'package:yum_burger/Controllers/cart_controller.dart';
 import 'package:yum_burger/Controllers/user_controller.dart';
+import 'package:yum_burger/Views/payment.dart';
 
 class MyCartPage extends StatefulWidget {
   const MyCartPage({super.key});
@@ -309,7 +310,9 @@ class _MyCartPageState extends State<MyCartPage> {
                       borderRadius: BorderRadius.circular(8),
                     ),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => PaymentView(totalAmount: total)));
+                  },
                   child: Text(
                     "ORDER",
                     style: TextStyle(
