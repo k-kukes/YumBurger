@@ -1,10 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:yum_burger/Models/burger_model.dart';
+import 'package:yum_burger/Models/drink_model.dart';
 import 'package:yum_burger/Models/user_model.dart';
 
 class CartModel {
   UserModel userModel = UserModel();
   BurgerModel burgerModel = BurgerModel();
+  DrinkModel drinkModel = DrinkModel();
 
   Future<void> addItemToCartDB(userId, itemId, itemType) async {
     CollectionReference users = userModel.getUsers();
@@ -108,6 +110,17 @@ class CartModel {
 
     await cart.doc(cartId).delete();
   }
+
+  Future<void> deleteEntireCart(userId) async{
+    CollectionReference users = userModel.getUsers();
+    CollectionReference cart = users.doc(userId).collection('Cart');
+
+    QuerySnapshot cartItems = await cart.get();
+
+    for (var doc in cartItems.docs) {
+      await cart.doc(doc.id).delete();
+    }
+  }
   
   Future<double> getSubtotal(CollectionReference<Object?> cart, userId) async {
     QuerySnapshot<Object?> querySnapshot = await cart.get();
@@ -120,6 +133,12 @@ class CartModel {
           DocumentSnapshot burger = await burgerModel.getBurgerDocument(data['item']);
           if (burger.data() != null) {
             subtotal = subtotal + burger['price'] * data['quantity'];
+          }
+        }
+        if (data['type'] == 'Drink') {
+          DocumentSnapshot drink = await drinkModel.getDrinkDocument(data['item']);
+          if (drink.data() != null) {
+            subtotal = subtotal + drink['price'] * data['quantity'];
           }
         }
       }

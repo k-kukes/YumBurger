@@ -342,7 +342,8 @@ class _MyCartPageState extends State<MyCartPage> {
                     ),
                   ),
                   onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => PaymentView(totalAmount: total)));
+                    var user = userController.getCurrentUser();
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => PaymentView(totalAmount: total, userId: user.id,)));
                   },
                   child: Text(
                     "ORDER",

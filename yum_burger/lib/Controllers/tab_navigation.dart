@@ -7,6 +7,7 @@ import 'package:yum_burger/Views/account.dart';
 import 'package:yum_burger/Views/admin_home.dart';
 import 'package:yum_burger/Views/cart.dart';
 import 'package:yum_burger/Views/home.dart';
+import 'package:yum_burger/Views/orders.dart';
 import '../Views/create_account.dart';
 import '../Views/login.dart';
 import '../Views/offers.dart';
@@ -35,6 +36,7 @@ class _MyNavigationState extends State<MyNavigation> {
     OffersPage(),
     LoginPage(),
     MyCartPage(),
+    OrdersPage(),
     RewardsView(),
     ReviewsPage(),
   ];
@@ -70,6 +72,7 @@ class _MyNavigationState extends State<MyNavigation> {
     BottomNavigationBarItem(icon: Icon(Icons.local_offer), label: 'Offers'),
     BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Account'),
     BottomNavigationBarItem(icon: Icon(Icons.shopping_cart), label: 'Cart'),
+    BottomNavigationBarItem(icon: Icon(Icons.bookmark_border_sharp), label: 'Orders'),
     BottomNavigationBarItem(icon: Icon(Icons.card_giftcard), label: 'Rewards'),
     BottomNavigationBarItem(icon: Icon(Icons.rate_review), label: 'Reviews'),
   ];
