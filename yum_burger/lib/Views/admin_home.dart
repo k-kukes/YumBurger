@@ -14,7 +14,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Text('Welcome to the admin panel!'),
+        child: Text('Welcome to the admin panel!', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),),
       ),
     );
   }

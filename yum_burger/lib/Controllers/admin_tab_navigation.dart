@@ -3,6 +3,7 @@ import 'package:yum_burger/Controllers/admin_header.dart';
 import 'package:yum_burger/Controllers/header.dart';
 import 'package:yum_burger/Controllers/user_controller.dart';
 import 'package:yum_burger/Views/admin_home.dart';
+import 'package:yum_burger/Views/admin_orders.dart';
 import 'package:yum_burger/Views/burger_admin.dart';
 import 'package:yum_burger/Views/drink_admin.dart';
 
@@ -27,7 +28,8 @@ class _MyAdminNavigationState extends State<AdminTabNavigation> {
   final List<Widget> _pages = [
     AdminHomePage(),
     BurgerAdminPage(),
-    DrinkAdminPage()
+    DrinkAdminPage(),
+    AdminOrdersPage()
   ];
 
   void _onTabTapped(int index) {
@@ -40,6 +42,7 @@ class _MyAdminNavigationState extends State<AdminTabNavigation> {
     BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
     BottomNavigationBarItem(icon: Icon(Icons.fastfood_sharp), label: 'Burgers'),
     BottomNavigationBarItem(icon: Icon(Icons.fastfood_sharp), label: 'Drinks'),
+    BottomNavigationBarItem(icon: Icon(Icons.bookmark_border), label: 'Orders')
   ];
 
   @override
