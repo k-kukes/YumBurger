@@ -173,6 +173,7 @@ class _AccountSettingsPage extends State<AccountSettingsPage> {
           BottomNavigationBarItem(icon: Icon(Icons.local_offer), label: 'Offers'),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Account'),
           BottomNavigationBarItem(icon: Icon(Icons.shopping_cart), label: 'Cart'),
+          BottomNavigationBarItem(icon: Icon(Icons.bookmark_border), label: 'Orders'),
           BottomNavigationBarItem(icon: Icon(Icons.card_giftcard), label: 'Rewards'),
           BottomNavigationBarItem(icon: Icon(Icons.rate_review), label: 'Reviews'),
         ],
