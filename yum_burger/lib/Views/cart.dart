@@ -343,7 +343,11 @@ class _MyCartPageState extends State<MyCartPage> {
                   ),
                   onPressed: () {
                     var user = userController.getCurrentUser();
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => PaymentView(totalAmount: total, userId: user.id,)));
+                    if (total <= 0) {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Why you don\'t buy anything')));
+                    } else {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => PaymentView(totalAmount: total, userId: user.id,)));
+                    }
                   },
                   child: Text(
                     "ORDER",

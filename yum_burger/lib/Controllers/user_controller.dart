@@ -1,4 +1,6 @@
+import 'dart:core';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:yum_burger/Models/user_model.dart';
 
 class UserController {
@@ -41,17 +43,31 @@ class UserController {
       return false;
   }
 
-  addUser(String username, String password, String fullName, String email) {
+  Future<String> addUser(String username, String password, String fullName, String email) async {
     if (username.isNotEmpty &&
         password.isNotEmpty &&
         fullName.isNotEmpty &&
         email.isNotEmpty
     ) {
-      try {
-        userModel.addUser(username, password, fullName, email);
-      } catch(error) {
-        return;
+      var validNames = RegExp(r'^[A-Za-z]+(?: [A-Za-z]+)+$');
+      var validEmail = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+      if (!validNames.hasMatch(fullName)) {
+        return 'Incorrect value used to write full name!';
       }
+      if (!validEmail.hasMatch(email)) {
+        return 'Incorrect value used for email!';
+      }
+      if (password.length < 6) {
+        return 'Password length must be at least 7';
+      }
+      try {
+        String result = await userModel.addUser(username, password, fullName, email);
+        return result;
+      } catch(error) {
+        return 'Error while creating account. Please try again!';
+      }
+    } else {
+      return 'Can not leave fields empty!';
     }
   }
 

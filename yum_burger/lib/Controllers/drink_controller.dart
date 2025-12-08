@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:yum_burger/Models/cart_model.dart';
 import 'package:yum_burger/Models/drink_model.dart';
 
 class DrinkController {
   final DrinkModel drinkModel = DrinkModel();
+  final CartModel cartModel = CartModel();
 
   Future<CollectionReference<Object?>?> getDrinksCollection() async {
     CollectionReference<Object?> drinks = drinkModel.getDrinksFromDB();
@@ -36,6 +38,7 @@ class DrinkController {
 
   Future<bool> deleteDrink(String id) async {
     if (id.isNotEmpty) {
+      await cartModel.removeDeletedItemFromCarts(id);
       await drinkModel.deleteDrink(id);
       return true;
     }

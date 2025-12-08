@@ -183,8 +183,9 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
               padding: EdgeInsets.fromLTRB(0, 0, 25, 0),
               alignment: Alignment.centerRight,
               child: ElevatedButton(
-                onPressed: () {
-                  userController.addUser(username, password, fullName, email);
+                onPressed: () async {
+                  String result = await userController.addUser(username, password, fullName, email);
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(result)));
                   clearForm();
                 },
                 style: ElevatedButton.styleFrom(

@@ -11,13 +11,12 @@ class UserModel {
 
   UserModel._instance();
 
-  Future<void> addUser(username, password, fullName, email) async {
+  Future<String> addUser(username, password, fullName, email) async {
     if (username.isNotEmpty &&
         password.isNotEmpty &&
         fullName.isNotEmpty &&
         email.isNotEmpty) {
       if (await usernameExists(username) == false) {
-        print('This was called');
         DocumentReference userDoc = await users.add({
           'username': username,
           'password': password,
@@ -26,7 +25,12 @@ class UserModel {
           'type': 'customer'
         });
         userDoc.collection('Cart');
+        return 'Successfully created your account!';
+      } else {
+        return 'Username already exists!';
       }
+    } else {
+      return 'Can not leave fields empty!';
     }
   }
 

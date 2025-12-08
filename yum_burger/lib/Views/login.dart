@@ -38,6 +38,17 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Color(0xFFEEE8DE),
+        leading: TextButton.icon(
+          onPressed: () => Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => MyNavigation()),
+          ),
+          label: Icon(Icons.arrow_back),
+        ),
+        title: Text('Go back home'),
+      ),
       backgroundColor: Color(0xFFEEE8DE),
       body: Padding(
         padding: EdgeInsets.all(20),
@@ -139,7 +150,6 @@ class _LoginPageState extends State<LoginPage> {
                         clearForm();
                         var user = userController.getCurrentUser();
                         if (user['type'] == 'customer') {
-                          print('should of switched pages');
                           Navigator.push(
                             context,
                             MaterialPageRoute(
