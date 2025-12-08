@@ -34,8 +34,14 @@ dependencies:
   cloud_firestore: any
   rxdart: any
   google_fonts: any
+<<<<<<< Updated upstream
   image_picker: any
   adaptive_theme: any
+=======
+  firebase_storage: any
+  image_picker: any
+  
+>>>>>>> Stashed changes
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -63,6 +69,9 @@ flutter:
     - assets/images/hamburger3.jpg
     - assets/images/hamburger4.jpg
     - assets/images/drink1.jpg
+    - assets/images/account.jpg
+    - assets/images/combo.jpg
+    - assets/images/questions.jpg
   fonts:
     - family: HoltwoodOneSC
       fonts:
