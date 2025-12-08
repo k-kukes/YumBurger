@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:yum_burger/Views/offers.dart';
+import '../Views/menu.dart';
+import '../Views/login.dart';
+import '../Views/FAQ.dart';
+import '../Views/AboutUs.dart';
+
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -14,136 +19,216 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       backgroundColor: Color(0xFFEEE8DE),
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Welcome to YumBurger!',
-                style: TextStyle(
-                  fontFamily: 'HoltwoodOneSC',
-                  color: Colors.brown,
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(height: 24),
-              SizedBox(
-                width: double.infinity,
-                height: 150,
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => OffersPage()),
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.deepOrange,
-                    foregroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                  ),
-                  child: Text(
-                    'View All Offers',
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(height: 32),
-              Text(
-                "Today's Specials",
-                style: TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                ),
-              ),
-              SizedBox(height: 16),
-              Container(
-                height: 120,
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    // Generic Item 1
-                    Container(
-                      width: 150,
-                      margin: const EdgeInsets.only(right: 12),
-                      padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(8),
-                        border: Border.all(color: Colors.grey.shade300),
-                      ),
+                    Expanded(
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Icon(Icons.fastfood,
-                              color: Colors.amber[800], size: 40),
-                          SizedBox(height: 8),
-                          Text('Item 1',
-                              style: TextStyle(fontWeight: FontWeight.bold)),
-                          Text('\$X.XX'),
+                          Text(
+                            "Order A YUM\nCombo\nToday!",
+                            style: TextStyle(
+                              fontSize: 30,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.brown,
+                            ),
+                          ),
+
+                          const SizedBox(height: 20),
+
+                          ElevatedButton.icon(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => MenuPage()),
+                              );
+                            },
+                            icon: Icon(Icons.shopping_bag),
+                            label: Text("Check the menu"),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.red.shade800,
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 26, vertical: 14),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30),
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 10),
+                          OutlinedButton.icon(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => LoginPage()),
+                              );
+                            },
+                            icon: Icon(Icons.person),
+                            label: Text("Sign up"),
+                            style: OutlinedButton.styleFrom(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 26, vertical: 14),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30),
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                     ),
-                    // Generic Item 2
-                    Container(
-                      width: 150,
-                      margin: const EdgeInsets.only(right: 12),
-                      padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(8),
-                        border: Border.all(color: Colors.grey.shade300),
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.fastfood,
-                              color: Colors.amber[800], size: 40),
-                          SizedBox(height: 8),
-                          Text('Item 2',
-                              style: TextStyle(fontWeight: FontWeight.bold)),
-                          Text('\$X.XX'),
-                        ],
+                    Image.asset('assets/images/combo.jpg', width: 400, height: 200,),
+                  ],
+                ),
+                SizedBox(height: 40),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    infoCard(
+                      context: context,
+                      image:
+                      "assets/images/hamburger4.jpg",
+                      title: "Sign up or sign in to\nyour account to make an order!",
+                      buttonText: "Sign Up",
+                      page: LoginPage(),
+                    ),
+                    infoCard(
+                      context: context,
+                      image:
+                      "assets/images/hamburger1.jpg",
+                      title: "Try Out Our Yum\nBacon Burger",
+                      buttonText: "Order Now",
+                      page: MenuPage()
+                    ),
+                  ],
+                ),
+                SizedBox(height: 30),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    infoCard(
+                      context: context,
+                      image:
+                      "assets/images/hamburger2.jpg",
+                      title: "Want to learn how\nwe make our meals?",
+                      buttonText: "About Us",
+                      page: AboutUsPage()
+                    ),
+                    infoCard(
+                      context: context,
+                      image:
+                      "assets/images/questions.jpg",
+                      title: "Have any questions?",
+                      buttonText: "FAQ",
+                      page: FAQPage()
+                    ),
+                  ],
+                ),
+                SizedBox(height: 50),
+                Row(
+                  children: [
+                    SizedBox(width: 10),
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(12),
+                      child: Image.network(
+                        "assets/images/account.jpg",
+                        height: 280,
+                        width: 280,
+                        fit: BoxFit.cover,
                       ),
                     ),
-                    // Generic Item 3
-                    Container(
-                      width: 150,
-                      margin: const EdgeInsets.only(right: 12),
-                      padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(8),
-                        border: Border.all(color: Colors.grey.shade300),
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.fastfood,
-                              color: Colors.amber[800], size: 40),
-                          SizedBox(height: 8),
-                          Text('Item 3',
-                              style: TextStyle(fontWeight: FontWeight.bold)),
-                          Text('\$X.XX'),
-                        ],
+                    SizedBox(width: 20),
+                    Expanded(
+                      child: Text(
+                        "Create your account and\n"
+                            "check out the latest\n"
+                            "promotions",
+                        style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.brown,
+                        ),
                       ),
                     ),
                   ],
+                ),
+                SizedBox(height: 40),
+              ],
+            ),
+          ),
+        )
+      )
+    );
+
+      }
+}
+
+Widget infoCard({
+  required BuildContext context,
+  required String image,
+  required String title,
+  required String buttonText,
+  required Widget page
+}) {
+  return Container(
+    width: 250,
+    decoration: BoxDecoration(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(16),
+    ),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+
+        ClipRRect(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+          child: Image.network(
+            image,
+            height: 160,
+            width: double.infinity,
+            fit: BoxFit.cover,
+          ),
+        ),
+
+        Padding(
+          padding: EdgeInsets.all(14),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+
+              Text(
+                title,
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+
+              SizedBox(height: 10),
+
+              Align(
+                alignment: Alignment.bottomRight,
+                child: OutlinedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => page,
+                      ),
+                    );
+                  },
+                  child: Text(buttonText),
                 ),
               ),
             ],
           ),
         ),
-      ),
-    );
-    return Scaffold(body: Text('Home'));
-  }
+      ],
+    ),
+  );
 }
