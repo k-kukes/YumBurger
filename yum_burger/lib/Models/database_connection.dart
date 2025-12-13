@@ -1,3 +1,4 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:adaptive_theme/adaptive_theme.dart';
@@ -13,6 +14,21 @@ void main() async {
        messagingSenderId: "697511557856",
       projectId: "yumburger-44e34",
     ),
+  );
+
+  // Initialize Awesome Notifications
+  AwesomeNotifications().initialize(
+    null, // Use default icon
+    [
+      NotificationChannel(
+        channelKey: 'basic_channel',
+        channelName: 'Basic Notifications',
+        channelDescription: 'Notification channel for basic tests',
+        defaultColor: const Color(0xFF9D50DD),
+        ledColor: Colors.white,
+        importance: NotificationImportance.High,
+      )
+    ],
   );
 
   final savedThemeMode = await AdaptiveTheme.getThemeMode();

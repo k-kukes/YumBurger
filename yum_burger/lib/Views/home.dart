@@ -1,4 +1,8 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
+import 'package:yum_burger/Controllers/notifications_controller.dart';
+import 'package:yum_burger/Controllers/user_controller.dart';
+import 'package:yum_burger/Models/user_model.dart';
 import 'package:yum_burger/Views/offers.dart';
 import '../Views/menu.dart';
 import '../Views/login.dart';
@@ -13,6 +17,23 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  NotificationController notificationController = NotificationController();
+  UserController userController = UserController();
+
+  @override
+  void initState() {
+    super.initState();
+    if (userController.getCurrentUser() != null) {
+      print('called');
+      setupNotifications();
+    }
+  }
+
+  Future<void> setupNotifications() async {
+    await notificationController.requestNotificationPermissions();
+    await notificationController.checkForNotifications();
+  }
+
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;

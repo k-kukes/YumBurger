@@ -37,6 +37,7 @@ dependencies:
   image_picker: any
   adaptive_theme: any
   firebase_storage: any
+  awesome_notifications: any
 
 
   # The following adds the Cupertino Icons font to your application.

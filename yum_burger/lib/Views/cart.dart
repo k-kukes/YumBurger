@@ -37,6 +37,10 @@ class _MyCartPageState extends State<MyCartPage> {
     super.initState();
   }
 
+  void checkForNotifications() {
+
+  }
+
   void checkForUser() {
     setState(() {
       userExist = userController.getCurrentUser() != null ? true : false;
