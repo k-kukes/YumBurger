@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:yum_burger/Views/offers.dart';
+import '../Views/menu.dart';
+import '../Views/login.dart';
+import '../Views/FAQ.dart';
+import '../Views/AboutUs.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -11,139 +15,205 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: Color(0xFFEEE8DE),
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
+        child: SingleChildScrollView(
+          padding: EdgeInsets.all(16),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text(
-                'Welcome to YumBurger!',
-                style: TextStyle(
-                  fontFamily: 'HoltwoodOneSC',
-                  color: Colors.brown,
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(height: 24),
-              SizedBox(
-                width: double.infinity,
-                height: 150,
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => OffersPage()),
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.deepOrange,
-                    foregroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                  ),
-                  child: Text(
-                    'View All Offers',
+              Column(
+                children: [
+                  Text(
+                    "Order A YUM\nCombo\nToday!",
+                    textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
+                      fontFamily: 'HoltwoodOneSC',
+                      fontSize: 28,
+                      color: Colors.brown,
                     ),
                   ),
-                ),
+                  SizedBox(height: 20),
+                  Image.asset(
+                    'assets/images/combo.jpg',
+                    width: screenWidth * 0.8,
+                    height: 180,
+                    fit: BoxFit.cover,
+                  ),
+                  SizedBox(height: 20),
+                  ElevatedButton.icon(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => MenuPage()),
+                      );
+                    },
+                    icon: Icon(Icons.shopping_bag),
+                    label: Text("Check the menu"),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.red.shade800,
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 26, vertical: 14),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  OutlinedButton.icon(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => LoginPage()),
+                      );
+                    },
+                    icon: Icon(Icons.person),
+                    label: Text("Sign up"),
+                    style: OutlinedButton.styleFrom(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 26, vertical: 14),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                    ),
+                  ),
+                ],
               ),
-              SizedBox(height: 32),
-              Text(
-                "Today's Specials",
-                style: TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                ),
+              SizedBox(height: 30),
+              // Info Cards Grid
+              GridView.count(
+                crossAxisCount: screenWidth < 600 ? 1 : 2,
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                crossAxisSpacing: 16,
+                mainAxisSpacing: 16,
+                children: [
+                  infoCard(
+                    context: context,
+                    image: "assets/images/hamburger1.jpg",
+                    title: "Check out our latest offers! \n Save up some money for your next meal!",
+                    buttonText: "Check Offers",
+                    page: LoginPage(),
+                  ),
+                  infoCard(
+                    context: context,
+                    image: "assets/images/hamburger4.jpg",
+                    title: "Try Out Our Yum\nBacon Burger",
+                    buttonText: "Order Now",
+                    page: MenuPage(),
+                  ),
+                  infoCard(
+                    context: context,
+                    image: "assets/images/hamburger2.jpg",
+                    title: "Want to learn how\nwe make our meals?",
+                    buttonText: "About Us",
+                    page: AboutUsPage(),
+                  ),
+                  infoCard(
+                    context: context,
+                    image: "assets/images/questions.jpg",
+                    title: "Have any questions?",
+                    buttonText: "FAQ",
+                    page: FAQPage(),
+                  ),
+                ],
               ),
-              SizedBox(height: 16),
-              Container(
-                height: 120,
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
-                  children: [
-                    // Generic Item 1
-                    Container(
-                      width: 150,
-                      margin: const EdgeInsets.only(right: 12),
-                      padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(8),
-                        border: Border.all(color: Colors.grey.shade300),
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.fastfood,
-                              color: Colors.amber[800], size: 40),
-                          SizedBox(height: 8),
-                          Text('Item 1',
-                              style: TextStyle(fontWeight: FontWeight.bold)),
-                          Text('\$X.XX'),
-                        ],
-                      ),
+              SizedBox(height: 40),
+              // Promo Section
+              Column(
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(12),
+                    child: Image.asset(
+                      "assets/images/account.jpg",
+                      height: 200,
+                      width: screenWidth * 0.8,
+                      fit: BoxFit.cover,
                     ),
-                    // Generic Item 2
-                    Container(
-                      width: 150,
-                      margin: const EdgeInsets.only(right: 12),
-                      padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(8),
-                        border: Border.all(color: Colors.grey.shade300),
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.fastfood,
-                              color: Colors.amber[800], size: 40),
-                          SizedBox(height: 8),
-                          Text('Item 2',
-                              style: TextStyle(fontWeight: FontWeight.bold)),
-                          Text('\$X.XX'),
-                        ],
-                      ),
+                  ),
+                  SizedBox(height: 20),
+                  Text(
+                    "Create your account and\ncheck out the latest promotions",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.brown,
                     ),
-                    // Generic Item 3
-                    Container(
-                      width: 150,
-                      margin: const EdgeInsets.only(right: 12),
-                      padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(8),
-                        border: Border.all(color: Colors.grey.shade300),
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.fastfood,
-                              color: Colors.amber[800], size: 40),
-                          SizedBox(height: 8),
-                          Text('Item 3',
-                              style: TextStyle(fontWeight: FontWeight.bold)),
-                          Text('\$X.XX'),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ],
           ),
         ),
       ),
     );
-    return Scaffold(body: Text('Home'));
   }
+}
+
+// Reusable Info Card
+Widget infoCard({
+  required BuildContext context,
+  required String image,
+  required String title,
+  required String buttonText,
+  required Widget page,
+}) {
+  return Container(
+    decoration: BoxDecoration(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(16),
+      boxShadow: [
+        BoxShadow(
+          color: Colors.black12,
+          blurRadius: 6,
+          offset: const Offset(0, 3),
+        ),
+      ],
+    ),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        ClipRRect(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+          child: Image.asset(
+            image,
+            height: 140,
+            width: double.infinity,
+            fit: BoxFit.cover,
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.all(12),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                title,
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              SizedBox(height: 10),
+              Align(
+                alignment: Alignment.bottomRight,
+                child: OutlinedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => page),
+                    );
+                  },
+                  child: Text(buttonText),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    ),
+  );
 }
