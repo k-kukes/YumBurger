@@ -72,6 +72,7 @@ class _AdminOrdersPageState extends State<AdminOrdersPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xFFEEE8DE),
       appBar: AppBar(title: Text('All Orders')),
       body: usersWithOrders.isEmpty
           ? Center(child: Text('No orders yet sorry.'))
