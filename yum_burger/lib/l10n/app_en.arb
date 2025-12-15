@@ -1,0 +1,22 @@
+{
+  "@@locale": "en",
+  "hello": "Hello!",
+  "greeting": "Welcome, {name}!",
+  "@greeting": {
+    "placeholders": {
+      "name": {}
+    }
+  },
+  "homeHeaderDescription": "Order A YUM\nCombo\nToday!",
+  "homeMenu": "Check the menu",
+  "homeSignUp": "Sign up",
+  "homeOfferTxt": "Check out our latest offers! \n Save up some money for your next meal!",
+  "homeOfferBtn": "Check Offers",
+  "homeOrderTxt": "Try Out Our Yum\nBacon Burger",
+  "homeOrderBtn": "Order Now",
+  "homeAboutTxt": "Want to learn how\nwe make our meals?",
+  "homeAboutBtn": "About Us",
+  "homeFaqTxt": "Have any questions?",
+  "homeFaqBtn": "FAQ",
+  "homeCreateTxt": "Create your account and\ncheck out the latest promotions"
+}

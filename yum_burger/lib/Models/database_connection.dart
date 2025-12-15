@@ -2,7 +2,10 @@ import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:adaptive_theme/adaptive_theme.dart';
+import 'package:yum_burger/Controllers/locale_controller.dart';
 import 'package:yum_burger/Controllers/tab_navigation.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:yum_burger/l10n//app_localizations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -36,10 +39,26 @@ void main() async {
   runApp(MyApp(savedThemeMode: savedThemeMode));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   final AdaptiveThemeMode? savedThemeMode;
 
   const MyApp({super.key, this.savedThemeMode});
+
+  @override
+  State<MyApp> createState() => MyAppState();
+}
+
+class MyAppState extends State<MyApp> {
+  Locale _locale = const Locale('en');
+
+  void setLocale(Locale locale) {
+    setState(() {
+      _locale = locale;
+    });
+  }
+
+  static MyAppState? of(BuildContext context) =>
+      context.findAncestorStateOfType<MyAppState>();
 
   @override
   Widget build(BuildContext context) {
@@ -75,12 +94,15 @@ class MyApp extends StatelessWidget {
         ),
         cardColor: const Color(0xFF1F1F1F),
       ),
-      initial: savedThemeMode ?? AdaptiveThemeMode.light,
+      initial: widget.savedThemeMode ?? AdaptiveThemeMode.light,
       builder: (theme, darkTheme) => MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Yum Burger',
         theme: theme,
         darkTheme: darkTheme,
+        locale: _locale, // Use state variable
+        supportedLocales: AppLocalizations.supportedLocales,
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
         home: const MyNavigation(),
       ),
     );

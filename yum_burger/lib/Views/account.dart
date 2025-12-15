@@ -1,9 +1,11 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:adaptive_theme/adaptive_theme.dart';
+import 'package:yum_burger/Controllers/locale_controller.dart';
 import 'package:yum_burger/Controllers/notifications_controller.dart';
 import 'package:yum_burger/Controllers/user_controller.dart';
 import 'package:yum_burger/Controllers/header.dart';
+import 'package:yum_burger/Models/database_connection.dart';
 import '../Controllers/tab_navigation.dart';
 
 class AccountSettingsPage extends StatefulWidget {
@@ -150,7 +152,16 @@ class _AccountSettingsPage extends State<AccountSettingsPage> {
                             ),
                           ),
                           ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Locale currentLocale = Localizations.localeOf(context);
+
+                              Locale newLocale = currentLocale.languageCode == 'en'
+                                  ? const Locale('fr')
+                                  : const Locale('en');
+
+                              MyAppState? myApp = context.findAncestorStateOfType<MyAppState>();
+                              myApp?.setLocale(newLocale);
+                            },
                             child: const Icon(Icons.language, size: 40),
                           ),
                         ],

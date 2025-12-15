@@ -1,0 +1,22 @@
+{
+  "@@locale": "fr",
+  "hello": "Bonjour!",
+  "greeting": "Bienvenue, {name}!",
+  "@greeting": {
+    "placeholders": {
+      "name": {}
+    }
+  },
+  "homeHeaderDescription": "Commandez un YUM\ncombo\ndès aujourd'hui!",
+  "homeMenu": "Consultez le menu",
+  "homeSignUp": "Inscrivez-vous",
+  "homeOfferTxt": "Découvrez nos dernières offres!\n Économisez sur votre prochain repas!",
+  "homeOfferBtn": "Consultez les offres",
+  "homeOrderTxt": "Essayez notre délicieux burger au bacon!",
+  "homeOrderBtn": "Commandez maintenant",
+  "homeAboutTxt": "Envie de savoir comment\n nous préparons nos plats?",
+  "homeAboutBtn": "À propos de nous",
+  "homeFaqTxt": "Des questions?",
+  "homeFaqBtn": "FAQ",
+  "homeCreateTxt": "Créez votre compte et\n découvrez les dernières promotions"
+}

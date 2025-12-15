@@ -8,6 +8,7 @@ import '../Views/menu.dart';
 import '../Views/login.dart';
 import '../Views/FAQ.dart';
 import '../Views/AboutUs.dart';
+import 'package:yum_burger/l10n//app_localizations.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -36,6 +37,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context)!;
     final screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: Color(0xFFEEE8DE),
@@ -48,7 +50,7 @@ class _HomePageState extends State<HomePage> {
               Column(
                 children: [
                   Text(
-                    "Order A YUM\nCombo\nToday!",
+                    t.homeHeaderDescription,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontFamily: 'HoltwoodOneSC',
@@ -72,7 +74,7 @@ class _HomePageState extends State<HomePage> {
                       );
                     },
                     icon: Icon(Icons.shopping_bag),
-                    label: Text("Check the menu"),
+                    label: Text(t.homeMenu),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.red.shade800,
                       padding: EdgeInsets.symmetric(
@@ -91,7 +93,7 @@ class _HomePageState extends State<HomePage> {
                       );
                     },
                     icon: Icon(Icons.person),
-                    label: Text("Sign up"),
+                    label: Text(t.homeSignUp),
                     style: OutlinedButton.styleFrom(
                       padding: EdgeInsets.symmetric(
                           horizontal: 26, vertical: 14),
@@ -114,29 +116,29 @@ class _HomePageState extends State<HomePage> {
                   infoCard(
                     context: context,
                     image: "assets/images/hamburger1.jpg",
-                    title: "Check out our latest offers! \n Save up some money for your next meal!",
-                    buttonText: "Check Offers",
+                    title: t.homeOfferTxt,
+                    buttonText: t.homeOfferBtn,
                     page: LoginPage(),
                   ),
                   infoCard(
                     context: context,
                     image: "assets/images/hamburger4.jpg",
-                    title: "Try Out Our Yum\nBacon Burger",
-                    buttonText: "Order Now",
+                    title: t.homeOrderTxt,
+                    buttonText: t.homeOrderBtn,
                     page: MenuPage(),
                   ),
                   infoCard(
                     context: context,
                     image: "assets/images/hamburger2.jpg",
-                    title: "Want to learn how\nwe make our meals?",
-                    buttonText: "About Us",
+                    title: t.homeAboutTxt,
+                    buttonText: t.homeAboutBtn,
                     page: AboutUsPage(),
                   ),
                   infoCard(
                     context: context,
                     image: "assets/images/questions.jpg",
-                    title: "Have any questions?",
-                    buttonText: "FAQ",
+                    title: t.homeFaqTxt,
+                    buttonText: t.homeFaqBtn,
                     page: FAQPage(),
                   ),
                 ],
@@ -156,7 +158,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                   SizedBox(height: 20),
                   Text(
-                    "Create your account and\ncheck out the latest promotions",
+                    t.homeCreateTxt,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 20,
