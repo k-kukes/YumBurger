@@ -7,6 +7,7 @@ import 'package:yum_burger/Controllers/cart_controller.dart';
 import 'package:yum_burger/Controllers/drink_controller.dart';
 import 'package:yum_burger/Controllers/user_controller.dart';
 import 'package:yum_burger/Views/payment.dart';
+import 'package:yum_burger/l10n//app_localizations.dart';
 
 class MyCartPage extends StatefulWidget {
   const MyCartPage({super.key});
@@ -223,6 +224,7 @@ class _MyCartPageState extends State<MyCartPage> {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context)!;
     return Scaffold(
       backgroundColor: Color(0xfff2e9db),
       body: Padding(
@@ -231,7 +233,7 @@ class _MyCartPageState extends State<MyCartPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "MY CART ($cartLength)",
+              "${t.myCart}($cartLength)",
               style: TextStyle(
                 color: Colors.brown,
                 fontSize: 16,
@@ -243,14 +245,14 @@ class _MyCartPageState extends State<MyCartPage> {
             !userExist
                 ? Expanded(
                     child: Text(
-                      'You must log in to access cart',
+                      t.mustLogin,
                       style: TextStyle(fontSize: 18, color: Colors.brown),
                     ),
                   )
                 : isCartEmpty
                 ? Expanded(
                     child: Text(
-                      'Your cart is empty',
+                      t.cartEmpty,
                       style: TextStyle(fontSize: 18, color: Colors.brown),
                     ),
                   )
@@ -260,7 +262,7 @@ class _MyCartPageState extends State<MyCartPage> {
                       stream: cartItems?.snapshots(),
                       builder: (context, snapshot) {
                         if (!snapshot.hasData) {
-                          return Center(child: Text('Nothing in cart'));
+                          return Center(child: Text(t.cartEmpty));
                         }
                         return ListView.builder(
                           itemCount: snapshot.data!.docs.length,
@@ -280,7 +282,7 @@ class _MyCartPageState extends State<MyCartPage> {
                                 if (snapshot.hasData && snapshot.data != null) {
                                   return _buildCartItems(cart, snapshot.data!);
                                 }
-                                return Text('error');
+                                return Text(t.error);
                               },
                             );
                           },
@@ -294,7 +296,7 @@ class _MyCartPageState extends State<MyCartPage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text("Subtotal:", style: TextStyle(fontSize: 18)),
+                Text(t.subtotal, style: TextStyle(fontSize: 18)),
                 Text(
                   "${(subtotal).toStringAsFixed(2)}\$:",
                   style: TextStyle(fontSize: 18),
@@ -304,14 +306,14 @@ class _MyCartPageState extends State<MyCartPage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text("Delivery fee:", style: TextStyle(fontSize: 18)),
+                Text(t.deliveryFee, style: TextStyle(fontSize: 18)),
                 Text("0.00\$:", style: TextStyle(fontSize: 18)),
               ],
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text("Tax:", style: TextStyle(fontSize: 18)),
+                Text(t.tax, style: TextStyle(fontSize: 18)),
                 Text(
                   "${(tax).toStringAsFixed(2)}\$:",
                   style: TextStyle(fontSize: 18),
@@ -323,7 +325,7 @@ class _MyCartPageState extends State<MyCartPage> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "Total:",
+                  t.total,
                   style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                 ),
                 Text(
@@ -336,7 +338,7 @@ class _MyCartPageState extends State<MyCartPage> {
               child: Container(
                 alignment: Alignment.centerRight,
                 padding: EdgeInsets.fromLTRB(60, 0, 0, 0),
-                width: 200,
+                width: 500,
                 height: 50,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
@@ -348,13 +350,13 @@ class _MyCartPageState extends State<MyCartPage> {
                   onPressed: () {
                     var user = userController.getCurrentUser();
                     if (total <= 0) {
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Why you don\'t buy anything')));
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(t.noBuy)));
                     } else {
                       Navigator.push(context, MaterialPageRoute(builder: (context) => PaymentView(totalAmount: total, userId: user.id,)));
                     }
                   },
                   child: Text(
-                    "ORDER",
+                    t.order,
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 22,

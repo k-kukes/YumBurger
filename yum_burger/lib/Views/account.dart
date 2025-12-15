@@ -7,6 +7,7 @@ import 'package:yum_burger/Controllers/user_controller.dart';
 import 'package:yum_burger/Controllers/header.dart';
 import 'package:yum_burger/Models/database_connection.dart';
 import '../Controllers/tab_navigation.dart';
+import 'package:yum_burger/l10n//app_localizations.dart';
 
 class AccountSettingsPage extends StatefulWidget {
   const AccountSettingsPage({super.key});
@@ -43,8 +44,8 @@ class _AccountSettingsPage extends State<AccountSettingsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context)!;
     bool isDark = AdaptiveTheme.of(context).mode.isDark;
-
     return NavBar(
       body: Scaffold(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -67,13 +68,13 @@ class _AccountSettingsPage extends State<AccountSettingsPage> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                const Text('Account Info', style: TextStyle(fontSize: 30)),
+                Text(t.accountInfo, style: TextStyle(fontSize: 30)),
                 const SizedBox(height: 20),
                 Container(
                   margin: const EdgeInsets.fromLTRB(30, 0, 30, 0),
                   child: Column(
                     children: [
-                      const Text('Username', style: TextStyle(fontSize: 25)),
+                       Text(t.username, style: TextStyle(fontSize: 25)),
                       Container(
                         width: 250,
                         height: 50,
@@ -83,12 +84,12 @@ class _AccountSettingsPage extends State<AccountSettingsPage> {
                         ),
                         alignment: Alignment.center,
                         child: user == null
-                            ? const Text('username')
+                            ?  Text(t.username)
                             : Text("${user['username']}",
                             style: const TextStyle(color: Colors.black, fontSize: 25)),
                       ),
                       const SizedBox(height: 15),
-                      const Text('Password', style: TextStyle(fontSize: 25)),
+                       Text(t.password, style: TextStyle(fontSize: 25)),
                       Container(
                         width: 250,
                         height: 50,
@@ -98,12 +99,12 @@ class _AccountSettingsPage extends State<AccountSettingsPage> {
                         ),
                         alignment: Alignment.center,
                         child: user == null
-                            ? const Text('password')
+                            ?  Text(t.password)
                             : Text("${user['password']}",
                             style: const TextStyle(color: Colors.black, fontSize: 25)),
                       ),
                       const SizedBox(height: 15),
-                      const Text('Full Name', style: TextStyle(fontSize: 25)),
+                       Text(t.fullName, style: TextStyle(fontSize: 25)),
                       Container(
                         width: 250,
                         height: 50,
@@ -113,12 +114,12 @@ class _AccountSettingsPage extends State<AccountSettingsPage> {
                         ),
                         alignment: Alignment.center,
                         child: user == null
-                            ? const Text('full name')
+                            ?  Text(t.fullName)
                             : Text("${user['fullName']}",
                             style: const TextStyle(color: Colors.black, fontSize: 25)),
                       ),
                       const SizedBox(height: 15),
-                      const Text('Email', style: TextStyle(fontSize: 25)),
+                       Text(t.email, style: TextStyle(fontSize: 25)),
                       Container(
                         width: 250,
                         height: 50,
@@ -128,12 +129,12 @@ class _AccountSettingsPage extends State<AccountSettingsPage> {
                         ),
                         alignment: Alignment.center,
                         child: user == null
-                            ? const Text('email')
+                            ?  Text(t.email)
                             : Text("${user['email']}",
                             style: const TextStyle(color: Colors.black, fontSize: 25)),
                       ),
                       const SizedBox(height: 15),
-                      const Text('Settings', style: TextStyle(fontSize: 30)),
+                       Text(t.settings, style: TextStyle(fontSize: 30)),
                       const SizedBox(height: 15),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,

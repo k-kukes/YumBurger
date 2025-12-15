@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:yum_burger/Controllers/burger_controller.dart';
+import 'package:yum_burger/l10n//app_localizations.dart';
 
 class BurgerAdminPage extends StatefulWidget {
   const BurgerAdminPage({super.key});
@@ -32,6 +33,7 @@ class _BurgerAdminPageState extends State<BurgerAdminPage> {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context)!;
     return SafeArea(
       child: Padding(
         padding: EdgeInsets.all(16),
@@ -42,7 +44,7 @@ class _BurgerAdminPageState extends State<BurgerAdminPage> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Burgers',
+                  t.burgers,
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
@@ -53,7 +55,7 @@ class _BurgerAdminPageState extends State<BurgerAdminPage> {
                   onPressed: () {
                     _showAddBurgerDialog();
                   },
-                  label: Text('Add Burger'),
+                  label: Text(t.addBurger),
                   icon: Icon(Icons.add),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.deepOrange,
@@ -68,7 +70,7 @@ class _BurgerAdminPageState extends State<BurgerAdminPage> {
                 stream: burgerList?.snapshots(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
-                    return Center(child: Text('No data'));
+                    return Center(child: Text(t.noData));
                   }
                   final burgers = snapshot.data!.docs;
                   return ListView.builder(
@@ -81,7 +83,7 @@ class _BurgerAdminPageState extends State<BurgerAdminPage> {
                       return ListTile(
                         title: Text(data['name']),
                         subtitle: Text(
-                          "${data['description']}\n Price: ${data['price'].toStringAsFixed(2)}\$",
+                          "${data['description']}\n ${t.price}${data['price'].toStringAsFixed(2)}\$",
                         ),
                         leading: data['image'].startsWith('assets/')
                             ? Image.asset(
@@ -107,7 +109,7 @@ class _BurgerAdminPageState extends State<BurgerAdminPage> {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
                                       content: Text(
-                                        'Burger was successfully deleted!',
+                                        t.deletedBurger,
                                       ),
                                     ),
                                   );
@@ -115,7 +117,7 @@ class _BurgerAdminPageState extends State<BurgerAdminPage> {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
                                       content: Text(
-                                        'Burger was successfully deleted!',
+                                        t.deletedBurger,
                                       ),
                                     ),
                                   );
@@ -152,6 +154,7 @@ class _BurgerAdminPageState extends State<BurgerAdminPage> {
   }
 
   void _showAddBurgerDialog() {
+    final t = AppLocalizations.of(context)!;
     final nameController = TextEditingController();
     final priceController = TextEditingController();
     final descriptionController = TextEditingController();
@@ -162,24 +165,24 @@ class _BurgerAdminPageState extends State<BurgerAdminPage> {
       context: context,
       builder: (context) => StatefulBuilder(
         builder: (context, setStateDialog) => AlertDialog(
-          title: Text('Add New Burger'),
+          title: Text(t.addBurger),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               TextField(
                 controller: nameController,
-                decoration: InputDecoration(labelText: 'Burger Name'),
+                decoration: InputDecoration(labelText: t.burgerName),
               ),
               SizedBox(height: 12),
               TextField(
                 controller: priceController,
-                decoration: InputDecoration(labelText: 'Burger Price'),
+                decoration: InputDecoration(labelText: t.burgerPrice),
                 keyboardType: TextInputType.number,
               ),
               SizedBox(height: 12),
               TextField(
                 controller: descriptionController,
-                decoration: InputDecoration(labelText: 'Burger Description'),
+                decoration: InputDecoration(labelText: t.burgerDescription),
               ),
               SizedBox(height: 12),
               ElevatedButton.icon(
@@ -194,7 +197,7 @@ class _BurgerAdminPageState extends State<BurgerAdminPage> {
                   }
                 },
                 icon: Icon(Icons.image),
-                label: Text('Pick Image'),
+                label: Text(t.pickImage),
               ),
               SizedBox(height: 8),
               selectedImage != null
@@ -204,13 +207,13 @@ class _BurgerAdminPageState extends State<BurgerAdminPage> {
                       width: 50,
                       fit: BoxFit.cover,
                     )
-                  : Text('No image'),
+                  : Text(t.noImage),
             ],
           ),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: Text('Cancel'),
+              child: Text(t.cancel),
             ),
             ElevatedButton(
               onPressed: () async {
@@ -219,7 +222,7 @@ class _BurgerAdminPageState extends State<BurgerAdminPage> {
                     descriptionController.text.isEmpty ||
                     imageBase == null) {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Please fill out all the fields!')),
+                    SnackBar(content: Text(t.fillFields)),
                   );
                   return;
                 }
@@ -234,10 +237,10 @@ class _BurgerAdminPageState extends State<BurgerAdminPage> {
                 );
                 Navigator.pop(context);
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Burger added successfully')),
+                  SnackBar(content: Text(t.addedBurger)),
                 );
               },
-              child: Text('Add Burger'),
+              child: Text(t.addBurger),
             ),
           ],
         ),
@@ -257,6 +260,7 @@ class _BurgerAdminPageState extends State<BurgerAdminPage> {
   }
 
   void _showEditBurgerDialog(String burgerId, Map<String, dynamic> data) {
+    final t = AppLocalizations.of(context)!;
     final nameController = TextEditingController();
     final priceController = TextEditingController();
     final descriptionController = TextEditingController();
@@ -267,24 +271,24 @@ class _BurgerAdminPageState extends State<BurgerAdminPage> {
       context: context,
       builder: (context) => StatefulBuilder(
         builder: (context, setStateDialog) => AlertDialog(
-          title: Text('Edit Burger'),
+          title: Text(t.editBurger),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               TextField(
                 controller: nameController,
-                decoration: InputDecoration(labelText: 'Burger Name', hintText: data['name']),
+                decoration: InputDecoration(labelText: t.burgerName, hintText: data['name']),
               ),
               SizedBox(height: 12),
               TextField(
                 controller: priceController,
-                decoration: InputDecoration(labelText: 'Burger Price', hintText: "${data['price'].toStringAsFixed(2)}"),
+                decoration: InputDecoration(labelText: t.burgerPrice, hintText: "${data['price'].toStringAsFixed(2)}"),
                 keyboardType: TextInputType.number,
               ),
               SizedBox(height: 12),
               TextField(
                 controller: descriptionController,
-                decoration: InputDecoration(labelText: 'Burger Description', hintText: data['description']),
+                decoration: InputDecoration(labelText: t.burgerDescription, hintText: data['description']),
               ),
               SizedBox(height: 12),
               ElevatedButton.icon(
@@ -299,7 +303,7 @@ class _BurgerAdminPageState extends State<BurgerAdminPage> {
                   }
                 },
                 icon: Icon(Icons.image),
-                label: Text('Pick Image'),
+                label: Text(t.pickImage),
               ),
               SizedBox(height: 8),
               selectedImage != null
@@ -327,7 +331,7 @@ class _BurgerAdminPageState extends State<BurgerAdminPage> {
           actions: [
             TextButton(
                 onPressed: () => Navigator.pop(context),
-                child: Text('Cancel'),
+                child: Text(t.cancel),
             ),
             ElevatedButton(
                 onPressed: () async {
@@ -336,16 +340,16 @@ class _BurgerAdminPageState extends State<BurgerAdminPage> {
                   descriptionController.text.isEmpty ||
                   imageBase == null
                   ) {
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Please fill all the fields')));
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(t.fillFields)));
                     return;
                   }
 
                   final price = double.parse(priceController.text);
                   await burgerController.updateBurger(burgerId, nameController.text, descriptionController.text, imageBase!, price);
                   Navigator.pop(context);
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Burger edited successfully')));
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(t.editedBurger)));
                 },
-                child: Text('Save Changes'),
+                child: Text(t.save),
             )
           ],
         ),

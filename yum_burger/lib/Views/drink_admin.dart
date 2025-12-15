@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:yum_burger/Controllers/burger_controller.dart';
 import 'package:yum_burger/Controllers/drink_controller.dart';
+import 'package:yum_burger/l10n//app_localizations.dart';
 
 class DrinkAdminPage extends StatefulWidget {
   const DrinkAdminPage({super.key});
@@ -33,6 +34,7 @@ class _DrinkAdminPageState extends State<DrinkAdminPage> {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context)!;
     return SafeArea(
       child: Padding(
         padding: EdgeInsets.all(16),
@@ -43,7 +45,7 @@ class _DrinkAdminPageState extends State<DrinkAdminPage> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Drinks',
+                  t.drinks,
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
@@ -54,7 +56,7 @@ class _DrinkAdminPageState extends State<DrinkAdminPage> {
                   onPressed: () {
                     _showAddDrinkDialog();
                   },
-                  label: Text('Add Drink'),
+                  label: Text(t.addDrink),
                   icon: Icon(Icons.add),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.deepOrange,
@@ -69,7 +71,7 @@ class _DrinkAdminPageState extends State<DrinkAdminPage> {
                 stream: drinkList?.snapshots(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
-                    return Center(child: Text('No data'));
+                    return Center(child: Text(t.noData));
                   }
                   final drinks = snapshot.data!.docs;
                   return ListView.builder(
@@ -82,7 +84,7 @@ class _DrinkAdminPageState extends State<DrinkAdminPage> {
                       return ListTile(
                         title: Text(data['name']),
                         subtitle: Text(
-                          "${data['description']}\n Price: ${data['price'].toStringAsFixed(2)}\$",
+                          "${data['description']}\n ${t.price}${data['price'].toStringAsFixed(2)}\$",
                         ),
                         leading: data['image'].startsWith('assets/')
                             ? Image.asset(
@@ -108,7 +110,7 @@ class _DrinkAdminPageState extends State<DrinkAdminPage> {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
                                       content: Text(
-                                        'Drink was successfully deleted!',
+                                        t.deletedDrink,
                                       ),
                                     ),
                                   );
@@ -116,7 +118,7 @@ class _DrinkAdminPageState extends State<DrinkAdminPage> {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
                                       content: Text(
-                                        'Drink was successfully deleted!',
+                                        t.deletedDrink,
                                       ),
                                     ),
                                   );
@@ -153,6 +155,7 @@ class _DrinkAdminPageState extends State<DrinkAdminPage> {
   }
 
   void _showAddDrinkDialog() {
+    final t = AppLocalizations.of(context)!;
     final nameController = TextEditingController();
     final priceController = TextEditingController();
     final descriptionController = TextEditingController();
@@ -163,24 +166,24 @@ class _DrinkAdminPageState extends State<DrinkAdminPage> {
       context: context,
       builder: (context) => StatefulBuilder(
         builder: (context, setStateDialog) => AlertDialog(
-          title: Text('Add New Drink'),
+          title: Text(t.addDrink),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               TextField(
                 controller: nameController,
-                decoration: InputDecoration(labelText: 'Drink Name'),
+                decoration: InputDecoration(labelText: t.drinkName),
               ),
               SizedBox(height: 12),
               TextField(
                 controller: priceController,
-                decoration: InputDecoration(labelText: 'Drink Price'),
+                decoration: InputDecoration(labelText: t.drinkPrice),
                 keyboardType: TextInputType.number,
               ),
               SizedBox(height: 12),
               TextField(
                 controller: descriptionController,
-                decoration: InputDecoration(labelText: 'Drink Description'),
+                decoration: InputDecoration(labelText: t.drinkDescription),
               ),
               SizedBox(height: 12),
               ElevatedButton.icon(
@@ -195,7 +198,7 @@ class _DrinkAdminPageState extends State<DrinkAdminPage> {
                   }
                 },
                 icon: Icon(Icons.image),
-                label: Text('Pick Image'),
+                label: Text(t.pickImage),
               ),
               SizedBox(height: 8),
               selectedImage != null
@@ -205,13 +208,13 @@ class _DrinkAdminPageState extends State<DrinkAdminPage> {
                 width: 50,
                 fit: BoxFit.cover,
               )
-                  : Text('No image'),
+                  : Text(t.noImage),
             ],
           ),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: Text('Cancel'),
+              child: Text(t.cancel),
             ),
             ElevatedButton(
               onPressed: () async {
@@ -220,7 +223,7 @@ class _DrinkAdminPageState extends State<DrinkAdminPage> {
                     descriptionController.text.isEmpty ||
                     imageBase == null) {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Please fill out all the fields!')),
+                    SnackBar(content: Text(t.fillFields)),
                   );
                   return;
                 }
@@ -230,10 +233,10 @@ class _DrinkAdminPageState extends State<DrinkAdminPage> {
                 await drinkController.addDrink(nameController.text, price, descriptionController.text, imageBase!);
                 Navigator.pop(context);
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Drink added successfully')),
+                  SnackBar(content: Text(t.drinkAdded)),
                 );
               },
-              child: Text('Add Drink'),
+              child: Text(t.addDrink),
             ),
           ],
         ),
@@ -253,6 +256,7 @@ class _DrinkAdminPageState extends State<DrinkAdminPage> {
   }
 
   void _showEditDrinkDialog(String burgerId, Map<String, dynamic> data) {
+    final t = AppLocalizations.of(context)!;
     final nameController = TextEditingController();
     final priceController = TextEditingController();
     final descriptionController = TextEditingController();
@@ -263,24 +267,24 @@ class _DrinkAdminPageState extends State<DrinkAdminPage> {
       context: context,
       builder: (context) => StatefulBuilder(
         builder: (context, setStateDialog) => AlertDialog(
-          title: Text('Edit Drink'),
+          title: Text(t.editDrink),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               TextField(
                 controller: nameController,
-                decoration: InputDecoration(labelText: 'Drink Name', hintText: data['name']),
+                decoration: InputDecoration(labelText: t.drinkName, hintText: data['name']),
               ),
               SizedBox(height: 12),
               TextField(
                 controller: priceController,
-                decoration: InputDecoration(labelText: 'Drink Price', hintText: "${data['price'].toStringAsFixed(2)}"),
+                decoration: InputDecoration(labelText: t.drinkPrice, hintText: "${data['price'].toStringAsFixed(2)}"),
                 keyboardType: TextInputType.number,
               ),
               SizedBox(height: 12),
               TextField(
                 controller: descriptionController,
-                decoration: InputDecoration(labelText: 'Drink Description', hintText: data['description']),
+                decoration: InputDecoration(labelText: t.drinkDescription, hintText: data['description']),
               ),
               SizedBox(height: 12),
               ElevatedButton.icon(
@@ -295,7 +299,7 @@ class _DrinkAdminPageState extends State<DrinkAdminPage> {
                   }
                 },
                 icon: Icon(Icons.image),
-                label: Text('Pick Image'),
+                label: Text(t.pickImage),
               ),
               SizedBox(height: 8),
               selectedImage != null
@@ -323,7 +327,7 @@ class _DrinkAdminPageState extends State<DrinkAdminPage> {
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: Text('Cancel'),
+              child: Text(t.cancel),
             ),
             ElevatedButton(
               onPressed: () async {
@@ -332,16 +336,16 @@ class _DrinkAdminPageState extends State<DrinkAdminPage> {
                     descriptionController.text.isEmpty ||
                     imageBase == null
                 ) {
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Please fill all the fields')));
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(t.fillFields)));
                   return;
                 }
 
                 final price = double.parse(priceController.text);
                 await drinkController.updateDrink(burgerId, nameController.text, descriptionController.text, imageBase!, price);
                 Navigator.pop(context);
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Drink edited successfully')));
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(t.editedDrink)));
               },
-              child: Text('Save Changes'),
+              child: Text(t.save),
             )
           ],
         ),

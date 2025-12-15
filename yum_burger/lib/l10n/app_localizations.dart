@@ -101,13 +101,13 @@ abstract class AppLocalizations {
   /// No description provided for @hello.
   ///
   /// In en, this message translates to:
-  /// **'Hello!'**
+  /// **'Welcome to Yum Burger!'**
   String get hello;
 
   /// No description provided for @greeting.
   ///
   /// In en, this message translates to:
-  /// **'Welcome, {name}!'**
+  /// **'Welcome to Yum Burger!'**
   String greeting(Object name);
 
   /// No description provided for @homeHeaderDescription.
@@ -181,6 +181,336 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Create your account and\ncheck out the latest promotions'**
   String get homeCreateTxt;
+
+  /// No description provided for @aboutWelcome.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome to Yum Burger!'**
+  String get aboutWelcome;
+
+  /// No description provided for @aboutTxt.
+  ///
+  /// In en, this message translates to:
+  /// **'At Yum Burger, we believe a great burger is more than just a meal, it’s an experience.\nCreated with fresh ingredients and bold flavors, we serve handcrafted burgers made to satisfy every craving.\n\nFrom our delicious beef patties to our plant‑based creations, every bite is cooked with care and served with a smile.\nWhether you’re dining in, ordering online, or grabbing a quick bite on the go, Yum Burger is here to make your day better.\n\nWe’re proud to be part of the community, offering friendly service, sustainable practices, and a menu that brings people together.\nSo come hungry, leave happy, and remember: life’s too short for boring burgers!'**
+  String get aboutTxt;
+
+  /// No description provided for @accountInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Account Info'**
+  String get accountInfo;
+
+  /// No description provided for @username.
+  ///
+  /// In en, this message translates to:
+  /// **'Username'**
+  String get username;
+
+  /// No description provided for @password.
+  ///
+  /// In en, this message translates to:
+  /// **'Password'**
+  String get password;
+
+  /// No description provided for @fullName.
+  ///
+  /// In en, this message translates to:
+  /// **'Full Name'**
+  String get fullName;
+
+  /// No description provided for @email.
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get email;
+
+  /// No description provided for @settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get settings;
+
+  /// No description provided for @adminHomeHamburgers.
+  ///
+  /// In en, this message translates to:
+  /// **'Hamburgers'**
+  String get adminHomeHamburgers;
+
+  /// No description provided for @adminHomeRevenue.
+  ///
+  /// In en, this message translates to:
+  /// **'Revenue'**
+  String get adminHomeRevenue;
+
+  /// No description provided for @adminHomeCustomers.
+  ///
+  /// In en, this message translates to:
+  /// **'Customers'**
+  String get adminHomeCustomers;
+
+  /// No description provided for @adminHomeDrinks.
+  ///
+  /// In en, this message translates to:
+  /// **'Drinks'**
+  String get adminHomeDrinks;
+
+  /// No description provided for @adminOrdersTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'All Orders'**
+  String get adminOrdersTitle;
+
+  /// No description provided for @adminOrdersNoOrders.
+  ///
+  /// In en, this message translates to:
+  /// **'No orders yet sorry.'**
+  String get adminOrdersNoOrders;
+
+  /// No description provided for @adminOrdersOrderNum.
+  ///
+  /// In en, this message translates to:
+  /// **'Order #'**
+  String get adminOrdersOrderNum;
+
+  /// No description provided for @adminOrdersOrderTotal.
+  ///
+  /// In en, this message translates to:
+  /// **'Total: '**
+  String get adminOrdersOrderTotal;
+
+  /// No description provided for @burgers.
+  ///
+  /// In en, this message translates to:
+  /// **'Burgers'**
+  String get burgers;
+
+  /// No description provided for @addBurger.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Burger'**
+  String get addBurger;
+
+  /// No description provided for @noData.
+  ///
+  /// In en, this message translates to:
+  /// **'No data'**
+  String get noData;
+
+  /// No description provided for @price.
+  ///
+  /// In en, this message translates to:
+  /// **'Price: '**
+  String get price;
+
+  /// No description provided for @deletedBurger.
+  ///
+  /// In en, this message translates to:
+  /// **'Burger was successfully deleted!'**
+  String get deletedBurger;
+
+  /// No description provided for @burgerName.
+  ///
+  /// In en, this message translates to:
+  /// **'Burger Name'**
+  String get burgerName;
+
+  /// No description provided for @burgerPrice.
+  ///
+  /// In en, this message translates to:
+  /// **'Burger Price'**
+  String get burgerPrice;
+
+  /// No description provided for @burgerDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Burger Description'**
+  String get burgerDescription;
+
+  /// No description provided for @pickImage.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick Image'**
+  String get pickImage;
+
+  /// No description provided for @noImage.
+  ///
+  /// In en, this message translates to:
+  /// **'No image'**
+  String get noImage;
+
+  /// No description provided for @cancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancel;
+
+  /// No description provided for @fillFields.
+  ///
+  /// In en, this message translates to:
+  /// **'Please fill out all the fields!'**
+  String get fillFields;
+
+  /// No description provided for @addedBurger.
+  ///
+  /// In en, this message translates to:
+  /// **'Burger added successfully'**
+  String get addedBurger;
+
+  /// No description provided for @editBurger.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Burger'**
+  String get editBurger;
+
+  /// No description provided for @editedBurger.
+  ///
+  /// In en, this message translates to:
+  /// **'Burger edited successfully'**
+  String get editedBurger;
+
+  /// No description provided for @save.
+  ///
+  /// In en, this message translates to:
+  /// **'Save Changes'**
+  String get save;
+
+  /// No description provided for @drinks.
+  ///
+  /// In en, this message translates to:
+  /// **'Drinks'**
+  String get drinks;
+
+  /// No description provided for @addDrink.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Drink'**
+  String get addDrink;
+
+  /// No description provided for @deletedDrink.
+  ///
+  /// In en, this message translates to:
+  /// **'Drink was successfully deleted!'**
+  String get deletedDrink;
+
+  /// No description provided for @drinkName.
+  ///
+  /// In en, this message translates to:
+  /// **'Drink Name'**
+  String get drinkName;
+
+  /// No description provided for @drinkPrice.
+  ///
+  /// In en, this message translates to:
+  /// **'Drink Price'**
+  String get drinkPrice;
+
+  /// No description provided for @drinkDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Drink Description'**
+  String get drinkDescription;
+
+  /// No description provided for @drinkAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'Drink added successfully!'**
+  String get drinkAdded;
+
+  /// No description provided for @editDrink.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Drink'**
+  String get editDrink;
+
+  /// No description provided for @editedDrink.
+  ///
+  /// In en, this message translates to:
+  /// **'Drink edited successfully'**
+  String get editedDrink;
+
+  /// No description provided for @myCart.
+  ///
+  /// In en, this message translates to:
+  /// **'MY CART '**
+  String get myCart;
+
+  /// No description provided for @mustLogin.
+  ///
+  /// In en, this message translates to:
+  /// **'You must log in to access cart'**
+  String get mustLogin;
+
+  /// No description provided for @cartEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Your cart is empty'**
+  String get cartEmpty;
+
+  /// No description provided for @subtotal.
+  ///
+  /// In en, this message translates to:
+  /// **'Subtotal:'**
+  String get subtotal;
+
+  /// No description provided for @deliveryFee.
+  ///
+  /// In en, this message translates to:
+  /// **'Delivery fee:'**
+  String get deliveryFee;
+
+  /// No description provided for @tax.
+  ///
+  /// In en, this message translates to:
+  /// **'Tax:'**
+  String get tax;
+
+  /// No description provided for @total.
+  ///
+  /// In en, this message translates to:
+  /// **'Total:'**
+  String get total;
+
+  /// No description provided for @noBuy.
+  ///
+  /// In en, this message translates to:
+  /// **'Why you don\'t buy anything'**
+  String get noBuy;
+
+  /// No description provided for @order.
+  ///
+  /// In en, this message translates to:
+  /// **'ORDER'**
+  String get order;
+
+  /// No description provided for @error.
+  ///
+  /// In en, this message translates to:
+  /// **'error'**
+  String get error;
+
+  /// No description provided for @goBackHome.
+  ///
+  /// In en, this message translates to:
+  /// **'Go back home'**
+  String get goBackHome;
+
+  /// No description provided for @createAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Account'**
+  String get createAccount;
+
+  /// No description provided for @alreadyHaveAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Already have an account?'**
+  String get alreadyHaveAccount;
+
+  /// No description provided for @login.
+  ///
+  /// In en, this message translates to:
+  /// **'Login'**
+  String get login;
 }
 
 class _AppLocalizationsDelegate
