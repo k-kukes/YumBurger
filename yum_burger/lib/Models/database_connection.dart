@@ -9,10 +9,10 @@ void main() async {
 
   await Firebase.initializeApp(
     options: const FirebaseOptions(
-      apiKey: "AIzaSyBEjH28dcF1J6iGhrb8H7jpgWVkSG5vpjQ",
-      appId: "1:697511557856:android:7f2f11f0491ff62c9e2e85",
-       messagingSenderId: "697511557856",
-      projectId: "yumburger-44e34",
+      apiKey: "AIzaSyDgIQkMKudx4vclIBI8EQBuT9ODorJeIEY",
+      appId: "1:583355291304:android:075b5cca019dc67989149d",
+       messagingSenderId: "583355291304",
+      projectId: "yum-burger-74b2d",
     ),
   );
 
