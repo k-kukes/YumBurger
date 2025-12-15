@@ -148,7 +148,7 @@ class _LoginPageState extends State<LoginPage> {
                           SnackBar(content: Text('Success Login')),
                         );
                         clearForm();
-                        var user = userController.getCurrentUser();
+                        var user = await userController.getCurrentUser();
                         if (user['type'] == 'customer') {
                           Navigator.push(
                             context,

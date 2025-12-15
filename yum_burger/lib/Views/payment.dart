@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:yum_burger/Controllers/cart_controller.dart';
+import 'package:yum_burger/Controllers/notifications_controller.dart';
 import 'package:yum_burger/Controllers/order_controller.dart';
 import 'package:yum_burger/Controllers/payment_controller.dart';
 
@@ -18,6 +19,7 @@ class _PaymentViewState extends State<PaymentView> {
   final PaymentController _controller = PaymentController();
   CartController cartController = CartController();
   OrderController orderController = OrderController();
+  NotificationController notificationController = NotificationController();
   bool _isLoading = false;
 
   @override
@@ -36,6 +38,7 @@ class _PaymentViewState extends State<PaymentView> {
     if (success && mounted) {
       orderController.saveOrder(widget.userId, widget.totalAmount);
       cartController.deleteEntireCart(widget.userId);
+      notificationController.createNotification('YumBurger', "You recently made a purchase of \$${widget.totalAmount.toStringAsFixed(2)}.");
       showDialog(
         context: context,
         builder: (context) => AlertDialog(

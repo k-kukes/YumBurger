@@ -34,10 +34,10 @@ class UserController {
   Future<bool> validateLogin(String username, String password) async {
     if (username.isNotEmpty && password.isNotEmpty) {
       try {
-       await userModel.validateLogin(username, password);
-        return true;
+       bool success = await userModel.validateLogin(username, password);
+       return success;
       } catch (error) {
-        return false;
+        print(error);
       }
     }
       return false;

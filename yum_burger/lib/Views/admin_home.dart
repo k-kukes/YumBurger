@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yum_burger/Models/order_model.dart';
 import 'package:yum_burger/Views/burger_admin.dart';
 import 'package:yum_burger/Views/drink_admin.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -16,22 +17,29 @@ class _AdminHomePageState extends State<AdminHomePage> {
     return snapshot.size;
   }
 
+  Future<double> getRevenue() async {
+    OrderModel orderModel = OrderModel();
+    return await orderModel.getRevenue();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xFFEEE8DE),
       body: Padding(
         padding: EdgeInsets.all(16.0),
-        child: FutureBuilder<List<int>>(
+        child: FutureBuilder<List<dynamic>>(
           future: Future.wait([
             getCount('Burgers'),
             getCount('Users'),
             getCount('drinks'),
+            getRevenue()
           ]),
           builder: (context, snapshot) {
             final burgers = snapshot.data?[0] ?? 0;
             final users = snapshot.data?[1] ?? 0;
             final drinks = snapshot.data?[2] ?? 0;
+            final revenue =  snapshot.data?[3] ?? 0.0;
 
             return GridView.count(
               crossAxisCount: 2,
@@ -39,7 +47,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
               mainAxisSpacing: 12,
               children: [
                 _buildDashboardCard("Hamburgers", "$burgers", Icons.fastfood),
-                _buildDashboardCard("Revenue", "\$2,450", Icons.attach_money),
+                _buildDashboardCard("Revenue", "\$${revenue.toStringAsFixed(2)}", Icons.attach_money),
                 _buildDashboardCard("Customers", "$users", Icons.people),
                 _buildDashboardCard("Drinks", "$drinks", Icons.local_drink),
               ],
