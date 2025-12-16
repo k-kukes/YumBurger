@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:yum_burger/Controllers/cart_controller.dart';
+import 'package:yum_burger/Controllers/notifications_controller.dart';
 import 'package:yum_burger/Controllers/order_controller.dart';
 import 'package:yum_burger/Controllers/payment_controller.dart';
+import 'package:yum_burger/l10n//app_localizations.dart';
 
 class PaymentView extends StatefulWidget {
   final double totalAmount;
@@ -18,6 +20,7 @@ class _PaymentViewState extends State<PaymentView> {
   final PaymentController _controller = PaymentController();
   CartController cartController = CartController();
   OrderController orderController = OrderController();
+  NotificationController notificationController = NotificationController();
   bool _isLoading = false;
 
   @override
@@ -27,6 +30,7 @@ class _PaymentViewState extends State<PaymentView> {
   }
 
   void _onPayPressed() async {
+    final t = AppLocalizations.of(context)!;
     setState(() => _isLoading = true);
 
     bool success = await _controller.handlePayment(context, widget.totalAmount);
@@ -36,26 +40,27 @@ class _PaymentViewState extends State<PaymentView> {
     if (success && mounted) {
       orderController.saveOrder(widget.userId, widget.totalAmount);
       cartController.deleteEntireCart(widget.userId);
+      notificationController.createNotification('YumBurger', "${t.madePurchase}\$${widget.totalAmount.toStringAsFixed(2)}.");
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          title: const Text("Payment Successful!"),
-          content: Text("You paid \$${widget.totalAmount.toStringAsFixed(2)} and earned points!"),
+          title: Text(t.paymentSuccess),
+          content: Text("${t.youPaid}\$${widget.totalAmount.toStringAsFixed(2)}${t.earnedPts}"),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.pop(context);
                 Navigator.pop(context);
               },
-              child: const Text("Thank you"),
+              child:  Text(t.ty),
             )
           ],
         ),
       );
     } else if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Payment Declined. Check Card # (16) or Expiry (MM/YY)."),
+         SnackBar(
+          content: Text(t.paymentDecline),
           backgroundColor: Colors.red,
         ),
       );
@@ -64,9 +69,10 @@ class _PaymentViewState extends State<PaymentView> {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Secure Checkout"),
+        title:  Text(t.secureCheckout),
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
         elevation: 1,
@@ -77,12 +83,12 @@ class _PaymentViewState extends State<PaymentView> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "Total: \$${widget.totalAmount.toStringAsFixed(2)}",
+              "${t.total}\$${widget.totalAmount.toStringAsFixed(2)}",
               style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 30),
 
-            const Text("Card Number", style: TextStyle(fontWeight: FontWeight.bold)),
+             Text(t.cardNum, style: TextStyle(fontWeight: FontWeight.bold)),
             const SizedBox(height: 5),
             TextField(
               controller: _controller.cardNumController,
@@ -102,7 +108,7 @@ class _PaymentViewState extends State<PaymentView> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text("Expiry Date", style: TextStyle(fontWeight: FontWeight.bold)),
+                       Text(t.expDate, style: TextStyle(fontWeight: FontWeight.bold)),
                       const SizedBox(height: 5),
                       TextField(
                         controller: _controller.expiryController,
@@ -154,7 +160,7 @@ class _PaymentViewState extends State<PaymentView> {
                 ),
                 child: _isLoading
                     ? const CircularProgressIndicator(color: Colors.white)
-                    : const Text("Confirm Payment", style: TextStyle(fontSize: 18, color: Colors.white)),
+                    :  Text(t.confPayment, style: TextStyle(fontSize: 18, color: Colors.white)),
               ),
             ),
           ],

@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:yum_burger/Controllers/order_controller.dart';
 import 'package:yum_burger/Controllers/user_controller.dart';
+import 'package:yum_burger/l10n//app_localizations.dart';
 
 class OrdersPage extends StatefulWidget {
   const OrdersPage({super.key});
@@ -43,19 +44,20 @@ class _OrdersPageState extends State<OrdersPage> {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context)!;
     return Scaffold(
       backgroundColor: Color(0xFFEEE8DE),
       body: userExist == false
           ? Center(
               child: Text(
-                'You must be logged in to view your oders.',
+                t.mustLoginOrders,
                 style: TextStyle(fontSize: 18),
               ),
             )
           : ordersList == null
           ? Center(
               child: Text(
-                'Orders Empty.\n Make your first order!',
+                t.emptyOrders,
                 style: TextStyle(fontSize: 18),
               ),
             )
@@ -63,7 +65,7 @@ class _OrdersPageState extends State<OrdersPage> {
               stream: ordersList!.orderBy("date", descending: true).snapshots(),
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
-                  return Center(child: Text('Loading...'));
+                  return Center(child: Text(t.loading));
                 }
 
                 final orders = snapshot.data!.docs;
@@ -71,7 +73,7 @@ class _OrdersPageState extends State<OrdersPage> {
                 if (orders.isEmpty) {
                   return Center(
                     child: Text(
-                      'No orders yet.',
+                      t.noOrders,
                       style: TextStyle(fontSize: 18),
                     ),
                   );

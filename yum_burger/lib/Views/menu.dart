@@ -5,6 +5,7 @@ import 'package:yum_burger/Controllers/burger_controller.dart';
 import 'package:yum_burger/Controllers/drink_controller.dart';
 import 'package:yum_burger/Controllers/cart_controller.dart';
 import 'package:yum_burger/Views/MenuItemCard.dart';
+import 'package:yum_burger/l10n//app_localizations.dart';
 
 
 class MenuPage extends StatefulWidget {
@@ -36,6 +37,7 @@ class _MenuPageState extends State<MenuPage> {
 
 
   Widget buildGrid(CollectionReference<Object?>? collection, String type) {
+    final t = AppLocalizations.of(context)!;
     if (collection == null) {
       return const Center(child: CircularProgressIndicator());
     }
@@ -59,7 +61,7 @@ class _MenuPageState extends State<MenuPage> {
               onAddToCart: () async {
                 String result = await cartController.addToCart(doc, type);
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(result)),
+                  SnackBar(content: Text(result == 'Successfully added item to cart!' ? t.successAddToCart : result == 'Error while adding to cart!' ? t.errorAddToCart : t.mustLoginToCart)),
                 );
               },
             );
@@ -71,25 +73,26 @@ class _MenuPageState extends State<MenuPage> {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context)!;
     return DefaultTabController(
       length: 2, // Food + Drinks
       child: Scaffold(
         backgroundColor: const Color(0xFFEEE8DE),
         appBar: AppBar(
-          title: const Text(
-            "Menu",
+          title: Text(
+            t.menu,
             style: TextStyle(
               fontFamily: 'HoltwoodOneSC',
               color: Colors.brown,
             ),
           ),
           backgroundColor: const Color(0xFFEEE8DE),
-          bottom: const TabBar(
+          bottom: TabBar(
             labelColor: Colors.deepOrange,
             unselectedLabelColor: Colors.grey,
             tabs: [
-              Tab(icon: Icon(Icons.fastfood), text: "Food"),
-              Tab(icon: Icon(Icons.local_drink), text: "Drinks"),
+              Tab(icon: Icon(Icons.fastfood), text: t.food),
+              Tab(icon: Icon(Icons.local_drink), text: t.drinks),
             ],
           ),
         ),
