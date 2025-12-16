@@ -1,108 +1,186 @@
-import 'package:flutter/material.dart';
+import 'dart:convert';
 
-class OffersPage extends StatelessWidget {
+import 'package:flutter/material.dart';
+import 'package:yum_burger/Controllers/burger_controller.dart';
+import 'package:yum_burger/Controllers/cart_controller.dart';
+import 'package:yum_burger/Controllers/user_controller.dart';
+import 'package:yum_burger/l10n//app_localizations.dart';
+
+class OffersPage extends StatefulWidget {
   const OffersPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final List<Map<String, dynamic>> offers = [
-      {
-        "name": "Placeholder Deal 1",
-        "description": "A delicious burger 1 placeholder",
-        "price": 0.00,
-      },
-      {
-        "name": "Placeholder Deal 2",
-        "description": "A delicious burger 2 placeholder",
-        "price": 0.00,
-      },
-    ];
+  State<OffersPage> createState() => _OffersViewState();
+}
 
+class _OffersViewState extends State<OffersPage> {
+  final BurgerController _burgerController = BurgerController();
+  final CartController _cartController = CartController();
+  final UserController _userController = UserController();
+
+  Map<String, dynamic>? _promoItem;
+  String? _promoItemId;
+  bool _loading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadPromoItem();
+  }
+
+
+  Future<void> _loadPromoItem() async {
+    var collection = await _burgerController.getBurgersCollection();
+
+    if (collection == null) {
+      if (mounted) {
+        setState(() => _loading = false);
+      }
+      return;
+    }
+
+    var snapshot = await collection.get();
+
+    if (snapshot.docs.isNotEmpty) {
+      var doc = snapshot.docs.first;
+      if (mounted) {
+        setState(() {
+          _promoItem = doc.data() as Map<String, dynamic>;
+          _promoItemId = doc.id;
+          _loading = false;
+        });
+      }
+    } else {
+      if (mounted) {
+        setState(() => _loading = false);
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context)!;
+    return Scaffold(
+      backgroundColor: const Color(0xfff2e9db),
+      appBar: AppBar(
+        title: Text(t.dealsAndOffers),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        foregroundColor: Colors.brown,
+      ),
+      body: _loading
+          ? const Center(child: CircularProgressIndicator())
+          : _promoItem == null
+          ?  Center(child: Text(t.noOffers))
+           : Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: ListView(
+          children: [
+            _buildBogoCard(),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildBogoCard() {
+    double originalPrice = (_promoItem!['price'] as num).toDouble();
+    final t = AppLocalizations.of(context)!;
     return Container(
-      color: const Color(0xFFEEE8DE),
-      child: ListView.builder(
-        padding: const EdgeInsets.all(16),
-        itemCount: offers.length,
-        itemBuilder: (context, index) {
-          final offer = offers[index];
-          return Container(
-            margin: const EdgeInsets.only(bottom: 20),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(16),
-              boxShadow: const [
-                BoxShadow(
-                  color: Colors.grey,
-                  blurRadius: 5,
-                  offset: Offset(0, 3),
-                ),
-              ],
+      decoration: BoxDecoration(
+        color: Colors.redAccent,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(color: Colors.black26, blurRadius: 10, offset: Offset(0, 5))
+        ],
+      ),
+      child: Column(
+        children: [
+          ClipRRect(
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+            child: Image.memory(
+              base64Decode(_promoItem?['image']),
+              height: 200,
+              width: double.infinity,
+              fit: BoxFit.cover,
             ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(20),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  height: 100,
-                  decoration: const BoxDecoration(
-                    color: Colors.orange,
-                    borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-                  ),
-                  child: const Center(
-                    child: Icon(Icons.fastfood, size: 50, color: Colors.white),
+                 Text(
+                  t.buyFree,
+                  style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            offer['name'],
-                            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.brown),
+                const SizedBox(height: 5),
+                Text(
+                  "${t.orderOne}${_promoItem!['name']}${t.promoTxt}",
+                  style:  TextStyle(color: Colors.white70, fontSize: 16),
+                ),
+                const SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "\$${(originalPrice * 2).toStringAsFixed(2)}",
+                          style: const TextStyle(
+                            decoration: TextDecoration.lineThrough,
+                            color: Colors.white60,
                           ),
-                          Text(
-                            "\$${offer['price'].toStringAsFixed(2)}",
-                            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.orange),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        offer['description'],
-                        style: const TextStyle(color: Colors.grey, fontSize: 16),
-                      ),
-                      const SizedBox(height: 16),
-                      SizedBox(
-                        width: double.infinity,
-                        height: 50,
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.brown,
-                            foregroundColor: Colors.white,
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                          ),
-                          onPressed: () {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text("Added ${offer['name']} to cart!"),
-                                backgroundColor: Colors.green,
-                              ),
-                            );
-                          },
-                          child: const Text("ADD TO CART", style: TextStyle(fontWeight: FontWeight.bold)),
                         ),
+                        Text(
+                          "\$${originalPrice.toStringAsFixed(2)}",
+                          style: const TextStyle(
+                              fontSize: 28,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white
+                          ),
+                        ),
+                      ],
+                    ),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.white,
+                        foregroundColor: Colors.red,
+                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                       ),
-                    ],
-                  ),
-                ),
+                      onPressed: () => _applyOffer(),
+                      child:  Text(t.addOffer, style: TextStyle(fontWeight: FontWeight.bold)),
+                    )
+                  ],
+                )
               ],
             ),
-          );
-        },
+          ),
+        ],
       ),
     );
+  }
+
+  Future<void> _applyOffer() async {
+    final t = AppLocalizations.of(context)!;
+    final user = _userController.getCurrentUser();
+    if (user == null) {
+      ScaffoldMessenger.of(context).showSnackBar( SnackBar(content: Text(t.plsLogin)));
+      return;
+    }
+
+    await _cartController.addBogoDeal(user.id, _promoItemId!, "Burger");
+
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(t.bogoDeal)),
+      );
+    }
   }
 }

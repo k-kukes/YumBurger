@@ -5,7 +5,6 @@ class RewardsController {
 
   Future<void> addPointsAfterCheckout(String userDocId, double checkoutTotal) async {
     int pointsEarned = (checkoutTotal * 0.10).floor();
-
     if (pointsEarned <= 0) return;
 
     DocumentReference userRef = _db.collection('Users').doc(userDocId);
@@ -14,7 +13,6 @@ class RewardsController {
       await userRef.update({
         'currentPoints': FieldValue.increment(pointsEarned),
       });
-      print("Added $pointsEarned points to user $userDocId");
     } catch (e) {
       print("Error adding points: $e");
     }
@@ -28,7 +26,7 @@ class RewardsController {
         DocumentSnapshot snapshot = await transaction.get(userRef);
 
         if (!snapshot.exists) {
-          throw Exception("User document '$userDocId' does not exist");
+          throw Exception("User document does not exist");
         }
 
         var data = snapshot.data() as Map<String, dynamic>;
