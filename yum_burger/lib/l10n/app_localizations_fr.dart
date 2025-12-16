@@ -374,4 +374,61 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get noFoundReviews => 'Aucun avis trouvé.';
+
+  @override
+  String get plsLogin => 'Veuillez vous connecter';
+
+  @override
+  String get rewards => 'Récompenses';
+
+  @override
+  String get points => ' Points';
+
+  @override
+  String get drinkPts => 'Boissons (5 pts)';
+
+  @override
+  String get burgerPts => 'Burgers (10 pts)';
+
+  @override
+  String get notEnoughPts => 'Points insuffisants!';
+
+  @override
+  String get redeemReward => 'Utiliser une récompense';
+
+  @override
+  String get showCashier => 'Veuillez présenter cet écran au caissier.';
+
+  @override
+  String get free => '1x GRATUIT';
+
+  @override
+  String get cost => 'Prix: ';
+
+  @override
+  String get done => 'Terminé';
+
+  @override
+  String get noFound => 'Aucun élément trouvé.';
+
+  @override
+  String get dealsAndOffers => 'Offres & promotions';
+
+  @override
+  String get noOffers => 'Aucune offre pour le moment.';
+
+  @override
+  String get buyFree => '1 acheté = 1 offert !';
+
+  @override
+  String get orderOne => 'Commandez-en un ';
+
+  @override
+  String get promoTxt => 'Et le deuxième est entièrement gratuit!';
+
+  @override
+  String get addOffer => 'AJOUTER L\'OFFRE';
+
+  @override
+  String get bogoDeal => 'Offre BOGO ajoutée au panier!';
 }

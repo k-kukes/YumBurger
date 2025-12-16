@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:yum_burger/Controllers/burger_controller.dart';
 import 'package:yum_burger/Controllers/cart_controller.dart';
 import 'package:yum_burger/Controllers/user_controller.dart';
+import 'package:yum_burger/l10n//app_localizations.dart';
 
 class OffersPage extends StatefulWidget {
   const OffersPage({super.key});
@@ -58,10 +59,11 @@ class _OffersViewState extends State<OffersPage> {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context)!;
     return Scaffold(
       backgroundColor: const Color(0xfff2e9db),
       appBar: AppBar(
-        title: const Text("Deals & Offers"),
+        title: Text(t.dealsAndOffers),
         backgroundColor: Colors.transparent,
         elevation: 0,
         foregroundColor: Colors.brown,
@@ -69,7 +71,7 @@ class _OffersViewState extends State<OffersPage> {
       body: _loading
           ? const Center(child: CircularProgressIndicator())
           : _promoItem == null
-          ? const Center(child: Text("No offers right now."))
+          ?  Center(child: Text(t.noOffers))
            : Padding(
         padding: const EdgeInsets.all(20.0),
         child: ListView(
@@ -83,7 +85,7 @@ class _OffersViewState extends State<OffersPage> {
 
   Widget _buildBogoCard() {
     double originalPrice = (_promoItem!['price'] as num).toDouble();
-
+    final t = AppLocalizations.of(context)!;
     return Container(
       decoration: BoxDecoration(
         color: Colors.redAccent,
@@ -108,8 +110,8 @@ class _OffersViewState extends State<OffersPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  "BUY 1 GET 1 FREE!",
+                 Text(
+                  t.buyFree,
                   style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
@@ -118,8 +120,8 @@ class _OffersViewState extends State<OffersPage> {
                 ),
                 const SizedBox(height: 5),
                 Text(
-                  "Order one ${_promoItem!['name']} and get the second one completely free.",
-                  style: const TextStyle(color: Colors.white70, fontSize: 16),
+                  "${t.orderOne}${_promoItem!['name']}${t.promoTxt}",
+                  style:  TextStyle(color: Colors.white70, fontSize: 16),
                 ),
                 const SizedBox(height: 20),
                 Row(
@@ -153,7 +155,7 @@ class _OffersViewState extends State<OffersPage> {
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                       ),
                       onPressed: () => _applyOffer(),
-                      child: const Text("ADD OFFER", style: TextStyle(fontWeight: FontWeight.bold)),
+                      child:  Text(t.addOffer, style: TextStyle(fontWeight: FontWeight.bold)),
                     )
                   ],
                 )
@@ -166,18 +168,18 @@ class _OffersViewState extends State<OffersPage> {
   }
 
   Future<void> _applyOffer() async {
+    final t = AppLocalizations.of(context)!;
     final user = _userController.getCurrentUser();
     if (user == null) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Please login first")));
+      ScaffoldMessenger.of(context).showSnackBar( SnackBar(content: Text(t.plsLogin)));
       return;
     }
 
-    // Call the controller method
     await _cartController.addBogoDeal(user.id, _promoItemId!, "Burger");
 
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("BOGO Deal added to cart!")),
+        SnackBar(content: Text(t.bogoDeal)),
       );
     }
   }

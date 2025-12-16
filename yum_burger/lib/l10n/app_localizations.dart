@@ -793,6 +793,120 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No reviews found.'**
   String get noFoundReviews;
+
+  /// No description provided for @plsLogin.
+  ///
+  /// In en, this message translates to:
+  /// **'Please log in'**
+  String get plsLogin;
+
+  /// No description provided for @rewards.
+  ///
+  /// In en, this message translates to:
+  /// **'Rewards'**
+  String get rewards;
+
+  /// No description provided for @points.
+  ///
+  /// In en, this message translates to:
+  /// **' Points'**
+  String get points;
+
+  /// No description provided for @drinkPts.
+  ///
+  /// In en, this message translates to:
+  /// **'Drinks (5 pts)'**
+  String get drinkPts;
+
+  /// No description provided for @burgerPts.
+  ///
+  /// In en, this message translates to:
+  /// **'Burgers (10 pts)'**
+  String get burgerPts;
+
+  /// No description provided for @notEnoughPts.
+  ///
+  /// In en, this message translates to:
+  /// **'Not enough points!'**
+  String get notEnoughPts;
+
+  /// No description provided for @redeemReward.
+  ///
+  /// In en, this message translates to:
+  /// **'Redeem Reward'**
+  String get redeemReward;
+
+  /// No description provided for @showCashier.
+  ///
+  /// In en, this message translates to:
+  /// **'Please show this screen to the cashier.'**
+  String get showCashier;
+
+  /// No description provided for @free.
+  ///
+  /// In en, this message translates to:
+  /// **'1x FREE'**
+  String get free;
+
+  /// No description provided for @cost.
+  ///
+  /// In en, this message translates to:
+  /// **'Cost: '**
+  String get cost;
+
+  /// No description provided for @done.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get done;
+
+  /// No description provided for @noFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No items found.'**
+  String get noFound;
+
+  /// No description provided for @dealsAndOffers.
+  ///
+  /// In en, this message translates to:
+  /// **'Deals & Offers'**
+  String get dealsAndOffers;
+
+  /// No description provided for @noOffers.
+  ///
+  /// In en, this message translates to:
+  /// **'No offers right now.'**
+  String get noOffers;
+
+  /// No description provided for @buyFree.
+  ///
+  /// In en, this message translates to:
+  /// **'BUY 1 GET 1 FREE!'**
+  String get buyFree;
+
+  /// No description provided for @orderOne.
+  ///
+  /// In en, this message translates to:
+  /// **'Order one '**
+  String get orderOne;
+
+  /// No description provided for @promoTxt.
+  ///
+  /// In en, this message translates to:
+  /// **' and get the second one completely free!'**
+  String get promoTxt;
+
+  /// No description provided for @addOffer.
+  ///
+  /// In en, this message translates to:
+  /// **'ADD OFFER'**
+  String get addOffer;
+
+  /// No description provided for @bogoDeal.
+  ///
+  /// In en, this message translates to:
+  /// **'BOGO Deal added to cart!'**
+  String get bogoDeal;
 }
 
 class _AppLocalizationsDelegate

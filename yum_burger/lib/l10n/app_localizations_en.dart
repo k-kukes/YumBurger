@@ -365,4 +365,61 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get noFoundReviews => 'No reviews found.';
+
+  @override
+  String get plsLogin => 'Please log in';
+
+  @override
+  String get rewards => 'Rewards';
+
+  @override
+  String get points => ' Points';
+
+  @override
+  String get drinkPts => 'Drinks (5 pts)';
+
+  @override
+  String get burgerPts => 'Burgers (10 pts)';
+
+  @override
+  String get notEnoughPts => 'Not enough points!';
+
+  @override
+  String get redeemReward => 'Redeem Reward';
+
+  @override
+  String get showCashier => 'Please show this screen to the cashier.';
+
+  @override
+  String get free => '1x FREE';
+
+  @override
+  String get cost => 'Cost: ';
+
+  @override
+  String get done => 'Done';
+
+  @override
+  String get noFound => 'No items found.';
+
+  @override
+  String get dealsAndOffers => 'Deals & Offers';
+
+  @override
+  String get noOffers => 'No offers right now.';
+
+  @override
+  String get buyFree => 'BUY 1 GET 1 FREE!';
+
+  @override
+  String get orderOne => 'Order one ';
+
+  @override
+  String get promoTxt => ' and get the second one completely free!';
+
+  @override
+  String get addOffer => 'ADD OFFER';
+
+  @override
+  String get bogoDeal => 'BOGO Deal added to cart!';
 }

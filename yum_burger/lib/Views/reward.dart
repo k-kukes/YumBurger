@@ -4,6 +4,7 @@ import 'package:yum_burger/Views/MenuItemCard.dart';
 import 'package:yum_burger/Controllers/user_controller.dart';
 import 'package:yum_burger/Controllers/burger_controller.dart';
 import 'package:yum_burger/Controllers/drink_controller.dart';
+import 'package:yum_burger/l10n//app_localizations.dart';
 
 class RewardsView extends StatefulWidget {
   const RewardsView({Key? key}) : super(key: key);
@@ -39,9 +40,10 @@ class _RewardsViewState extends State<RewardsView> {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context)!;
     final user = _userController.getCurrentUser();
     if (user == null) {
-      return const Center(child: Text("Please log in."));
+      return Center(child: Text(t.plsLogin));
     }
     final String userId = user.id;
 
@@ -59,17 +61,17 @@ class _RewardsViewState extends State<RewardsView> {
             appBar: AppBar(
               title: Column(
                 children: [
-                  const Text("Rewards"),
-                  Text("$currentPoints Points", style: const TextStyle(fontSize: 14, color: Colors.deepOrange)),
+                   Text(t.rewards),
+                  Text("$currentPoints${t.points}", style: const TextStyle(fontSize: 14, color: Colors.deepOrange)),
                 ],
               ),
               centerTitle: true,
-              bottom: const TabBar(
+              bottom:  TabBar(
                 labelColor: Colors.deepOrange,
                 indicatorColor: Colors.deepOrange,
                 tabs: [
-                  Tab(text: "Drinks (5 pts)"),
-                  Tab(text: "Burgers (10 pts)"),
+                  Tab(text: t.drinkPts),
+                  Tab(text: t.burgerPts),
                 ],
               ),
             ),
@@ -86,6 +88,7 @@ class _RewardsViewState extends State<RewardsView> {
   }
 
   Widget _buildGrid(BuildContext context, CollectionReference<Object?>? collection, int cost, int points, String userId) {
+    final t = AppLocalizations.of(context)!;
     if (collection == null) return const Center(child: CircularProgressIndicator());
 
     return StreamBuilder<QuerySnapshot>(
@@ -93,7 +96,7 @@ class _RewardsViewState extends State<RewardsView> {
       builder: (context, snapshot) {
         if (!snapshot.hasData) return const Center(child: CircularProgressIndicator());
 
-        if (snapshot.data!.docs.isEmpty) return const Center(child: Text("No items found."));
+        if (snapshot.data!.docs.isEmpty) return Center(child: Text(t.noFound));
 
         return GridView.count(
           padding: const EdgeInsets.all(16),
@@ -112,7 +115,7 @@ class _RewardsViewState extends State<RewardsView> {
                   _showCashierDialog(context, userId, cost, data['name']);
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text("Not enough points!")),
+                     SnackBar(content: Text(t.notEnoughPts)),
                   );
                 }
               },
@@ -124,18 +127,19 @@ class _RewardsViewState extends State<RewardsView> {
   }
 
   void _showCashierDialog(BuildContext context, String userId, int cost, String itemName) {
+    final t = AppLocalizations.of(context)!;
     showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text("Redeem Reward", textAlign: TextAlign.center),
+          title:  Text(t.redeemReward, textAlign: TextAlign.center),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               const Icon(Icons.phone_android, size: 60, color: Colors.deepOrange),
               const SizedBox(height: 16),
-              const Text(
-                "Please show this screen to the cashier.",
+               Text(
+                t.showCashier,
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 16),
               ),
@@ -148,13 +152,13 @@ class _RewardsViewState extends State<RewardsView> {
                   border: Border.all(color: Colors.deepOrange, width: 2),
                 ),
                 child: Text(
-                  "1x FREE $itemName",
+                  "${t.free} $itemName",
                   style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                   textAlign: TextAlign.center,
                 ),
               ),
               const SizedBox(height: 8),
-              Text("Cost: $cost Points", style: const TextStyle(color: Colors.grey)),
+              Text("${t.cost}$cost${t.points}", style: const TextStyle(color: Colors.grey)),
             ],
           ),
           actions: [
@@ -166,7 +170,7 @@ class _RewardsViewState extends State<RewardsView> {
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: const Text("Done"),
+              child: Text(t.done),
             ),
           ],
         );
