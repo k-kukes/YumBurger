@@ -140,4 +140,5 @@
   "promoTxt": " and get the second one completely free!",
   "addOffer": "ADD OFFER",
   "bogoDeal": "BOGO Deal added to cart!"
+  "priceError": "Price has to be a number value"
 }

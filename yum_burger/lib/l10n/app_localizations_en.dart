@@ -422,4 +422,5 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get bogoDeal => 'BOGO Deal added to cart!';
+  String get priceError => 'Price has to be a number value';
 }
