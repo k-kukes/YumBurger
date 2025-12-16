@@ -222,4 +222,156 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get login => 'Se connecter';
+
+  @override
+  String get qOne => 'Quels sont vos horaires d\'ouverture ?';
+
+  @override
+  String get aOne =>
+      'Nous sommes ouverts du lundi au dimanche de 11h00 à 23h00.';
+
+  @override
+  String get qTwo => 'Proposez-vous la commande en ligne?';
+
+  @override
+  String get aTwo =>
+      'Oui ! Vous pouvez commander directement via notre site web ou notre application mobile pour un retrait en magasin ou une livraison.';
+
+  @override
+  String get qThree =>
+      'Des options végétariennes ou végétaliennes sont-elles disponibles ?';
+
+  @override
+  String get aThree =>
+      'Absolument. Nous avons des burgers végétariens et des galettes végétales!';
+
+  @override
+  String get qFour => 'Vous effectuez des livraisons?';
+
+  @override
+  String get aFour =>
+      'Oui, nous effectuons des livraisons via des partenaires comme Uber Eats et DoorDash.';
+
+  @override
+  String get qFive => 'Comment puis-je contacter le service client?';
+
+  @override
+  String get aFive => 'Vous pouvez nous appeler au (555) 123‑4567.';
+
+  @override
+  String get qSix => 'Proposez-vous des programmes de fidélité?';
+
+  @override
+  String get aSix =>
+      'Oui, inscrivez-vous à notre programme de fidélité pour gagner des points à chaque achat.';
+
+  @override
+  String get resetPassword => 'Réinitialiser le mot de passe';
+
+  @override
+  String get successLogin => 'Connexion réussie';
+
+  @override
+  String get failedLogin => 'Échec de la connexion';
+
+  @override
+  String get notMember => 'Pas encore un/une membre?';
+
+  @override
+  String get menu => 'Menu';
+
+  @override
+  String get food => 'Nourriture';
+
+  @override
+  String get errorAddToCart => 'Erreur lors de l\'ajout au panier!';
+
+  @override
+  String get successAddToCart => 'Article ajouté au panier avec succès!';
+
+  @override
+  String get mustLoginToCart =>
+      'Vous devez vous connecter pour ajouter au panier!';
+
+  @override
+  String get add => 'Ajouter';
+
+  @override
+  String get mustLoginOrders =>
+      'Vous devez être connecté pour consulter vos commandes.';
+
+  @override
+  String get emptyOrders => 'Commandes vides.\nPassez votre première commande!';
+
+  @override
+  String get loading => 'Chargement en cours...';
+
+  @override
+  String get noOrders => 'Aucune commande pour le moment.';
+
+  @override
+  String get madePurchase => 'Vous avez récemment effectué un achat de ';
+
+  @override
+  String get paymentSuccess => 'Paiement réussi!';
+
+  @override
+  String get youPaid => 'Vous avez payé ';
+
+  @override
+  String get earnedPts => ' et gagné des points!';
+
+  @override
+  String get ty => 'Merci';
+
+  @override
+  String get paymentDecline =>
+      'Paiement refusé. Vérifiez le numéro de carte (16) ou la date d\'expiration (MM/AA)';
+
+  @override
+  String get secureCheckout => 'Paiement sécurisé';
+
+  @override
+  String get cardNum => 'Numéro de carte';
+
+  @override
+  String get expDate => 'Date d\'expiration';
+
+  @override
+  String get confPayment => 'Confirmer le paiement';
+
+  @override
+  String get passNoMatch =>
+      'Le confirmation de mot de passe et le mot de passe ne correspondent pas.';
+
+  @override
+  String get passResetSuccess => 'Mot de passe réinitialisé avec succès !';
+
+  @override
+  String get usernameNoExist => 'Nom d\'utilisateur inexistant!';
+
+  @override
+  String get errorResetPass =>
+      'Erreur lors de la réinitialisation du mot de passe!';
+
+  @override
+  String get confPass => 'Confirmer le mot de passe.';
+
+  @override
+  String get rememberPass => 'Vous souvenez du mot de passe?';
+
+  @override
+  String get goToLogin => 'Accéder à la page de connexion';
+
+  @override
+  String get customerReviews => 'Avis clients';
+
+  @override
+  String get noLoadReviews => 'Impossible de charger les avis.';
+
+  @override
+  String get tryAgain => 'Réessayer.';
+
+  @override
+  String get noFoundReviews => 'Aucun avis trouvé.';
 }

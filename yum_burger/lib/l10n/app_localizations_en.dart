@@ -219,4 +219,150 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get login => 'Login';
+
+  @override
+  String get qOne => 'What are your opening hours?';
+
+  @override
+  String get aOne => 'We’re open Monday to Sunday from 11:00 AM to 11:00 PM.';
+
+  @override
+  String get qTwo => 'Do you offer online ordering?';
+
+  @override
+  String get aTwo =>
+      'Yes! You can order directly through our website or mobile app for pickup or delivery.';
+
+  @override
+  String get qThree => 'Are vegetarian or vegan options available?';
+
+  @override
+  String get aThree =>
+      'Absolutely. We have veggie burgers and plant-based patties!';
+
+  @override
+  String get qFour => 'Do you deliver?';
+
+  @override
+  String get aFour =>
+      'Yes, we deliver through partners like Uber Eats and DoorDash.';
+
+  @override
+  String get qFive => 'How can I contact customer support?';
+
+  @override
+  String get aFive => 'You can call us at (555) 123‑4567.';
+
+  @override
+  String get qSix => 'Do you have loyalty rewards?';
+
+  @override
+  String get aSix =>
+      'Yes, sign up for our rewards program to earn points on every purchase.';
+
+  @override
+  String get resetPassword => 'Reset password';
+
+  @override
+  String get successLogin => 'Success Login';
+
+  @override
+  String get failedLogin => 'Failed Login';
+
+  @override
+  String get notMember => 'Not a member?';
+
+  @override
+  String get menu => 'Menu';
+
+  @override
+  String get food => 'Food';
+
+  @override
+  String get errorAddToCart => 'Error while adding to cart!';
+
+  @override
+  String get successAddToCart => 'Successfully added item to cart!';
+
+  @override
+  String get mustLoginToCart => 'You must log in to add to cart!';
+
+  @override
+  String get add => 'Add';
+
+  @override
+  String get mustLoginOrders => 'You must be logged in to view your orders.';
+
+  @override
+  String get emptyOrders => 'Orders Empty.\n Make your first order!';
+
+  @override
+  String get loading => 'Loading...';
+
+  @override
+  String get noOrders => 'No orders yet.';
+
+  @override
+  String get madePurchase => 'You recently made a purchase of ';
+
+  @override
+  String get paymentSuccess => 'Payment Successful!';
+
+  @override
+  String get youPaid => 'You paid ';
+
+  @override
+  String get earnedPts => ' and earned points!';
+
+  @override
+  String get ty => 'Thank you';
+
+  @override
+  String get paymentDecline =>
+      'Payment Declined. Check Card # (16) or Expiry (MM/YY).';
+
+  @override
+  String get secureCheckout => 'Secure Checkout';
+
+  @override
+  String get cardNum => 'Card Number';
+
+  @override
+  String get expDate => 'Expiry Date';
+
+  @override
+  String get confPayment => 'Confirm Payment';
+
+  @override
+  String get passNoMatch => 'Confirm Password and Password don\'t match';
+
+  @override
+  String get passResetSuccess => 'Password reset successfully!';
+
+  @override
+  String get usernameNoExist => 'Username does not exist!';
+
+  @override
+  String get errorResetPass => 'Error resetting password!';
+
+  @override
+  String get confPass => 'Confirm Password';
+
+  @override
+  String get rememberPass => 'Remember the password?';
+
+  @override
+  String get goToLogin => 'Go to Login';
+
+  @override
+  String get customerReviews => 'Customer Reviews';
+
+  @override
+  String get noLoadReviews => 'Could not load reviews.';
+
+  @override
+  String get tryAgain => 'Try Again';
+
+  @override
+  String get noFoundReviews => 'No reviews found.';
 }

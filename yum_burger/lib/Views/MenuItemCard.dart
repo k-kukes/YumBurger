@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'package:yum_burger/l10n//app_localizations.dart';
 import 'package:flutter/material.dart';
 
 class MenuItemCard extends StatelessWidget {
@@ -18,6 +18,7 @@ class MenuItemCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context)!;
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       elevation: 4,
@@ -53,7 +54,7 @@ class MenuItemCard extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 8),
             child: ElevatedButton(
               onPressed: onAddToCart,
-              child: const Text("Add"),
+              child: Text(t.add),
             ),
           ),
         ],

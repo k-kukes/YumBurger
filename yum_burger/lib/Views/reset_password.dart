@@ -7,6 +7,7 @@ import 'package:yum_burger/Models/user_model.dart';
 import 'create_account.dart';
 import '../Controllers/tab_navigation.dart';
 import 'login.dart';
+import 'package:yum_burger/l10n//app_localizations.dart';
 
 class ResetPasswordPage extends StatefulWidget {
   const ResetPasswordPage({super.key});
@@ -26,13 +27,13 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
   final usernameController = TextEditingController();
 
   Future<void> resetPassword() async {
-
+    final t = AppLocalizations.of(context)!;
     if (newPassword.isNotEmpty &&
         confirmPassword.isNotEmpty &&
         username.isNotEmpty) {
       if (newPassword != confirmPassword) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Confirm Password and Password don\'t match')),
+          SnackBar(content: Text(t.passNoMatch)),
         );
       } else {
         try {
@@ -47,7 +48,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
             await users.doc(docId).update({'password': newPassword});
 
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('Password reset successfully!')),
+              SnackBar(content: Text(t.passResetSuccess)),
             );
 
             clearForm();
@@ -59,19 +60,19 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
           } else {
             ScaffoldMessenger.of(
               context,
-            ).showSnackBar(SnackBar(content: Text('Username does not exist!')));
+            ).showSnackBar(SnackBar(content: Text(t.usernameNoExist)));
           }
         } catch (error) {
           print(error);
           ScaffoldMessenger.of(
             context,
-          ).showSnackBar(SnackBar(content: Text('Error resetting password.')));
+          ).showSnackBar(SnackBar(content: Text(t.errorResetPass)));
         }
       }
     } else {
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(SnackBar(content: Text('Fields can not be empty!')));
+      ).showSnackBar(SnackBar(content: Text(t.fillFields)));
     }
   }
 
@@ -83,6 +84,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context)!;
     return Scaffold(
       backgroundColor: Color(0xFFEEE8DE),
       appBar: AppBar(
@@ -94,7 +96,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
           ),
           label: Icon(Icons.arrow_back),
         ),
-        title: Text('Go back home'),
+        title: Text(t.goBackHome),
       ),
       body: Padding(
         padding: EdgeInsets.all(20),
@@ -113,7 +115,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                 backgroundColor: Colors.white,
               ),
             ),
-            Text('Reset Password', style: TextStyle(fontSize: 30)),
+            Text(t.resetPassword, style: TextStyle(fontSize: 24)),
             Container(
               margin: EdgeInsets.fromLTRB(30, 0, 30, 0),
               child: Column(
@@ -128,7 +130,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                     controller: usernameController,
                     onChanged: (value) => username = value,
                     decoration: InputDecoration(
-                      hintText: 'Username',
+                      hintText: t.username,
                       filled: true,
                       fillColor: Colors.grey[350],
                       border: OutlineInputBorder(
@@ -149,7 +151,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                     controller: newPasswordController,
                     onChanged: (value) => newPassword = value,
                     decoration: InputDecoration(
-                      hintText: 'Password',
+                      hintText: t.password,
                       filled: true,
                       fillColor: Colors.grey[350],
                       border: OutlineInputBorder(
@@ -170,7 +172,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                     controller: confirmPasswordController,
                     onChanged: (value) => confirmPassword = value,
                     decoration: InputDecoration(
-                      hintText: 'Confirm Password',
+                      hintText: t.confPass,
                       filled: true,
                       fillColor: Colors.grey[350],
                       border: OutlineInputBorder(
@@ -191,7 +193,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                       ),
                     ),
                     child: Text(
-                      'Reset Password',
+                      t.resetPassword,
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.w500,
@@ -206,7 +208,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
               child: Column(
                 children: [
                   Text(
-                    'Remember the password?',
+                    t.rememberPass,
                     style: TextStyle(fontSize: 20),
                   ),
                   ElevatedButton(
@@ -221,9 +223,9 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                       ),
                     ),
                     child: Text(
-                      'Go to Login',
+                      t.goToLogin,
                       style: TextStyle(
-                        fontSize: 25,
+                        fontSize: 20,
                         fontWeight: FontWeight.w500,
                         color: Colors.white,
                       ),

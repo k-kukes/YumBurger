@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:yum_burger/Models/burger_model.dart';
 import 'package:yum_burger/Models/cart_model.dart';
 import 'package:yum_burger/Models/user_model.dart';
+import 'package:yum_burger/l10n//app_localizations.dart';
 
 class CartController {
   CartModel cartModel = new CartModel();

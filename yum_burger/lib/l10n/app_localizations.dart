@@ -511,6 +511,288 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Login'**
   String get login;
+
+  /// No description provided for @qOne.
+  ///
+  /// In en, this message translates to:
+  /// **'What are your opening hours?'**
+  String get qOne;
+
+  /// No description provided for @aOne.
+  ///
+  /// In en, this message translates to:
+  /// **'We’re open Monday to Sunday from 11:00 AM to 11:00 PM.'**
+  String get aOne;
+
+  /// No description provided for @qTwo.
+  ///
+  /// In en, this message translates to:
+  /// **'Do you offer online ordering?'**
+  String get qTwo;
+
+  /// No description provided for @aTwo.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes! You can order directly through our website or mobile app for pickup or delivery.'**
+  String get aTwo;
+
+  /// No description provided for @qThree.
+  ///
+  /// In en, this message translates to:
+  /// **'Are vegetarian or vegan options available?'**
+  String get qThree;
+
+  /// No description provided for @aThree.
+  ///
+  /// In en, this message translates to:
+  /// **'Absolutely. We have veggie burgers and plant-based patties!'**
+  String get aThree;
+
+  /// No description provided for @qFour.
+  ///
+  /// In en, this message translates to:
+  /// **'Do you deliver?'**
+  String get qFour;
+
+  /// No description provided for @aFour.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes, we deliver through partners like Uber Eats and DoorDash.'**
+  String get aFour;
+
+  /// No description provided for @qFive.
+  ///
+  /// In en, this message translates to:
+  /// **'How can I contact customer support?'**
+  String get qFive;
+
+  /// No description provided for @aFive.
+  ///
+  /// In en, this message translates to:
+  /// **'You can call us at (555) 123‑4567.'**
+  String get aFive;
+
+  /// No description provided for @qSix.
+  ///
+  /// In en, this message translates to:
+  /// **'Do you have loyalty rewards?'**
+  String get qSix;
+
+  /// No description provided for @aSix.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes, sign up for our rewards program to earn points on every purchase.'**
+  String get aSix;
+
+  /// No description provided for @resetPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset password'**
+  String get resetPassword;
+
+  /// No description provided for @successLogin.
+  ///
+  /// In en, this message translates to:
+  /// **'Success Login'**
+  String get successLogin;
+
+  /// No description provided for @failedLogin.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed Login'**
+  String get failedLogin;
+
+  /// No description provided for @notMember.
+  ///
+  /// In en, this message translates to:
+  /// **'Not a member?'**
+  String get notMember;
+
+  /// No description provided for @menu.
+  ///
+  /// In en, this message translates to:
+  /// **'Menu'**
+  String get menu;
+
+  /// No description provided for @food.
+  ///
+  /// In en, this message translates to:
+  /// **'Food'**
+  String get food;
+
+  /// No description provided for @errorAddToCart.
+  ///
+  /// In en, this message translates to:
+  /// **'Error while adding to cart!'**
+  String get errorAddToCart;
+
+  /// No description provided for @successAddToCart.
+  ///
+  /// In en, this message translates to:
+  /// **'Successfully added item to cart!'**
+  String get successAddToCart;
+
+  /// No description provided for @mustLoginToCart.
+  ///
+  /// In en, this message translates to:
+  /// **'You must log in to add to cart!'**
+  String get mustLoginToCart;
+
+  /// No description provided for @add.
+  ///
+  /// In en, this message translates to:
+  /// **'Add'**
+  String get add;
+
+  /// No description provided for @mustLoginOrders.
+  ///
+  /// In en, this message translates to:
+  /// **'You must be logged in to view your orders.'**
+  String get mustLoginOrders;
+
+  /// No description provided for @emptyOrders.
+  ///
+  /// In en, this message translates to:
+  /// **'Orders Empty.\n Make your first order!'**
+  String get emptyOrders;
+
+  /// No description provided for @loading.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading...'**
+  String get loading;
+
+  /// No description provided for @noOrders.
+  ///
+  /// In en, this message translates to:
+  /// **'No orders yet.'**
+  String get noOrders;
+
+  /// No description provided for @madePurchase.
+  ///
+  /// In en, this message translates to:
+  /// **'You recently made a purchase of '**
+  String get madePurchase;
+
+  /// No description provided for @paymentSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment Successful!'**
+  String get paymentSuccess;
+
+  /// No description provided for @youPaid.
+  ///
+  /// In en, this message translates to:
+  /// **'You paid '**
+  String get youPaid;
+
+  /// No description provided for @earnedPts.
+  ///
+  /// In en, this message translates to:
+  /// **' and earned points!'**
+  String get earnedPts;
+
+  /// No description provided for @ty.
+  ///
+  /// In en, this message translates to:
+  /// **'Thank you'**
+  String get ty;
+
+  /// No description provided for @paymentDecline.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment Declined. Check Card # (16) or Expiry (MM/YY).'**
+  String get paymentDecline;
+
+  /// No description provided for @secureCheckout.
+  ///
+  /// In en, this message translates to:
+  /// **'Secure Checkout'**
+  String get secureCheckout;
+
+  /// No description provided for @cardNum.
+  ///
+  /// In en, this message translates to:
+  /// **'Card Number'**
+  String get cardNum;
+
+  /// No description provided for @expDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Expiry Date'**
+  String get expDate;
+
+  /// No description provided for @confPayment.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm Payment'**
+  String get confPayment;
+
+  /// No description provided for @passNoMatch.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm Password and Password don\'t match'**
+  String get passNoMatch;
+
+  /// No description provided for @passResetSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Password reset successfully!'**
+  String get passResetSuccess;
+
+  /// No description provided for @usernameNoExist.
+  ///
+  /// In en, this message translates to:
+  /// **'Username does not exist!'**
+  String get usernameNoExist;
+
+  /// No description provided for @errorResetPass.
+  ///
+  /// In en, this message translates to:
+  /// **'Error resetting password!'**
+  String get errorResetPass;
+
+  /// No description provided for @confPass.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm Password'**
+  String get confPass;
+
+  /// No description provided for @rememberPass.
+  ///
+  /// In en, this message translates to:
+  /// **'Remember the password?'**
+  String get rememberPass;
+
+  /// No description provided for @goToLogin.
+  ///
+  /// In en, this message translates to:
+  /// **'Go to Login'**
+  String get goToLogin;
+
+  /// No description provided for @customerReviews.
+  ///
+  /// In en, this message translates to:
+  /// **'Customer Reviews'**
+  String get customerReviews;
+
+  /// No description provided for @noLoadReviews.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load reviews.'**
+  String get noLoadReviews;
+
+  /// No description provided for @tryAgain.
+  ///
+  /// In en, this message translates to:
+  /// **'Try Again'**
+  String get tryAgain;
+
+  /// No description provided for @noFoundReviews.
+  ///
+  /// In en, this message translates to:
+  /// **'No reviews found.'**
+  String get noFoundReviews;
 }
 
 class _AppLocalizationsDelegate
