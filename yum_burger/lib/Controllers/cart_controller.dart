@@ -79,4 +79,28 @@ class CartController {
       cartModel.deleteEntireCart(userId);
     }
   }
+
+
+  Future<void> addBogoDeal(String userId, String itemId, String type) async {
+    CollectionReference cartRef = FirebaseFirestore.instance
+        .collection('Users')
+        .doc(userId)
+        .collection('Cart');
+
+    await cartRef.add({
+      'item': itemId,
+      'type': type,
+      'quantity': 1,
+      'added_at': FieldValue.serverTimestamp(),
+
+    });
+
+    await cartRef.add({
+      'item': itemId,
+      'type': type,
+      'quantity': 1,
+      'added_at': FieldValue.serverTimestamp(),
+      'overridePrice': 0.0,
+    });
+  }
 }

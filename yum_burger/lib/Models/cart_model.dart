@@ -123,7 +123,7 @@ class CartModel {
       await cart.doc(doc.id).delete();
     }
   }
-  
+
   Future<double> getSubtotal(CollectionReference<Object?> cart, userId) async {
     QuerySnapshot<Object?> querySnapshot = await cart.get();
     double subtotal = 0;
@@ -131,6 +131,14 @@ class CartModel {
     if (querySnapshot.docs.isNotEmpty) {
       for (var doc in querySnapshot.docs) {
         Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+
+        if (data.containsKey('overridePrice')) {
+          double specialPrice = (data['overridePrice'] as num).toDouble();
+          subtotal += specialPrice * data['quantity'];
+
+          continue;
+        }
+
         if (data['type'] == 'Burger') {
           DocumentSnapshot burger = await burgerModel.getBurgerDocument(data['item']);
           if (burger.data() != null) {

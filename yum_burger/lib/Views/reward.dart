@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:yum_burger/Views/MenuItemCard.dart';
-// Removed: import 'package:yum_burger/Controllers/reward_controller.dart';
 import 'package:yum_burger/Controllers/user_controller.dart';
 import 'package:yum_burger/Controllers/burger_controller.dart';
 import 'package:yum_burger/Controllers/drink_controller.dart';
@@ -14,7 +13,6 @@ class RewardsView extends StatefulWidget {
 }
 
 class _RewardsViewState extends State<RewardsView> {
-  // Removed: final RewardsController _rewardController = RewardsController();
   final UserController _userController = UserController();
   final BurgerController _burgerController = BurgerController();
   final DrinkController _drinkController = DrinkController();

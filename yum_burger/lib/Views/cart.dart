@@ -196,13 +196,37 @@ class _MyCartPageState extends State<MyCartPage> {
                     ),
                   ],
                 ),
-                Text(
-                  "${(itemInCart['price'] * cart['quantity']).toStringAsFixed(2)}\$",
-                  style: TextStyle(
-                    color: Colors.brown,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                  ),
+                Builder(
+                  builder: (context) {
+                    Map<String, dynamic> cartData = cart.data() as Map<String, dynamic>;
+
+                    double finalPrice = (itemInCart['price'] as num).toDouble();
+
+                    if (cartData.containsKey('overridePrice')) {
+                      finalPrice = (cartData['overridePrice'] as num).toDouble();
+                    }
+
+                    if (finalPrice == 0) {
+                      return const Text(
+                        "FREE",
+                        style: TextStyle(
+                          color: Colors.red,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                      );
+                    }
+
+                    // 5. Otherwise, show the calculated price
+                    return Text(
+                      "${(finalPrice * cart['quantity']).toStringAsFixed(2)}\$",
+                      style: TextStyle(
+                        color: Colors.brown,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                    );
+                  },
                 ),
               ],
             ),
