@@ -365,4 +365,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get noFoundReviews => 'No reviews found.';
+
+  @override
+  String get priceError => 'Price has to be a number value';
 }

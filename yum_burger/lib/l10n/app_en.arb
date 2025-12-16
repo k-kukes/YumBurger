@@ -120,5 +120,6 @@
   "customerReviews": "Customer Reviews",
   "noLoadReviews": "Could not load reviews.",
   "tryAgain": "Try Again",
-  "noFoundReviews": "No reviews found."
+  "noFoundReviews": "No reviews found.",
+  "priceError": "Price has to be a number value"
 }
