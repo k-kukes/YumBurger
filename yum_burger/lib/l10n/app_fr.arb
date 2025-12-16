@@ -120,5 +120,6 @@
   "customerReviews": "Avis clients",
   "noLoadReviews": "Impossible de charger les avis.",
   "tryAgain": "Réessayer.",
-  "noFoundReviews": "Aucun avis trouvé."
+  "noFoundReviews": "Aucun avis trouvé.",
+  "priceError": "Le prix doit être une valeur numérique"
 }

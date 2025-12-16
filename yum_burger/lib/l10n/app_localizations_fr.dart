@@ -374,4 +374,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get noFoundReviews => 'Aucun avis trouvé.';
+
+  @override
+  String get priceError => 'Le prix doit être une valeur numérique';
 }

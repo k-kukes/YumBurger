@@ -227,6 +227,12 @@ class _BurgerAdminPageState extends State<BurgerAdminPage> {
                   return;
                 }
 
+                if (num.tryParse(priceController.text) == null) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text(t.priceError)),
+                  );
+                  return;
+                }
                 final price = double.parse(priceController.text);
 
                 await burgerController.addBurger(

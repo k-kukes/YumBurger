@@ -793,6 +793,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No reviews found.'**
   String get noFoundReviews;
+
+  /// No description provided for @priceError.
+  ///
+  /// In en, this message translates to:
+  /// **'Price has to be a number value'**
+  String get priceError;
 }
 
 class _AppLocalizationsDelegate
