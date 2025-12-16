@@ -54,6 +54,32 @@ class OrderModel {
     return users.doc(userId).collection('Orders');
   }
 
+  Future<double> getRevenue() async {
+    CollectionReference users = userModel.getUsers();
+    double revenue = 0.0;
+
+    try {
+      QuerySnapshot userSnapshots = await users.get();
+
+      for (var userDoc in userSnapshots.docs) {
+        QuerySnapshot orderSnapshots = await userDoc.reference.collection('Orders').get();
+
+        for (var orderDoc in orderSnapshots.docs) {
+          var data = orderDoc.data() as Map<String, dynamic>;
+          var total = data['total'];
+          if (total != null) {
+            revenue += double.parse(total);
+          }
+        }
+      }
+
+      return revenue;
+    } catch (error) {
+      print(error);
+    }
+    return 0.0;
+  }
+
   Future<bool> checkEmptyOrders(CollectionReference<Object?> order) async {
     QuerySnapshot querySnapshot = await order.limit(1).get();
     return querySnapshot.docs.isEmpty;

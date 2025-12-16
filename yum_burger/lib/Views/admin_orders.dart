@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:yum_burger/Controllers/order_controller.dart';
 import 'package:yum_burger/Controllers/user_controller.dart';
+import 'package:yum_burger/l10n//app_localizations.dart';
 
 class AdminOrdersPage extends StatefulWidget {
   const AdminOrdersPage({super.key});
@@ -71,11 +72,12 @@ class _AdminOrdersPageState extends State<AdminOrdersPage> {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context)!;
     return Scaffold(
       backgroundColor: Color(0xFFEEE8DE),
-      appBar: AppBar(title: Text('All Orders')),
+      appBar: AppBar(title: Text(t.adminOrdersTitle)),
       body: usersWithOrders.isEmpty
-          ? Center(child: Text('No orders yet sorry.'))
+          ? Center(child: Text(t.adminOrdersNoOrders))
           : ListView.builder(
               itemCount: usersWithOrders.length,
               itemBuilder: (context, index) {
@@ -104,12 +106,12 @@ class _AdminOrdersPageState extends State<AdminOrdersPage> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "Order #${order['orderId']}",
+                                  "${t.adminOrdersOrderNum}${order['orderId']}",
                                   style: TextStyle(fontWeight: FontWeight.bold),
                                 ),
                                 Text("${date.month}/${date.day}/${date.year}"),
                                 Text(
-                                  "Total: ${order['total'].toStringAsFixed(2)}\$",
+                                  "${t.adminOrdersOrderTotal}${order['total'].toStringAsFixed(2)}\$",
                                 ),
                               ],
                             ),

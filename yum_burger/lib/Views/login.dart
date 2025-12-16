@@ -10,6 +10,7 @@ import 'package:yum_burger/Views/menu.dart';
 import 'package:yum_burger/Views/reset_password.dart';
 import 'package:yum_burger/Models/user_model.dart';
 import '../Controllers/tab_navigation.dart';
+import 'package:yum_burger/l10n//app_localizations.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -37,7 +38,19 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context)!;
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Color(0xFFEEE8DE),
+        leading: TextButton.icon(
+          onPressed: () => Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => MyNavigation()),
+          ),
+          label: Icon(Icons.arrow_back),
+        ),
+        title: Text(t.goBackHome),
+      ),
       backgroundColor: Color(0xFFEEE8DE),
       body: Padding(
         padding: EdgeInsets.all(20),
@@ -56,7 +69,7 @@ class _LoginPageState extends State<LoginPage> {
                 backgroundColor: Colors.white,
               ),
             ),
-            Text('Login', style: TextStyle(fontSize: 30)),
+            Text(t.login, style: TextStyle(fontSize: 30)),
             Container(
               margin: EdgeInsets.fromLTRB(30, 0, 30, 0),
               child: Column(
@@ -71,7 +84,7 @@ class _LoginPageState extends State<LoginPage> {
                     controller: usernameController,
                     onChanged: (value) => username = value,
                     decoration: InputDecoration(
-                      hintText: 'Username',
+                      hintText: t.username,
                       filled: true,
                       fillColor: Colors.grey[350],
                       border: OutlineInputBorder(
@@ -92,7 +105,7 @@ class _LoginPageState extends State<LoginPage> {
                     controller: passwordController,
                     onChanged: (value) => password = value,
                     decoration: InputDecoration(
-                      hintText: 'Password',
+                      hintText: t.password,
                       filled: true,
                       fillColor: Colors.grey[350],
                       border: OutlineInputBorder(
@@ -119,7 +132,7 @@ class _LoginPageState extends State<LoginPage> {
                       );
                     },
                     child: Text(
-                      'Reset password',
+                      t.resetPassword,
                       style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w500,
@@ -134,12 +147,11 @@ class _LoginPageState extends State<LoginPage> {
                         password,
                       )) {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('Success Login')),
+                          SnackBar(content: Text(t.successLogin)),
                         );
                         clearForm();
-                        var user = userController.getCurrentUser();
+                        var user = await userController.getCurrentUser();
                         if (user['type'] == 'customer') {
-                          print('should of switched pages');
                           Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -157,7 +169,7 @@ class _LoginPageState extends State<LoginPage> {
                       } else {
                         ScaffoldMessenger.of(
                           context,
-                        ).showSnackBar(SnackBar(content: Text('Failed Login')));
+                        ).showSnackBar(SnackBar(content: Text(t.failedLogin)));
                         clearForm();
                       }
                     },
@@ -168,7 +180,7 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                     child: Text(
-                      'Login',
+                      t.login,
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.w500,
@@ -182,7 +194,7 @@ class _LoginPageState extends State<LoginPage> {
             Container(
               child: Column(
                 children: [
-                  Text('Not a member?', style: TextStyle(fontSize: 20)),
+                  Text(t.notMember, style: TextStyle(fontSize: 20)),
                   ElevatedButton(
                     onPressed: () => Navigator.push(
                       context,
@@ -197,7 +209,7 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                     child: Text(
-                      'Create Account',
+                      t.createAccount,
                       style: TextStyle(
                         fontSize: 25,
                         fontWeight: FontWeight.w500,

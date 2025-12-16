@@ -14,6 +14,7 @@ import '../Views/offers.dart';
 import '../Views/menu.dart';
 import '../Views/reward.dart';
 import '../Views/reviews.dart';
+import 'package:yum_burger/l10n//app_localizations.dart';
 
 void main() async {
   runApp(MaterialApp(debugShowCheckedModeBanner: false, home: MyNavigation()));

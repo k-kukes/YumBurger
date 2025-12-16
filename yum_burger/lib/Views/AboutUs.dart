@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:yum_burger/l10n//app_localizations.dart';
 
 class AboutUsPage extends StatelessWidget {
   const AboutUsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context)!;
     return Scaffold(
       backgroundColor: Color(0xFFEEE8DE),
       appBar: AppBar(
         centerTitle: true,
         title: Text(
-          "About Us",
+          t.homeAboutBtn,
           style: TextStyle(
             fontFamily: 'HoltwoodOneSC',
             fontSize: 28,
@@ -25,7 +27,7 @@ class AboutUsPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Welcome to Yum Burger!",
+                t.aboutWelcome,
                 style: TextStyle(
                   fontFamily: 'HoltwoodOneSC',
                   fontSize: 28,
@@ -34,12 +36,7 @@ class AboutUsPage extends StatelessWidget {
               ),
               SizedBox(height: 16),
               Text(
-                "At Yum Burger, we believe a great burger is more than just a meal, it’s an experience. "
-                    "Created with fresh ingredients and bold flavors, we serve handcrafted burgers made to satisfy every craving.\n\n"
-                    "From our delicious beef patties to our plant‑based creations, every bite is cooked with care and served with a smile. "
-                    "Whether you’re dining in, ordering online, or grabbing a quick bite on the go, Yum Burger is here to make your day better.\n\n"
-                    "We’re proud to be part of the community, offering friendly service, sustainable practices, and a menu that brings people together. "
-                    "So come hungry, leave happy, and remember: life’s too short for boring burgers!",
+               t.aboutTxt,
                 style: TextStyle(fontSize: 16),
               ),
               SizedBox(height: 30),

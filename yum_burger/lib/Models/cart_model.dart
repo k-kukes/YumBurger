@@ -1,12 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:yum_burger/Models/burger_model.dart';
 import 'package:yum_burger/Models/drink_model.dart';
+import 'package:yum_burger/Models/notifications_model.dart';
 import 'package:yum_burger/Models/user_model.dart';
 
 class CartModel {
   UserModel userModel = UserModel();
   BurgerModel burgerModel = BurgerModel();
   DrinkModel drinkModel = DrinkModel();
+  NotificationsModel notificationsModel = NotificationsModel();
 
   Future<void> addItemToCartDB(userId, itemId, itemType) async {
     CollectionReference users = userModel.getUsers();
@@ -171,6 +173,16 @@ class CartModel {
         for (var cartDoc in cartSnapshot.docs) {
           if (cartDoc['item'] == itemId) {
             await cartRef.doc(cartDoc.id).delete();
+            String msg = "";
+            if (cartDoc['type'] == 'Burger') {
+              var burgerName = await burgerModel.getBurgerName(itemId);
+              msg = "Your burger $burgerName was previously removed from the menu. Sorry!";
+              notificationsModel.addNotificationsToUser(userId, msg);
+            } else if(cartDoc['type'] == 'Drink') {
+              var drinkName = await drinkModel.getDrinkName(itemId);
+              msg = "Your drink $drinkName was previously removed from the menu. Sorry!";
+              notificationsModel.addNotificationsToUser(userId, msg);
+            }
           }
         }
       }

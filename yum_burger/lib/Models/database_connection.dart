@@ -1,18 +1,37 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:adaptive_theme/adaptive_theme.dart';
+import 'package:yum_burger/Controllers/locale_controller.dart';
 import 'package:yum_burger/Controllers/tab_navigation.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:yum_burger/l10n//app_localizations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp(
     options: const FirebaseOptions(
-      apiKey: "AIzaSyBEjH28dcF1J6iGhrb8H7jpgWVkSG5vpjQ",
-      appId: "1:697511557856:android:7f2f11f0491ff62c9e2e85",
-       messagingSenderId: "697511557856",
-      projectId: "yumburger-44e34",
+      apiKey: "AIzaSyDgIQkMKudx4vclIBI8EQBuT9ODorJeIEY",
+      appId: "1:583355291304:android:075b5cca019dc67989149d",
+       messagingSenderId: "583355291304",
+      projectId: "yum-burger-74b2d",
     ),
+  );
+
+  // Initialize Awesome Notifications
+  AwesomeNotifications().initialize(
+    null, // Use default icon
+    [
+      NotificationChannel(
+        channelKey: 'basic_channel',
+        channelName: 'Basic Notifications',
+        channelDescription: 'Notification channel for basic tests',
+        defaultColor: const Color(0xFF9D50DD),
+        ledColor: Colors.white,
+        importance: NotificationImportance.High,
+      )
+    ],
   );
 
   final savedThemeMode = await AdaptiveTheme.getThemeMode();
@@ -20,10 +39,26 @@ void main() async {
   runApp(MyApp(savedThemeMode: savedThemeMode));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   final AdaptiveThemeMode? savedThemeMode;
 
   const MyApp({super.key, this.savedThemeMode});
+
+  @override
+  State<MyApp> createState() => MyAppState();
+}
+
+class MyAppState extends State<MyApp> {
+  Locale _locale = const Locale('en');
+
+  void setLocale(Locale locale) {
+    setState(() {
+      _locale = locale;
+    });
+  }
+
+  static MyAppState? of(BuildContext context) =>
+      context.findAncestorStateOfType<MyAppState>();
 
   @override
   Widget build(BuildContext context) {
@@ -59,12 +94,15 @@ class MyApp extends StatelessWidget {
         ),
         cardColor: const Color(0xFF1F1F1F),
       ),
-      initial: savedThemeMode ?? AdaptiveThemeMode.light,
+      initial: widget.savedThemeMode ?? AdaptiveThemeMode.light,
       builder: (theme, darkTheme) => MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Yum Burger',
         theme: theme,
         darkTheme: darkTheme,
+        locale: _locale, // Use state variable
+        supportedLocales: AppLocalizations.supportedLocales,
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
         home: const MyNavigation(),
       ),
     );

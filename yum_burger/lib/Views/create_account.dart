@@ -6,6 +6,7 @@ import 'package:yum_burger/Views/login.dart';
 import 'package:yum_burger/Models/user_model.dart';
 import '../Controllers/tab_navigation.dart';
 import 'offers.dart';
+import 'package:yum_burger/l10n//app_localizations.dart';
 
 void main() async {
   runApp(MyApp());
@@ -60,6 +61,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context)!;
     return Scaffold(
       backgroundColor: Color(0xFFEEE8DE),
       appBar: AppBar(
@@ -71,7 +73,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
           ),
           label: Icon(Icons.arrow_back),
         ),
-        title: Text('Go back home'),
+        title: Text(t.goBackHome),
       ),
       body: Padding(
         padding: EdgeInsets.all(20),
@@ -90,7 +92,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                 backgroundColor: Colors.white,
               ),
             ),
-            Text('Create Account', style: TextStyle(fontSize: 30)),
+            Text(t.createAccount, style: TextStyle(fontSize: 30)),
             Container(
               margin: EdgeInsets.fromLTRB(30, 0, 30, 0),
               child: Column(
@@ -105,7 +107,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                     controller: usernameController,
                     onChanged: (value) => username = value,
                     decoration: InputDecoration(
-                      hintText: 'Username',
+                      hintText: t.username,
                       filled: true,
                       fillColor: Colors.grey[350],
                       border: OutlineInputBorder(
@@ -126,7 +128,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                     controller: passwordController,
                     onChanged: (value) => password = value,
                     decoration: InputDecoration(
-                      hintText: 'Password',
+                      hintText: t.password,
                       filled: true,
                       fillColor: Colors.grey[350],
                       border: OutlineInputBorder(
@@ -147,7 +149,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                     controller: fullNameController,
                     onChanged: (value) => fullName = value,
                     decoration: InputDecoration(
-                      hintText: 'Full Name',
+                      hintText: t.fullName,
                       filled: true,
                       fillColor: Colors.grey[350],
                       border: OutlineInputBorder(
@@ -167,7 +169,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                     controller: emailController,
                     onChanged: (value) => email = value,
                     decoration: InputDecoration(
-                      hintText: 'Email',
+                      hintText: t.email,
                       filled: true,
                       fillColor: Colors.grey[350],
                       border: OutlineInputBorder(
@@ -183,8 +185,9 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
               padding: EdgeInsets.fromLTRB(0, 0, 25, 0),
               alignment: Alignment.centerRight,
               child: ElevatedButton(
-                onPressed: () {
-                  userController.addUser(username, password, fullName, email);
+                onPressed: () async {
+                  String result = await userController.addUser(username, password, fullName, email);
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(result)));
                   clearForm();
                 },
                 style: ElevatedButton.styleFrom(
@@ -194,7 +197,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                   ),
                 ),
                 child: Text(
-                  'Sign Up',
+                  t.homeSignUp,
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w500,
@@ -203,7 +206,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                 ),
               ),
             ),
-            Text('Already have an account?', style: TextStyle(fontSize: 20)),
+            Text(t.alreadyHaveAccount, style: TextStyle(fontSize: 20)),
             ElevatedButton(
               onPressed: () => Navigator.push(
                 context,
@@ -216,7 +219,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                 ),
               ),
               child: Text(
-                'Login',
+                t.login,
                 style: TextStyle(
                   fontSize: 25,
                   fontWeight: FontWeight.w500,

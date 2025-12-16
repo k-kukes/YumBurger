@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../Controllers/review_controller.dart';
 import '../Models/review_model.dart';
+import 'package:yum_burger/l10n//app_localizations.dart';
 
 class ReviewsPage extends StatefulWidget {
   const ReviewsPage({Key? key}) : super(key: key);
@@ -21,10 +22,11 @@ class _ReviewsPageState extends State<ReviewsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          "Customer Reviews",
+        title:  Text(
+          t.customerReviews,
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
         backgroundColor: Colors.white,
@@ -44,20 +46,20 @@ class _ReviewsPageState extends State<ReviewsPage> {
                 children: [
                   const Icon(Icons.error_outline, color: Colors.red, size: 40),
                   const SizedBox(height: 10),
-                  const Text("Could not load reviews."),
+                   Text(t.noLoadReviews),
                   TextButton(
                     onPressed: () {
                       setState(() {
                         _reviewsFuture = _controller.fetchReviews();
                       });
                     },
-                    child: const Text("Try Again"),
+                    child:  Text(t.tryAgain),
                   )
                 ],
               ),
             );
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return const Center(child: Text("No reviews found."));
+            return  Center(child: Text(t.noFoundReviews));
           }
 
           final reviews = snapshot.data!;
