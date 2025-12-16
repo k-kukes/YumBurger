@@ -139,6 +139,6 @@
   "orderOne": "Commandez-en un ",
   "promoTxt": "Et le deuxième est entièrement gratuit!",
   "addOffer": "AJOUTER L'OFFRE",
-  "bogoDeal": "Offre BOGO ajoutée au panier!"
+  "bogoDeal": "Offre BOGO ajoutée au panier!",
   "priceError": "Le prix doit être une valeur numérique"
 }

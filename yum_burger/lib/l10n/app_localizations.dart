@@ -907,6 +907,7 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'BOGO Deal added to cart!'**
   String get bogoDeal;
+
   /// No description provided for @priceError.
   ///
   /// In en, this message translates to:

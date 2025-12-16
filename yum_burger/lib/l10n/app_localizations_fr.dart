@@ -431,5 +431,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get bogoDeal => 'Offre BOGO ajoutée au panier!';
+
+  @override
   String get priceError => 'Le prix doit être une valeur numérique';
 }
