@@ -187,7 +187,11 @@
         <entry key="flutter">
           <value>
             <list>
+<<<<<<< Updated upstream
               <option value="$PROJECT_DIR$/../../../../src/flutter/packages/flutter/lib" />
+=======
+              <option value="D:/School/FALL 2025/AppDev2/flutter/packages/flutter/lib" />
+>>>>>>> Stashed changes
             </list>
           </value>
         </entry>
@@ -198,6 +202,16 @@
             </list>
           </value>
         </entry>
+<<<<<<< Updated upstream
+=======
+        <entry key="flutter_localizations">
+          <value>
+            <list>
+              <option value="D:/School/FALL 2025/AppDev2/flutter/packages/flutter_localizations/lib" />
+            </list>
+          </value>
+        </entry>
+>>>>>>> Stashed changes
         <entry key="flutter_plugin_android_lifecycle">
           <value>
             <list>
@@ -208,14 +222,22 @@
         <entry key="flutter_test">
           <value>
             <list>
+<<<<<<< Updated upstream
               <option value="$PROJECT_DIR$/../../../../src/flutter/packages/flutter_test/lib" />
+=======
+              <option value="D:/School/FALL 2025/AppDev2/flutter/packages/flutter_test/lib" />
+>>>>>>> Stashed changes
             </list>
           </value>
         </entry>
         <entry key="flutter_web_plugins">
           <value>
             <list>
+<<<<<<< Updated upstream
               <option value="$PROJECT_DIR$/../../../../src/flutter/packages/flutter_web_plugins/lib" />
+=======
+              <option value="D:/School/FALL 2025/AppDev2/flutter/packages/flutter_web_plugins/lib" />
+>>>>>>> Stashed changes
             </list>
           </value>
         </entry>
@@ -474,7 +496,11 @@
         <entry key="sky_engine">
           <value>
             <list>
+<<<<<<< Updated upstream
               <option value="$PROJECT_DIR$/../../../../src/flutter/bin/cache/pkg/sky_engine/lib" />
+=======
+              <option value="D:/School/FALL 2025/AppDev2/flutter/bin/cache/pkg/sky_engine/lib" />
+>>>>>>> Stashed changes
             </list>
           </value>
         </entry>
@@ -633,10 +659,18 @@
       <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dev/vm_service-15.0.2/lib" />
       <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dev/web-1.1.1/lib" />
       <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dev/xdg_directories-1.1.0/lib" />
+<<<<<<< Updated upstream
       <root url="file://$PROJECT_DIR$/../../../../src/flutter/bin/cache/pkg/sky_engine/lib" />
       <root url="file://$PROJECT_DIR$/../../../../src/flutter/packages/flutter/lib" />
       <root url="file://$PROJECT_DIR$/../../../../src/flutter/packages/flutter_test/lib" />
       <root url="file://$PROJECT_DIR$/../../../../src/flutter/packages/flutter_web_plugins/lib" />
+=======
+      <root url="file://D:/School/FALL 2025/AppDev2/flutter/bin/cache/pkg/sky_engine/lib" />
+      <root url="file://D:/School/FALL 2025/AppDev2/flutter/packages/flutter/lib" />
+      <root url="file://D:/School/FALL 2025/AppDev2/flutter/packages/flutter_localizations/lib" />
+      <root url="file://D:/School/FALL 2025/AppDev2/flutter/packages/flutter_test/lib" />
+      <root url="file://D:/School/FALL 2025/AppDev2/flutter/packages/flutter_web_plugins/lib" />
+>>>>>>> Stashed changes
     </CLASSES>
     <JAVADOC />
     <SOURCES />
